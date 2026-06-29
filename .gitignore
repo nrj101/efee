@@ -1,0 +1,17 @@
+# Local working files
+/StatusReport.md
+/NextSession.md
+/AI_COLLABORATION_CHARTER.md
+
+# IDE
+.idea/
+.vscode/
+
+# Build output
+build/
+out/
+target/
+
+# OS
+.DS_Store
+Thumbs.db
