@@ -1,52 +1,54 @@
 # E-Fee Product & Engineering Specification
 
-## Domain Glossary
+# Domain Glossary
 
 ```yaml
 ---
 document_id: GLOSSARY-001
 title: Domain Glossary
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-06-29
-next_review: Before Gate 2
+last_updated: 2026-07-03
+next_review: Before Specification v1.0.0
 
 related_documents:
   - BusinessWorkflow.md
   - BusinessRules.md
   - BusinessObjectGraph.md
+  - SoftwareDomainModel.md
 ---
 ```
 
 ---
 
-## Purpose
+# Purpose
 
 This document establishes the common business vocabulary used throughout the E-Fee specification.
 
 Every important business concept is defined exactly once to ensure consistent communication between business stakeholders, developers and AI-assisted engineering tools.
 
-Unless explicitly stated otherwise, all subsequent documents use the definitions contained in this glossary.
+Unless explicitly stated otherwise, all subsequent specification documents use the definitions contained in this glossary.
 
 ---
 
-## Scope
+# Scope
 
-This glossary defines business concepts only.
+This glossary defines **business concepts only**.
 
 It intentionally excludes:
 
+* Software concepts
 * Database entities
 * Programming classes
 * API resources
 * User interface terminology
 
-Those are implementation concerns and are defined in later documents where appropriate.
+Software concepts are introduced separately in the **Software Domain Model**.
 
 ---
 
@@ -54,15 +56,17 @@ Those are implementation concerns and are defined in later documents where appro
 
 A bounded operational period during which an institution manages student fee receivables.
 
-An Academic Year owns the fee obligations created for its enrolled students and serves as the primary reporting boundary.
+An Academic Year determines the Fee Structure applicable to enrolled students and serves as the primary financial reporting boundary for the institution.
 
-Once closed, it becomes read-only.
+Once closed, it becomes read-only for normal business operations.
 
 ---
 
 # Student
 
-An individual enrolled within an Academic Year for whom the institution manages fee receivables.
+An individual for whom the institution manages fee receivables.
+
+A Student may participate in multiple Academic Years throughout their relationship with the institution.
 
 A Student may become inactive, but historical financial records are never removed.
 
@@ -70,15 +74,17 @@ A Student may become inactive, but historical financial records are never remove
 
 # Fee Structure
 
-A reusable definition describing how fees are calculated for a group of students.
+A reusable charging policy that defines the standard fees applicable to a group of students for a particular Academic Year.
 
 A Fee Structure is composed of one or more Fee Components.
+
+Student-specific reductions are intentionally excluded and are handled separately through Discounts.
 
 ---
 
 # Fee Component
 
-An individual charge that contributes to a student's overall fee obligation.
+An individual financial category that contributes to a student's overall fee obligation.
 
 Examples include:
 
@@ -88,28 +94,28 @@ Examples include:
 * Sports Fee
 * Laboratory Fee
 
-The platform does not prescribe the available components; institutions define them according to their own policies.
+The platform does not prescribe the available Fee Components; institutions define them according to their own policies.
 
 ---
 
 # Fee Obligation
 
-A financial obligation representing money owed by a student to the institution for a specific fee component within an Academic Year.
+A student's financial responsibility for a particular Academic Year.
+
+A Fee Obligation is determined by the applicable Fee Structure and is itemized by one or more Fee Components.
 
 A Fee Obligation exists regardless of whether payment has been received.
 
-It represents an account receivable.
+It represents the institution's account receivable from the student.
 
 Throughout its lifecycle, a Fee Obligation records:
 
 * Original amount
-* Discounts
-* Amount paid
-* Outstanding balance (derived)
+* Applied discounts
+* Settlements
+* Outstanding balance
 * Operational status
-* Receipt references
-* Comments
-* Historical changes
+* Financial history
 
 ---
 
@@ -121,57 +127,59 @@ A Payment records:
 
 * Amount received
 * Payment method
-* Receipt reference
+* Payer
 * Transaction reference (where applicable)
+* Payment lifecycle
 
-A single Payment may contribute towards one or more Fee Obligations.
+A single Payment may settle obligations belonging to one or more students.
 
 ---
 
 # Payment Allocation
 
-The distribution of a Payment across one or more Fee Obligations.
+The business decision describing how a Payment is applied across one or more Fee Obligations.
 
-The total allocated amount must always equal the Payment amount.
+Payment Allocation explains how received money settles outstanding financial responsibilities.
 
-Payment Allocation explains **how** money was applied after it was received.
+The total allocated amount must never exceed the realised Payment amount.
 
 ---
 
 # Receipt
 
-The institution's acknowledgement that money has been received.
+The institution's official acknowledgement of an accepted Payment.
 
-For the MVP, receipts continue to be handwritten according to existing operational practice.
+A Receipt records acknowledgement and provides an auditable reference for the corresponding Payment.
 
-E-Fee records the corresponding receipt reference for traceability.
-
-One Payment is associated with one Receipt.
+Receipt corrections preserve audit history rather than replacing previously issued information.
 
 ---
 
 # Discount
 
-A reduction applied to a Fee Obligation with appropriate institutional approval.
+A reduction granted to an eligible Student with appropriate institutional approval.
 
-Discounts reduce the amount owed while preserving the original financial history.
+A Discount reduces the student's financial responsibility while preserving the original financial history.
 
 Examples include:
 
-* Fee Waiver
 * Scholarship
+* Fee Waiver
 * Financial Assistance
+* Staff Concession
+* Sibling Concession
+* Government-sponsored concession
 
 ---
 
 # Approval
 
-A formal authorization required before performing specific controlled business activities.
+A formal authorization required before performing controlled business activities.
 
 Examples include:
 
-* Financial corrections
-* Discounts
+* Granting discounts
+* Performing financial corrections
 * Exceptional operational decisions
 
 Approvals preserve accountability and traceability.
@@ -180,7 +188,7 @@ Approvals preserve accountability and traceability.
 
 # Correction
 
-A business activity performed to rectify previously recorded information.
+A business activity performed to rectify previously recorded financial information.
 
 Corrections preserve historical information rather than replacing it.
 
@@ -188,17 +196,9 @@ Where practical, corrections should be additive rather than destructive.
 
 ---
 
-# Final Settlement Obligation
-
-A special Fee Obligation created when an Academic Year concludes or when a student exits the institution.
-
-It consolidates any remaining unsettled receivables into a single final obligation, providing a complete and auditable summary of the student's financial position for that Academic Year.
-
----
-
 # Audit History
 
-The complete chronological record of significant financial activities affecting the lifecycle of fee receivables.
+The complete chronological record of significant financial activities affecting fee receivables.
 
 Audit History enables the institution to explain:
 
@@ -215,11 +215,12 @@ A meaningful activity that changes the business state of the institution.
 
 Examples include:
 
-* Payment received
-* Discount approved
-* Fee obligation created
+* Student enrolled
+* Fee Obligation created
+* Discount granted
+* Payment realised
+* Receipt acknowledged
 * Correction recorded
-* Student inactivated
 
 Business Events represent facts that have occurred.
 
@@ -234,54 +235,59 @@ Examples include:
 * Outstanding balance
 * Total paid
 * Total discounted
-* Student status
+* Student financial status
+* Academic Year collection status
 
-Business State may change over time as new Business Events occur.
+Business State evolves as new Business Events occur.
 
 ---
 
-## Key Decisions
+# Key Decisions
 
 * Every business concept is defined exactly once.
 * Business terminology is independent of implementation technology.
-* Fee Obligations represent receivables, regardless of payment.
+* Fee Structures define charging policy.
+* Discounts personalise charging policy for eligible students.
+* Fee Obligations represent student financial responsibility.
 * Payments record money received.
-* Payment Allocation records how money is applied.
+* Payment Allocations explain how money settles obligations.
 * Business State is derived from Business Events.
 
 ---
 
-## Related Documents
+# Related Documents
 
 * BusinessWorkflow.md
 * BusinessRules.md
 * BusinessObjectGraph.md
+* SoftwareDomainModel.md
 
 ---
 
-## Open Questions
+# Open Questions
 
 None.
 
 ---
 
-## Version History
+# Version History
 
-| Version | Date       | Description              |
-| ------- | ---------- | ------------------------ |
-| 1.0.0   | 2026-06-29 | Initial approved version |
+| Version | Date       | Description                                                                                         |
+| ------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2026-06-29 | Initial approved version                                                                            |
+| 1.1.0   | 2026-07-03 | Updated to reflect the completed Gate 2 conceptual model and software domain terminology separation |
 
 ---
 
-## Approval
+# Approval
 
 **Status:** Approved
 
-**Approved By**
+## Approved By
 
 * Product Owner
 * CTO
 
-**Approval Date**
+## Approval Date
 
-2026-06-29
+2026-07-03

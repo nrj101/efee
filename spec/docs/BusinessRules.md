@@ -1,55 +1,58 @@
 # E-Fee Product & Engineering Specification
 
-## Business Rules
+# Business Rules
 
 ```yaml
 ---
 document_id: RULES-001
 title: Business Rules
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-06-29
-next_review: Before Gate 2
+last_updated: 2026-07-03
+next_review: Before Specification v1.0.0
 
 related_documents:
   - BusinessWorkflow.md
   - DomainGlossary.md
   - BusinessObjectGraph.md
+  - SoftwareDomainModel.md
 ---
 ```
 
 ---
 
-## Purpose
+# Purpose
 
-This document defines the fundamental business rules governing fee receivables within E-Fee.
+This document defines the fundamental business rules governing student fee receivables within E-Fee.
 
-These rules express the operational constraints that must remain true regardless of implementation technology.
+These rules express business constraints that must remain true regardless of implementation technology.
 
-They represent business invariants rather than programming validations.
+They represent **business invariants**, not programming validations.
 
 ---
 
-## Scope
+# Scope
 
 This document defines rules governing:
 
 * Academic Years
 * Students
+* Fee Structures
 * Fee Obligations
 * Payments
 * Payment Allocation
+* Receipts
 * Discounts
 * Corrections
 * Approvals
 * Reporting
 
-It does not define technical validation or user interface behaviour.
+It intentionally does **not** define technical validation or user interface behaviour.
 
 ---
 
@@ -57,7 +60,7 @@ It does not define technical validation or user interface behaviour.
 
 ### BR-001
 
-An Academic Year owns all fee obligations created during that academic session.
+An Academic Year governs all Fee Obligations created for that academic session.
 
 ---
 
@@ -65,7 +68,7 @@ An Academic Year owns all fee obligations created during that academic session.
 
 A closed Academic Year becomes read-only.
 
-No operational modifications are permitted after closure.
+Normal operational activities are no longer permitted after closure.
 
 ---
 
@@ -81,21 +84,37 @@ Any remaining receivables at Academic Year closure shall be consolidated into a 
 
 Students shall never be physically deleted.
 
-Historical financial information must remain permanently available.
+Historical financial information shall remain permanently available.
 
 ---
 
 ### BR-005
 
-Inactive students shall not participate in future operational activities or reporting unless explicitly requested.
+Inactive students shall not participate in future operational activities unless explicitly permitted.
 
-Historical records remain accessible.
+Historical financial records remain accessible.
+
+---
+
+# Fee Structure
+
+### BR-006
+
+A Fee Structure defines the standard charging policy for a group of students.
+
+---
+
+### BR-007
+
+Changes to a Fee Structure shall not retroactively modify existing Fee Obligations.
+
+Only future obligations may use revised Fee Structures.
 
 ---
 
 # Fee Obligations
 
-### BR-006
+### BR-008
 
 A Fee Obligation exists independently of payment.
 
@@ -103,124 +122,144 @@ Receiving payment does not create the obligation.
 
 ---
 
-### BR-007
-
-Every Fee Obligation belongs to exactly one Academic Year.
-
----
-
-### BR-008
-
-Outstanding Balance is derived from:
-
-* Original Amount
-* Approved Discounts
-* Allocated Payments
-
-It shall not be treated as an independently managed business fact.
-
----
-
 ### BR-009
 
-Outstanding Balance shall never become negative.
+Every Fee Obligation belongs to exactly one Student and one Academic Year.
 
 ---
 
 ### BR-010
 
-Future Fee Obligations may reflect revised fee structures.
-
-Existing Fee Obligations should remain unchanged except through approved business activities.
+A Fee Obligation shall be itemized by one or more Fee Components.
 
 ---
 
-# Payments
-
 ### BR-011
 
-A Payment represents money actually received by the institution.
+Outstanding Balance is derived from:
 
-No Payment shall exist without corresponding financial inflow.
+* Original amount
+* Approved Discounts
+* Settled Payments
+
+It shall not be treated as an independently managed business fact.
 
 ---
 
 ### BR-012
 
-One Payment shall be associated with exactly one Receipt.
+Outstanding Balance shall never become negative.
 
 ---
+
+# Payments
 
 ### BR-013
 
-One Payment may satisfy:
+A Payment represents a payer's intention to settle one or more Fee Obligations.
 
-* Multiple Fee Obligations
-* Multiple Fee Components
-* Multiple Students
-
-provided all allocations reconcile to the Payment amount.
+A Payment may require confirmation before it is considered realised by the institution.
 
 ---
 
-# Payment Allocation
-
 ### BR-014
 
-The sum of all Payment Allocations shall exactly equal the associated Payment amount.
+Payment Allocation shall occur only after the Payment has been realised.
 
 ---
 
 ### BR-015
 
-No Payment Allocation may allocate more than the outstanding amount of the corresponding Fee Obligation.
+One realised Payment may settle:
+
+* Multiple Fee Obligations
+* Multiple Fee Components
+* Multiple students (where institution policy permits)
+
+provided all allocations reconcile to the realised Payment amount.
 
 ---
+
+# Payment Allocation
 
 ### BR-016
 
-Payment Allocation priority may follow:
-
-* Parent preference, or
-* Institution default policy
+The sum of all Payment Allocations shall exactly equal the realised Payment amount.
 
 ---
 
-# Discounts
-
 ### BR-017
 
-Discounts reduce the amount owed without removing historical financial information.
+No Payment Allocation may allocate more than the outstanding amount of the corresponding Fee Obligation.
 
 ---
 
 ### BR-018
 
+Allocation priority may follow:
+
+* Parent preference, or
+* Institution default policy.
+
+---
+
+# Receipts
+
+### BR-019
+
+A Receipt acknowledges an accepted Payment.
+
+---
+
+### BR-020
+
+Receipts shall preserve their complete lifecycle and correction history.
+
+---
+
+### BR-021
+
+Receipt references shall remain traceable throughout the lifecycle of associated Fee Obligations.
+
+---
+
+# Discounts
+
+### BR-022
+
+Discounts are granted to eligible Students.
+
+They reduce the student's financial responsibility while preserving the original financial history.
+
+---
+
+### BR-023
+
 Every Discount shall record:
 
 * Reason
-* Approving Authority
+* Approving authority
 * Supporting comments (where applicable)
 
 ---
 
 # Corrections
 
-### BR-019
+### BR-024
 
-Historical financial information should not be silently modified.
+Historical financial information shall never be silently modified.
 
-Corrections should preserve the original business history whenever practical.
+Corrections shall preserve the original business history whenever practical.
 
 ---
 
-### BR-020
+### BR-025
 
 Corrections affecting financial information require prior approval.
 
 ---
 
-### BR-021
+### BR-026
 
 Corrections should be additive rather than destructive wherever practical.
 
@@ -228,13 +267,13 @@ Corrections should be additive rather than destructive wherever practical.
 
 # Approvals
 
-### BR-022
+### BR-027
 
-Approval authority shall remain separate from routine data entry.
+Approval authority shall remain separate from routine operational activities.
 
 ---
 
-### BR-023
+### BR-028
 
 Approval activities shall preserve:
 
@@ -245,31 +284,15 @@ Approval activities shall preserve:
 
 ---
 
-# Receipts
-
-### BR-024
-
-Receipts acknowledge the receipt of actual money.
-
-Receipts shall not be generated without an associated financial transaction.
-
----
-
-### BR-025
-
-Receipt references shall remain traceable throughout the lifecycle of associated Fee Obligations.
-
----
-
 # Reporting
 
-### BR-026
+### BR-029
 
-Reports shall represent the current business state while remaining explainable through historical business events.
+Reports shall represent the current Business State while remaining explainable through historical Business Events.
 
 ---
 
-### BR-027
+### BR-030
 
 Historical reports shall remain reproducible from preserved financial history.
 
@@ -277,13 +300,13 @@ Historical reports shall remain reproducible from preserved financial history.
 
 # Auditability
 
-### BR-028
+### BR-031
 
 Every significant financial activity shall remain traceable.
 
 ---
 
-### BR-029
+### BR-032
 
 Every significant financial change shall identify:
 
@@ -296,7 +319,7 @@ Every significant financial change shall identify:
 
 # General Principles
 
-### BR-030
+### BR-033
 
 Business Events record facts.
 
@@ -304,61 +327,73 @@ Business State is derived from those facts.
 
 ---
 
-### BR-031
+### BR-034
 
 Financial integrity takes precedence over operational convenience.
 
 ---
 
-### BR-032
+### BR-035
 
-The system should preserve explainability before optimization.
+Software shall preserve business truths rather than redefine them.
 
 ---
 
-## Key Decisions
+### BR-036
+
+The system should preserve explainability before optimisation.
+
+---
+
+# Key Decisions
 
 * Business rules are implementation-independent.
+* Fee Structures define charging policy.
+* Fee Obligations represent student financial responsibility.
 * Outstanding Balance is derived.
-* Payments record money received.
-* Allocations explain how money is applied.
+* Payments represent settlement attempts that may require realisation.
+* Payment Allocations explain how realised money settles obligations.
+* Receipts acknowledge accepted Payments.
+* Discounts are granted to Students.
 * Financial history is preserved.
 * Corrections are additive wherever practical.
 * Closed Academic Years are immutable.
 
 ---
 
-## Related Documents
+# Related Documents
 
-* BusinessWorkflow.md
 * DomainGlossary.md
+* BusinessWorkflow.md
 * BusinessObjectGraph.md
+* SoftwareDomainModel.md
 
 ---
 
-## Open Questions
+# Open Questions
 
 None.
 
 ---
 
-## Version History
+# Version History
 
-| Version | Date       | Description              |
-| ------- | ---------- | ------------------------ |
-| 1.0.0   | 2026-06-29 | Initial approved version |
+| Version | Date       | Description                                                                                               |
+| ------- | ---------- | --------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2026-06-29 | Initial approved version                                                                                  |
+| 1.1.0   | 2026-07-03 | Updated to reflect the completed Gate 2 business model, payment lifecycle and refined business invariants |
 
 ---
 
-## Approval
+# Approval
 
 **Status:** Approved
 
-**Approved By**
+## Approved By
 
 * Product Owner
 * CTO
 
-**Approval Date**
+## Approval Date
 
-2026-06-29
+2026-07-03

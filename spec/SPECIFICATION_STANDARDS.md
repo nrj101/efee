@@ -1,20 +1,20 @@
 # E-Fee Product & Engineering Specification
 
-## Specification Standards
+# Specification Standards
 
 ```yaml
 ---
 document_id: SPEC-001
 title: Specification Standards
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-06-29
-next_review: After Gate 2
+last_updated: 2026-07-03
+next_review: Before Specification v1.0.0
 
 related_documents: []
 ---
@@ -22,28 +22,28 @@ related_documents: []
 
 ---
 
-## Purpose
+# Purpose
 
 This document defines the standards governing every document within the E-Fee Product & Engineering Specification.
 
-It establishes a common writing style, versioning strategy, review process, and documentation philosophy so that the specification remains consistent throughout the lifetime of the product.
+It establishes a common documentation philosophy, writing style, versioning strategy, review process, and repository conventions so that the specification remains consistent throughout the lifetime of the product.
 
 ---
 
-## Scope
+# Scope
 
 These standards apply to every document contained within the `spec` repository, including:
 
-* Product documentation
-* Business documentation
+* Product Foundation documents
+* Business Specification documents
+* Software Specification documents
 * Architecture documentation
-* Engineering documentation
 * Architecture Decision Records (ADRs)
-* Request for Change (RFCs)
+* Requests for Change (RFCs)
 
 ---
 
-## Documentation Philosophy
+# Documentation Philosophy
 
 The specification is the **single source of truth** for the product.
 
@@ -55,35 +55,57 @@ Implementation follows the specification.
 
 Business knowledge should never exist only in source code or chat history.
 
+Software knowledge should remain technology-independent until implementation decisions become necessary.
+
 ---
 
-## Engineering Principles
+# Engineering Principles
 
-### Business First
+## Business First
 
-Business requirements drive architecture.
+Business requirements drive software design.
+
+Software design drives architecture.
 
 Architecture drives implementation.
 
-Implementation never drives business requirements.
+Implementation must never redefine business requirements.
 
 ---
 
-### Simplicity Before Complexity
+## Preserve Business Truth
+
+Software exists to faithfully preserve business truths rather than redefine them.
+
+Business concepts should evolve only through business discovery—not implementation constraints.
+
+---
+
+## Discover Before Designing
+
+Business concepts should be discovered before software concepts.
+
+Software concepts should be discovered before implementation decisions.
+
+Implementation decisions should never precede domain understanding.
+
+---
+
+## Simplicity Before Complexity
 
 Prefer the simplest solution that correctly solves the business problem.
 
-Complexity must always have measurable business value.
+Complexity must always provide measurable business value.
 
 ---
 
-### Financial Integrity
+## Financial Integrity
 
 Every financial decision recorded by the system must be explainable.
 
 ---
 
-### Immutable Financial History
+## Immutable Financial History
 
 Financial history should never be silently modified.
 
@@ -91,19 +113,19 @@ Corrections should preserve historical facts whenever practical.
 
 ---
 
-### Human Ownership
+## Human Ownership
 
 AI assists.
 
 Humans decide.
 
-Business ownership always remains with people.
+Business ownership, architecture and product direction always remain human responsibilities.
 
 ---
 
-## Document Lifecycle
+# Document Lifecycle
 
-Every document follows the same lifecycle.
+Every specification document follows the same lifecycle.
 
 ```text
 Draft
@@ -121,9 +143,9 @@ Approved documents should only change through a documented revision.
 
 ---
 
-## Standard Document Structure
+# Standard Document Structure
 
-Unless there is a justified exception, every document should contain the following sections.
+Unless there is a justified exception, every specification document should contain the following sections where applicable:
 
 * Metadata
 * Purpose
@@ -135,11 +157,13 @@ Unless there is a justified exception, every document should contain the followi
 * Version History
 * Approval
 
+Certain document types (such as ADRs, RFCs and CHANGELOGs) may follow specialized formats appropriate to their purpose.
+
 ---
 
-## Metadata Standard
+# Metadata Standard
 
-Every document should include the following metadata.
+Every specification document should include the following metadata:
 
 * Document ID
 * Title
@@ -154,24 +178,26 @@ Every document should include the following metadata.
 
 ---
 
-## Versioning Policy
+# Versioning Policy
 
-Each document is versioned independently using Semantic Versioning.
+Each specification document is versioned independently using Semantic Versioning.
 
-### Patch (x.y.Z)
+Document versions are independent of software implementation versions.
+
+## Patch (x.y.Z)
 
 Used for:
 
 * Grammar
 * Formatting
-* Clarifications
 * Editorial improvements
+* Clarifications
 
 No business meaning changes.
 
 ---
 
-### Minor (x.Y.z)
+## Minor (x.Y.z)
 
 Used for:
 
@@ -179,20 +205,21 @@ Used for:
 * New business rules
 * Backward-compatible enhancements
 * Additional examples
+* Improved specification guidance
 
 ---
 
-### Major (X.y.z)
+## Major (X.y.z)
 
 Used for:
 
 * Breaking business changes
-* Architectural redesign
 * Significant product direction changes
+* Architectural redesign affecting the specification
 
 ---
 
-## Cross References
+# Cross References
 
 Information should be defined once.
 
@@ -201,50 +228,58 @@ Other documents should reference that definition rather than duplicate it.
 For example:
 
 * Business Rules reference the Domain Glossary.
-* Architecture documents reference Business Rules.
+* Business Workflow references Business Rules where appropriate.
+* Business Object Graph references the Domain Glossary.
+* Software Domain Model references the Business Object Graph rather than redefining business concepts.
+* Architecture documents reference the Software Domain Model.
 * ADRs reference affected specification documents.
 * RFCs identify impacted documents before implementation.
 
 ---
 
-## Repository Rules
+# Repository Rules
 
-The repository is the permanent memory of the product.
+The repository is the permanent knowledge base of the product.
 
 Therefore:
 
-* Every important decision must appear in the specification.
+* Every important product decision must appear in the specification.
+* Every business concept should have a single authoritative definition.
+* Avoid duplicating knowledge across documents.
 * Every specification change should be committed to Git.
 * Architecture evolves through ADRs.
 * Product evolution should begin with an RFC whenever appropriate.
 
 ---
 
-## Approval Process
+# Approval Process
 
 A document becomes part of the official specification only after:
 
-* CTO Review
+* Technical Review
 * Product Owner Approval
 * Version Assignment
 * Commit to the repository
 
 ---
 
-## Key Decisions
+# Key Decisions
 
-| Decision                                     | Status   |
-| -------------------------------------------- | -------- |
-| Documentation is treated as source code      | Accepted |
-| Business drives architecture                 | Accepted |
-| Architecture drives implementation           | Accepted |
-| AI assists but humans own decisions          | Accepted |
-| Every document is independently versioned    | Accepted |
-| Repository is the product's permanent memory | Accepted |
+| Decision                                                  | Status   |
+| --------------------------------------------------------- | -------- |
+| Documentation is treated as source code                   | Accepted |
+| Business drives software design                           | Accepted |
+| Software design drives architecture                       | Accepted |
+| Architecture drives implementation                        | Accepted |
+| Software preserves business truths                        | Accepted |
+| Business concepts are discovered before software concepts | Accepted |
+| AI assists but humans own decisions                       | Accepted |
+| Every document is independently versioned                 | Accepted |
+| Repository is the product's permanent knowledge base      | Accepted |
 
 ---
 
-## Related Documents
+# Related Documents
 
 None.
 
@@ -252,29 +287,30 @@ This document governs the entire specification.
 
 ---
 
-## Open Questions
+# Open Questions
 
 None.
 
 ---
 
-## Version History
+# Version History
 
-| Version | Date       | Description              |
-| ------- | ---------- | ------------------------ |
-| 1.0.0   | 2026-06-29 | Initial approved version |
+| Version | Date       | Description                                                                                             |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2026-06-29 | Initial approved version                                                                                |
+| 1.1.0   | 2026-07-03 | Updated to incorporate Gate 2 methodology, software specification principles and repository conventions |
 
 ---
 
-## Approval
+# Approval
 
 **Status:** Approved
 
-**Approved By**
+## Approved By
 
 * Product Owner
 * CTO
 
-**Approval Date**
+## Approval Date
 
-2026-06-29
+2026-07-03

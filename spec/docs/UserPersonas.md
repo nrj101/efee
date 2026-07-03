@@ -1,48 +1,49 @@
 # E-Fee Product & Engineering Specification
 
-## User Personas
+# User Personas
 
 ```yaml
 ---
 document_id: PERSONA-001
 title: User Personas
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-06-29
-next_review: Before MVP Implementation
+last_updated: 2026-07-03
+next_review: Before Specification v1.0.0
 
 related_documents:
   - MVPScope.md
   - BusinessWorkflow.md
   - BusinessRules.md
+  - BusinessObjectGraph.md
 ---
 ```
 
 ---
 
-## Purpose
+# Purpose
 
-This document identifies the primary users of E-Fee, their responsibilities, goals and interactions with the system.
+This document identifies the primary users of E-Fee, their business responsibilities, goals and interactions with the system.
 
-Understanding the users is essential for designing intuitive workflows, enforcing appropriate permissions and ensuring that every feature addresses a genuine operational need.
+Understanding the users is essential for designing intuitive workflows, assigning appropriate responsibilities and ensuring that every product capability addresses a genuine operational need.
 
 ---
 
-## Scope
+# Scope
 
 This document defines:
 
-* Primary user groups
-* Business responsibilities
-* System responsibilities
-* High-level permissions
+* Primary user groups.
+* Business responsibilities.
+* Business goals.
+* High-level permission boundaries.
 
-It does **not** define authentication, authorization implementation or user interface design.
+It intentionally does **not** define authentication, authorization implementation or user interface design.
 
 ---
 
@@ -52,38 +53,38 @@ It does **not** define authentication, authorization implementation or user inte
 
 The Accountant (or Receptionist, depending on the institution) is the primary operational user of E-Fee.
 
-This user performs the majority of day-to-day activities related to fee collection and serves as the primary operator of the system.
+This user performs the majority of day-to-day financial operations and is responsible for maintaining accurate student fee receivable records.
 
 ---
 
-## Responsibilities
+## Business Responsibilities
 
-* Register students
-* Maintain student information
-* Record payments
-* Capture manual receipt numbers
-* Allocate payments to fee obligations
-* Record discounts approved by management
-* Submit correction requests
-* Generate operational reports
-
----
-
-## Goals
-
-* Record transactions quickly and accurately.
-* Minimize reconciliation effort.
-* Retrieve student fee history instantly.
-* Produce reliable reports.
-* Maintain accurate financial records.
+* Maintain student financial records.
+* Manage Fee Obligations.
+* Record Payments.
+* Acknowledge Receipts.
+* Record approved Discounts.
+* Initiate financial Corrections.
+* Produce operational reports.
 
 ---
 
-## Constraints
+## Business Goals
+
+* Record financial activities accurately.
+* Minimise reconciliation effort.
+* Retrieve a student's financial position immediately.
+* Produce reliable operational reports.
+* Maintain complete financial history.
+
+---
+
+## Permission Boundaries
 
 The Accountant cannot:
 
-* Approve corrections.
+* Approve financial Corrections.
+* Approve Discounts.
 * Delete financial history.
 * Modify approved financial records.
 * Override business rules.
@@ -94,25 +95,25 @@ The Accountant cannot:
 
 ## Description
 
-The Principal is responsible for operational oversight and approval of exceptional financial decisions.
+The Principal provides operational oversight and authorises exceptional financial decisions.
 
-The Principal is not expected to perform routine data entry.
+The Principal is not expected to perform routine operational activities.
 
 ---
 
-## Responsibilities
+## Business Responsibilities
 
-* Approve corrections.
-* Approve discounts.
-* Review reports.
-* Monitor fee collection.
+* Approve financial Corrections.
+* Approve Discounts.
 * Resolve financial disputes.
+* Review financial reports.
+* Monitor institutional fee receivables.
 
 ---
 
-## Goals
+## Business Goals
 
-* Ensure financial accuracy.
+* Ensure financial integrity.
 * Maintain institutional transparency.
 * Reduce operational risk.
 * Resolve exceptional situations efficiently.
@@ -123,30 +124,30 @@ The Principal is not expected to perform routine data entry.
 
 ## Description
 
-The School Manager performs responsibilities similar to the Principal and may act as an alternate approving authority depending on institutional policy.
+The School Manager performs responsibilities similar to the Principal and may act as an alternate approving authority according to institutional policy.
 
 ---
 
-## Responsibilities
+## Business Responsibilities
 
 * Review financial reports.
-* Approve corrections.
-* Approve discounts.
+* Approve financial Corrections.
+* Approve Discounts.
 * Monitor operational performance.
 
 ---
 
-## Goals
+## Business Goals
 
 * Maintain financial accountability.
 * Support institutional decision making.
-* Ensure compliance with internal policies.
+* Ensure compliance with institutional policies.
 
 ---
 
 # Future Personas
 
-The following personas are outside the MVP but should be considered during future product evolution.
+The following personas remain outside the MVP but should be considered during future product evolution.
 
 ---
 
@@ -154,11 +155,11 @@ The following personas are outside the MVP but should be considered during futur
 
 Potential responsibilities:
 
-* View outstanding fees.
-* Download receipts.
-* View payment history.
-* Receive reminders.
-* Make online payments.
+* View outstanding financial responsibilities.
+* View Payment history.
+* Download Receipts.
+* Receive payment reminders.
+* Make online Payments.
 
 ---
 
@@ -166,7 +167,7 @@ Potential responsibilities:
 
 Potential responsibilities:
 
-* Review institutional reports.
+* Review institutional financial reports.
 * Monitor overall financial health.
 * Review strategic dashboards.
 
@@ -176,19 +177,20 @@ Potential responsibilities:
 
 Potential responsibilities:
 
-* Review audit history.
-* Verify approvals.
+* Review Audit History.
+* Verify Approvals.
 * Inspect financial records.
+* Validate financial traceability.
 
 ---
 
 # Permission Principles
 
-The system should follow the principle of least privilege.
+The platform follows the principle of least privilege.
 
-Users should only be granted the permissions necessary to perform their responsibilities.
+Users should be granted only the permissions required to perform their business responsibilities.
 
-Approval authority should remain separate from routine operational activities.
+Approval authority should remain intentionally separated from routine operational activities.
 
 ---
 
@@ -196,54 +198,57 @@ Approval authority should remain separate from routine operational activities.
 
 Regardless of role, every user benefits from:
 
-* Financial transparency
-* Reliable reporting
-* Accurate records
-* Reduced manual effort
-* Complete auditability
+* Financial transparency.
+* Reliable reporting.
+* Accurate financial records.
+* Reduced administrative effort.
+* Complete auditability.
+* Explainable financial decisions.
 
 ---
 
-## Key Decisions
+# Key Decisions
 
 * The Accountant is the primary operational user.
-* Approval authority is intentionally separated from data entry.
+* Approval authority is intentionally separated from routine financial operations.
 * Financial history cannot be modified without appropriate approval.
-* Future personas should extend the platform without changing existing responsibilities.
+* Future personas should extend the platform without changing existing business responsibilities.
 
 ---
 
-## Related Documents
+# Related Documents
 
 * MVPScope.md
 * BusinessWorkflow.md
 * BusinessRules.md
+* BusinessObjectGraph.md
 
 ---
 
-## Open Questions
+# Open Questions
 
 None.
 
 ---
 
-## Version History
+# Version History
 
-| Version | Date       | Description              |
-| ------- | ---------- | ------------------------ |
-| 1.0.0   | 2026-06-29 | Initial approved version |
+| Version | Date       | Description                                                                                         |
+| ------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2026-06-29 | Initial approved version                                                                            |
+| 1.1.0   | 2026-07-03 | Refined business responsibilities and aligned terminology with the completed Gate 2 business model. |
 
 ---
 
-## Approval
+# Approval
 
 **Status:** Approved
 
-**Approved By**
+## Approved By
 
 * Product Owner
 * CTO
 
-**Approval Date**
+## Approval Date
 
-2026-06-29
+2026-07-03

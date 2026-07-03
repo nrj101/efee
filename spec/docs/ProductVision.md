@@ -1,59 +1,61 @@
 # E-Fee Product & Engineering Specification
 
-## Product Vision
+# Product Vision
 
 ```yaml
 ---
 document_id: VISION-001
 title: Product Vision
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-06-29
-next_review: After Beta Validation
+last_updated: 2026-07-03
+next_review: Before Specification v1.0.0
 
 related_documents:
   - ProjectRoadmap.md
   - ProblemStatement.md
   - MVPScope.md
+  - BusinessWorkflow.md
+  - BusinessObjectGraph.md
 ---
 ```
 
 ---
 
-## Purpose
+# Purpose
 
 This document defines the long-term vision, mission, target market and guiding principles of the E-Fee platform.
 
 It establishes **why the product exists**, **who it serves**, and **what success ultimately looks like**.
 
-Every significant product and architectural decision should remain aligned with this vision.
+Every significant product, software and architectural decision should remain aligned with this vision.
 
 ---
 
-## Scope
+# Scope
 
 This document defines the strategic direction of the product.
 
-It does **not** define detailed requirements, business rules or implementation decisions.
+It intentionally does **not** define detailed requirements, business rules or implementation decisions.
 
 ---
 
-## Product Identity
+# Product Identity
 
-### Engineering Name
+## Engineering Name
 
 **Student Fee Receivables Platform**
 
-Used internally throughout architecture, engineering discussions and technical documentation.
+Used internally throughout business discussions, software design and technical documentation.
 
 ---
 
-### Commercial Brand
+## Commercial Brand
 
 **E-Fee**
 
@@ -61,19 +63,19 @@ Used for customer communication, marketing and commercial positioning.
 
 ---
 
-## Vision
+# Vision
 
-Build an affordable, secure and audit-friendly SaaS platform that enables educational institutions to confidently manage every fee obligation throughout its complete lifecycle—from creation to final settlement.
-
----
-
-## Mission
-
-Reduce administrative effort, financial uncertainty and operational stress by replacing fragmented manual fee collection practices with a trustworthy, transparent and business-driven digital platform.
+Build an affordable, secure and audit-friendly SaaS platform that enables educational institutions to confidently manage every student's financial responsibility throughout its complete lifecycle—from creation to final settlement or closure.
 
 ---
 
-## Target Market
+# Mission
+
+Reduce administrative effort, financial uncertainty and operational stress by replacing fragmented manual fee receivable management with a trustworthy, transparent and business-driven digital platform.
+
+---
+
+# Target Market
 
 The initial target market consists of:
 
@@ -83,19 +85,19 @@ The initial target market consists of:
 * Educational trusts
 * Societies operating multiple sister schools
 
-The platform should comfortably support institutions managing **up to 20,000 active students within a single academic year**.
+The platform should comfortably support institutions managing **up to 20,000 active students within a single Academic Year**.
 
 ---
 
-## Primary Users
+# Primary Users
 
-### MVP
+## MVP
 
 * Accountant / Receptionist
 * Principal
 * School Manager
 
-### Future Releases
+## Future Releases
 
 * Parents
 * Trustees
@@ -104,9 +106,9 @@ The platform should comfortably support institutions managing **up to 20,000 act
 
 ---
 
-## Core Business Problem
+# Core Business Problem
 
-Educational institutions struggle to confidently account for every fee obligation throughout its lifecycle.
+Educational institutions struggle to confidently account for every student's financial responsibility throughout its lifecycle.
 
 This results in:
 
@@ -120,37 +122,37 @@ This results in:
 
 ---
 
-## Value Proposition
+# Value Proposition
 
 E-Fee enables institutions to:
 
-* Manage fee receivables from creation to final settlement
-* Record every financial event accurately
-* Track outstanding receivables with confidence
-* Allocate payments flexibly across fee obligations
-* Preserve complete financial history
-* Produce reliable reports
-* Reduce manual effort
-* Improve transparency and accountability
+* Manage student fee receivables from creation to final settlement.
+* Record every financial event accurately.
+* Track outstanding financial responsibilities with confidence.
+* Allocate payments flexibly and transparently.
+* Preserve complete financial history.
+* Produce reliable financial reports.
+* Reduce manual administrative effort.
+* Improve financial transparency and accountability.
 
 ---
 
-## Product Principles
+# Product Principles
 
-Every feature should reinforce one or more of the following principles.
+Every product capability should reinforce one or more of the following principles.
 
 * Business First
 * Simplicity Before Complexity
-* Financial Accuracy
+* Financial Integrity
+* Explainability
 * Auditability
 * Transparency
 * Security by Design
-* Configurability where appropriate
-* Business-driven architecture
+* Business-driven software design
 
 ---
 
-## Engineering North Star
+# Engineering North Star
 
 > **Every financial decision within the system must be explainable.**
 
@@ -158,26 +160,26 @@ If a financial outcome cannot be explained, the design should be reconsidered.
 
 ---
 
-## Marketing Tagline
+# Marketing Tagline
 
 > **Track fees with unmatched clarity.**
 
 ---
 
-## Success Criteria
+# Success Criteria
 
 Within one month of deployment, a participating institution should be able to:
 
 * Operate daily fee collection without relying on manual registers.
-* Explain any student's fee position within seconds.
-* Identify fee defaulters instantly.
+* Explain any student's financial position within seconds.
+* Identify fee defaulters immediately.
 * Reconcile daily collections confidently.
 * Maintain a complete audit trail for every financial change.
-* Reduce administrative effort associated with fee management.
+* Reduce administrative effort associated with fee receivable management.
 
 ---
 
-## Product Boundary
+# Product Boundary
 
 The MVP intentionally excludes:
 
@@ -196,7 +198,7 @@ These capabilities may become future modules but remain outside the scope of Ver
 
 ---
 
-## Long-Term Vision
+# Long-Term Vision
 
 E-Fee should evolve from a student fee receivables platform into a broader financial operations platform for educational institutions while preserving its core principles of simplicity, financial integrity and auditability.
 
@@ -214,46 +216,49 @@ Future expansion should strengthen—not dilute—the platform's core mission.
 
 ---
 
-## Key Decisions
+# Key Decisions
 
-* The product focuses on fee receivables before broader financial management.
+* The product focuses on student fee receivables before broader financial management.
 * Business clarity takes precedence over feature breadth.
-* Every feature must support financial confidence and auditability.
+* Every product capability should strengthen financial confidence and auditability.
 * The MVP remains intentionally focused on solving one business problem exceptionally well.
 
 ---
 
-## Related Documents
+# Related Documents
 
 * ProjectRoadmap.md
 * ProblemStatement.md
 * MVPScope.md
+* BusinessWorkflow.md
+* BusinessObjectGraph.md
 
 ---
 
-## Open Questions
+# Open Questions
 
 None.
 
 ---
 
-## Version History
+# Version History
 
-| Version | Date       | Description              |
-| ------- | ---------- | ------------------------ |
-| 1.0.0   | 2026-06-29 | Initial approved version |
+| Version | Date       | Description                                                               |
+| ------- | ---------- | ------------------------------------------------------------------------- |
+| 1.0.0   | 2026-06-29 | Initial approved version                                                  |
+| 1.1.0   | 2026-07-03 | Updated terminology and aligned with the completed Gate 2 business model. |
 
 ---
 
-## Approval
+# Approval
 
 **Status:** Approved
 
-**Approved By**
+## Approved By
 
 * Product Owner
 * CTO
 
-**Approval Date**
+## Approval Date
 
-2026-06-29
+2026-07-03

@@ -1,19 +1,19 @@
 # E-Fee Product & Engineering Specification
 
-## Project Roadmap
+# Project Roadmap
 
 ```yaml
 ---
 document_id: ROADMAP-001
 title: Project Roadmap
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-06-29
+last_updated: 2026-07-03
 next_review: At the completion of every Gate
 
 related_documents:
@@ -25,11 +25,11 @@ related_documents:
 
 ---
 
-## Purpose
+# Purpose
 
 This document provides a high-level view of the E-Fee project roadmap.
 
-It serves as the primary navigation document for the specification and answers three fundamental questions:
+It answers three fundamental questions:
 
 * Where are we?
 * What have we completed?
@@ -39,279 +39,317 @@ Unlike the Product Vision or Business Rules, this document evolves throughout th
 
 ---
 
-## Scope
+# Scope
 
 This document describes:
 
-* Project progression
-* Engineering gates
-* Major milestones
-* Current project status
+* Project progression.
+* Engineering gates.
+* Major milestones.
+* Current project status.
 
 It does **not** define product requirements or implementation details.
 
 ---
 
-## Product Overview
+# Product Overview
 
-**Engineering Name**
+## Engineering Name
 
-Student Fee Receivables Platform
+**Student Fee Receivables Platform**
 
-**Commercial Brand**
+---
 
-E-Fee
+## Commercial Brand
 
-**Mission**
+**E-Fee**
+
+---
+
+## Mission
 
 Build an affordable, secure and audit-friendly SaaS platform that enables educational institutions to confidently manage every fee obligation from creation to final settlement.
 
 ---
 
-## Current Status
+# Current Status
 
-**Current Gate**
+## Current Gate
 
-🟢 Gate 1 — Product Foundation
-
-**Current Objective**
-
-Build and approve the complete business specification before beginning software architecture.
-
-**Current Milestone**
-
-Specification Repository Initialization
+🟡 **Gate 3 — Software Architecture**
 
 ---
 
-## Engineering Roadmap
+## Current Milestone
 
-### Gate 1 — Product Foundation
+Architecture Design
 
-**Objective**
+---
 
-Understand and document the business domain before making technical decisions.
+## Specification Baseline
 
-**Deliverables**
+**Specification v1.0.0**
 
-* Product Vision
+Business and software modelling are complete and frozen.
+
+Architecture will build upon this baseline.
+
+---
+
+# Engineering Roadmap
+
+## ✅ Gate 1 — Product Foundation
+
+### Objective
+
+Understand the business problem and establish a clear product direction.
+
+### Deliverables
+
 * Problem Statement
+* Product Vision
 * MVP Scope
 * User Personas
-* Business Workflow
+
+### Exit Criteria
+
+A shared understanding of the business problem, product vision and MVP boundaries.
+
+### Status
+
+✅ Completed
+
+---
+
+## ✅ Gate 2 — Business & Software Domain Modelling
+
+### Objective
+
+Develop a complete, implementation-independent specification of the business and its software representation.
+
+### Deliverables
+
 * Domain Glossary
 * Business Rules
+* Business Workflow
+* Business Object Graph
+* Software Domain Model
+* Modelling Decision Log
 
-**Exit Criteria**
+### Exit Criteria
 
-A complete and approved business specification capable of guiding architecture without requiring additional business discovery.
+A stable specification that completely describes the business domain and software domain without depending on implementation technology.
 
-**Status**
+### Status
+
+✅ Completed
+
+---
+
+## 🟡 Gate 3 — Software Architecture
+
+### Objective
+
+Design the software architecture that faithfully implements the Software Domain Model.
+
+### Deliverables
+
+* Aggregate Boundaries
+* Aggregate Roots
+* Domain Operations
+* Domain Services
+* Domain Events
+* Architectural Views
+* Initial ADRs
+
+### Exit Criteria
+
+A complete implementation-independent architecture suitable for realization in any modern technology stack.
+
+### Status
 
 🟡 In Progress
 
 ---
 
-### Gate 2 — Software Architecture
+## ⬜ Gate 4 — Technical Design
 
-**Objective**
+### Objective
 
-Translate the business specification into a technology-independent software architecture.
+Translate the software architecture into detailed implementation guidance.
 
-**Deliverables**
+### Deliverables
 
-* Business Object Graph
-* Object Responsibilities
-* Application Services
-* Information Model
-* API Contracts
+* API Design
+* Persistence Model
+* Integration Design
+* Security Design
 * Non-Functional Requirements
+* Deployment Strategy
 
-**Exit Criteria**
+### Exit Criteria
 
-A complete architecture capable of being implemented in any suitable programming language.
+A complete technical design capable of guiding implementation.
 
-**Status**
-
-⬜ Not Started
-
----
-
-### Gate 3 — AI Engineering Framework
-
-**Objective**
-
-Establish a repeatable AI-assisted software engineering workflow.
-
-**Deliverables**
-
-* AI Constitution
-* Coding Standards
-* AI Development Workflow
-* Initial ADRs
-* AI Prompt Library
-
-**Exit Criteria**
-
-AI can reliably generate production-quality implementation while remaining aligned with the specification.
-
-**Status**
+### Status
 
 ⬜ Not Started
 
 ---
 
-### Gate 4 — MVP Implementation
+## ⬜ Gate 5 — MVP Implementation
 
-**Objective**
+### Objective
 
 Build the first production-ready implementation of E-Fee.
 
-**Deliverables**
+### Deliverables
 
 * Backend
 * Frontend
 * Database
 * Automated Tests
-* Deployment Pipeline
+* CI/CD Pipeline
 
-**Exit Criteria**
+### Exit Criteria
 
 Feature-complete MVP ready for deployment to the partner school.
 
-**Status**
+### Status
 
 ⬜ Not Started
 
 ---
 
-### Gate 5 — Beta Validation
+## ⬜ Gate 6 — Beta Validation
 
-**Objective**
+### Objective
 
 Deploy E-Fee to the partner school and validate business assumptions.
 
-**Deliverables**
+### Deliverables
 
 * Beta Deployment
 * User Feedback
 * Bug Fixes
 * Product Improvements
 
-**Exit Criteria**
+### Exit Criteria
 
-The beta school successfully manages day-to-day fee receivables using E-Fee.
+The partner school successfully manages day-to-day fee receivables using E-Fee.
 
-**Status**
+### Status
 
 ⬜ Not Started
 
 ---
 
-### Gate 6 — Commercial Readiness
+## ⬜ Gate 7 — Commercial Readiness
 
-**Objective**
+### Objective
 
-Prepare E-Fee for broader adoption by additional institutions.
+Prepare E-Fee for adoption by additional educational institutions.
 
-**Deliverables**
+### Deliverables
 
 * Product Hardening
 * Documentation
-* Onboarding Guides
+* Customer Onboarding
 * Pricing Strategy
 * Licensing
-* Support Processes
+* Operational Support
 
-**Exit Criteria**
+### Exit Criteria
 
 The platform is ready for commercial rollout.
 
-**Status**
+### Status
 
 ⬜ Not Started
 
 ---
 
-## Current Progress
+# Current Progress
 
-| Document                | Status |
-| ----------------------- | ------ |
-| Specification Standards | ✅      |
-| Repository README       | ✅      |
-| Repository Changelog    | ✅      |
-| Project Roadmap         | ✅      |
-| Product Vision          | ⏳      |
-| Problem Statement       | ⏳      |
-| MVP Scope               | ⏳      |
-| User Personas           | ⏳      |
-| Business Workflow       | ⏳      |
-| Domain Glossary         | ⏳      |
-| Business Rules          | ⏳      |
+| Area                     | Status |
+| ------------------------ | ------ |
+| Product Foundation       | ✅      |
+| Business Specification   | ✅      |
+| Software Domain Model    | ✅      |
+| Repository Consolidation | ✅      |
+| Software Architecture    | 🟡     |
+| Technical Design         | ⬜      |
+| MVP Implementation       | ⬜      |
+| Beta Validation          | ⬜      |
+| Commercial Readiness     | ⬜      |
 
 ---
 
-## Current Focus
+# Current Focus
 
-The immediate goal is to complete **Gate 1 — Product Foundation**.
+The immediate objective is to complete **Gate 3 — Software Architecture**.
 
-No software implementation should begin until the Gate 1 exit criteria have been satisfied.
+The architecture should emerge naturally from the Software Domain Model while preserving the business truths established in **Specification v1.0.0**.
 
----
-
-## Success Criteria
-
-Gate 1 will be considered complete when:
-
-* All business documents are approved.
-* Business terminology is consistent.
-* Product scope is clearly defined.
-* Business workflows are validated.
-* Core business rules are documented.
-* The specification is capable of guiding software architecture without additional business discovery.
+No implementation technology should influence architectural decisions prematurely.
 
 ---
 
-## Key Decisions
+# Success Criteria
 
-* Business understanding precedes software design.
-* Architecture begins only after Gate 1 completion.
+Gate 3 will be considered complete when:
+
+* Aggregate boundaries are clearly defined.
+* Aggregate Roots have been identified.
+* Domain responsibilities are well established.
+* Architectural decisions are documented through ADRs.
+* The architecture remains faithful to the Software Domain Model.
+
+---
+
+# Key Decisions
+
+* Business understanding precedes software modelling.
+* Software modelling precedes architecture.
+* Architecture precedes implementation.
 * Every gate has explicit deliverables and exit criteria.
-* Product evolution is driven by approved specification changes.
+* The specification serves as the permanent source of truth throughout the project lifecycle.
 
 ---
 
-## Related Documents
+# Related Documents
 
 * ProductVision.md
 * ProblemStatement.md
 * MVPScope.md
+* SoftwareDomainModel.md
 
 ---
 
-## Open Questions
+# Open Questions
 
 None.
 
 ---
 
-## Version History
+# Version History
 
-| Version | Date       | Description     |
-| ------- | ---------- | --------------- |
-| 1.0.0   | 2026-06-29 | Initial roadmap |
+| Version | Date       | Description                                                                                                                        |
+| ------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2026-06-29 | Initial roadmap                                                                                                                    |
+| 1.1.0   | 2026-07-03 | Updated to reflect completed Gate 2, introduction of Software Domain Modelling as a distinct gate and revised engineering roadmap. |
 
 ---
 
-## Approval
+# Approval
 
 **Status:** Approved
 
-**Approved By**
+## Approved By
 
 * Product Owner
 * CTO
 
-**Approval Date**
+## Approval Date
 
-2026-06-29
+2026-07-03
