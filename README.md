@@ -29,17 +29,6 @@ related_documents:
 
 Welcome to the **E-Fee repository**.
 
-This repository is organized into three major areas:
-
-app/
-Implementation
-
-project/
-Working project documents
-
-spec/
-Permanent product specification
-
 This repository contains the complete business, software and engineering specification for **E-Fee**, a SaaS platform that enables educational institutions to confidently manage student fee receivables.
 
 The specification is the **single source of truth** for the product.
@@ -51,59 +40,117 @@ Implementation follows the specification.
 # Repository Structure
 
 ```text
+# Repository Structure
+
+```text
 /
 │
-├── README.md                ⭐
+├── README.md                          ⭐ Repository entry point
 ├── LICENSE
 ├── .gitignore
 │
-├── app/
+├── app/                               # Production source code
 │
-├── project/
-│     AI_COLLABORATION_CHARTER.md
-│     ArchitectureNotes.md
-│     NextSession.md
-│     StatusReport.md
+├── architecture/                      # Software architecture
+│   │
+│   ├── ArchitecturePatterns.md
+│   ├── SoftwareArchitecture.md
+│   │
+│   └── adr/
+│       └── ADR-001-Domain Architecture Strategy.md
 │
-└── spec/
-      CHANGELOG.md
-      SPECIFICATION_STANDARDS.md
-      BusinessObjectGraph.png
-      │
-      docs/
-          ProblemStatement.md
-          ProductVision.md
-          ....
-          ....
-          adr/
-          rfc/
+├── project/                           # Engineering governance & planning
+│   │
+│   ├── AI_COLLABORATION_CHARTER.md
+│   ├── NextSession.md
+│   └── StatusReport.md
+│
+└── spec/                              # Product specification
+    │
+    ├── CHANGELOG.md
+    ├── SPECIFICATION_STANDARDS.md
+    ├── BusinessObjectGraph.png
+    │
+    └── docs/
+        │
+        ├── ProblemStatement.md
+        ├── ProductVision.md
+        ....
+        ....
+        │
+        └── rfc/
+            └── RFC-001.md
 ```
 
 ---
 
 # Repository Organization
 
-The repository is intentionally divided into three independent areas.
+The repository is organized into independent layers, each with a single responsibility. This separation ensures that product requirements, software architecture, engineering processes, and implementation evolve independently while remaining traceable. 
 
-## app/
+| Folder          | Purpose                                                                   | Primary Question                             | Governed By                   |
+| --------------- | ------------------------------------------------------------------------- | -------------------------------------------- | ----------------------------- |
+| `/spec`         | Product specifications and business knowledge                             | **What** should the product do?              | RFC                           |
+| `/architecture` | Software architecture and design decisions                                | **How** should software realize the product? | ADR                           |
+| `/project`      | Project governance, planning, AI collaboration, and engineering processes | **How** is the project executed?             | Project Process               |
+| `/app`          | Production source code and implementation                                 | **How** is the architecture implemented?     | Code Review & AI Constitution |
 
-Contains the software implementation.
+## Relationship Between Layers
+
+The repository follows a layered evolution model.
+
+```text
+Product Specification
+        │
+        ▼
+Software Architecture
+        │
+        ▼
+Engineering Process
+        │
+        ▼
+Implementation
+```
+
+Each layer builds upon the one above it while remaining independently governable.
+
+* **Product Specification** defines the business domain and product behaviour without prescribing implementation.
+* **Software Architecture** translates the approved specification into a software design while preserving business intent.
+* **Engineering Process** defines how contributors (human and AI) collaborate to build the software consistently.
+* **Implementation** contains the executable realization of the approved architecture.
+
+## Folder Overview
+
+### `/spec`
+
+Contains the permanent product specification and business knowledge for the E-Fee platform.
+
+These documents describe **what the product is**, independent of any specific software architecture or technology. The Specification serves as the long-term source of truth for product behaviour and evolves through the RFC process.
 
 ---
 
-## project/
+### `/architecture`
 
-Contains living project documentation used during development, planning and collaboration.
+Contains the software architecture that realizes the approved product specification.
 
-These documents describe **how the product is being built**, not the product itself.
+These documents define **how the software is designed** while remaining faithful to the business domain. Architecture evolves independently from the product specification and is governed through Architecture Decision Records (ADRs).
 
 ---
 
-## spec/
+### `/project`
 
-Contains the permanent product specification.
+Contains engineering governance and project management artifacts used during development.
 
-These documents describe **what E-Fee is** and serve as the long-term knowledge base for the product.
+This includes AI collaboration guidance, planning documents, session notes, status reports, sprint planning, and other engineering processes that support implementation but do not define the product itself.
+
+---
+
+### `/app`
+
+Contains the production source code.
+
+The implementation is expected to conform to both the approved Product Specification and the Software Architecture. Source code evolves through normal development practices, including code reviews and the AI Constitution.
+
 
 ---
 
@@ -143,6 +190,19 @@ New contributors should read the specification in the following order.
 Architecture Decision Records (ADRs) and Requests for Change (RFCs) should be consulted as required.
 
 ---
+
+## Modifications
+
+| Artifact                  | Purpose                       | Can change via        |
+| ------------------------- | ----------------------------- | --------------------- |
+| Product Vision            | Why the product exists        | Human                 |
+| MVP Scope                 | What is in/out                | RFC                   |
+| Business Rules            | Business truth                | RFC                   |
+| Domain Model              | Business concepts             | RFC                   |
+| **Software Architecture** | How business maps to software | ADR                   |
+| AI Constitution           | How AI works                  | Constitution version  |
+| Implementation            | Code                          | Pull Request + Review |
+
 
 # Specification Structure
 

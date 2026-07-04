@@ -1,94 +1,89 @@
 # Next Session
 
-**Last Updated:** 2026-07-03
+## Objective
+
+Begin Gate 4 – Engineering Governance.
+
+The objective of Gate 4 is to establish the engineering process that will govern all AI-assisted software development.
 
 ---
 
-# Current Position
+## Planned Activities
 
-## Current Gate
+### 1. Lock Architecture v1.0.0
 
-**Gate 3 — Software Architecture**
-
----
-
-## Current Milestone
-
-Design the software architecture that implements the frozen business and software specification.
-
-The objective is to preserve the specification—not redesign it.
+* Final review
+* Commit
+* Git tag
+* GitHub Release
 
 ---
 
-# Specification Baseline
+### 2. Define AI Constitution
 
-Before making architectural decisions, treat the following as frozen:
+Create the governing document that specifies:
 
-* Product Foundation
-* Business Specification
-* Software Domain Model
-* Modelling Decision Log
-
-Any change to these documents should require explicit discussion and approval.
-
----
-
-# Completed
-
-✅ Product Foundation
-
-✅ Business Specification
-
-✅ Business Object Graph
-
-✅ Software Domain Model
-
-✅ Repository Consolidation
-
-✅ Specification v1.0.0 Baseline
+* Source of Truth hierarchy
+* AI agent responsibilities
+* Allowed modifications
+* Approval requirements
+* Change governance
+* Coding boundaries
+* Documentation responsibilities
+* Drift prevention rules
 
 ---
 
-# Current Focus
+### 3. Define AI Team
 
-Begin designing the software architecture by identifying:
+Establish implementation roles.
 
-1. Aggregate boundaries.
-2. Aggregate Roots.
-3. Ownership boundaries.
-4. Cross-aggregate collaboration.
-5. Domain operations.
+Initial team:
 
-Implementation details remain out of scope.
+* Senior Engineer (Architecture Guardian)
+* Developer
+* Tester
 
----
-
-# Questions to Explore
-
-* Which Software Domain Concepts should become Aggregate Roots?
-* Which concepts should exist within the same consistency boundary?
-* Which business invariants require transactional consistency?
-* Which collaborations should occur through domain operations rather than direct state modification?
-* Where should architectural boundaries be drawn without violating the Software Domain Model?
+Future roles may be introduced as the project evolves.
 
 ---
 
-# Expected Outcome
+### 4. Define Sprint Process
 
-Produce the first architecture artifact describing:
+Document:
 
-* Aggregate boundaries.
-* Aggregate responsibilities.
-* Aggregate collaboration.
-
-This should become the foundation for the remaining architecture work.
+* Sprint planning
+* Task ownership
+* Review process
+* Definition of Done
+* Merge requirements
 
 ---
 
-# Working Principle
+### 5. Prepare Sprint 0
 
-During Gate 3, architecture should emerge naturally from the Software Domain Model.
+Sprint 0 will establish the implementation foundation.
 
-Do not introduce frameworks, databases or implementation patterns until the architectural model is stable.
+Expected deliverables include:
 
-Always preserve the business truths established by **Specification v1.0.0**.
+* Project structure
+* Build configuration
+* Testing framework
+* Code quality tooling
+* Module skeletons
+* CI foundation
+
+No business functionality will be implemented during Sprint 0.
+
+---
+
+## Success Criteria
+
+Gate 4 is complete when:
+
+* AI Constitution is approved.
+* Engineering workflow is defined.
+* AI implementation team is established.
+* Sprint 0 is planned.
+
+Implementation should begin only after these deliverables are complete.

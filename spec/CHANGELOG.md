@@ -63,6 +63,27 @@ Each entry should include:
 
 # Release History
 
+## 2026-07-04
+
+### Product Version:
+N/A (Specification v1.0.0 unchanged)
+
+### Specification Milestone: 
+Post Spec v1.0.0 – Repository Governance Improvements
+
+### Documents Affected:
+`README.md`
+
+### Summary of Changes:
+
+* Added a governance reference table describing each primary project artifact, its purpose, and the approved change mechanism.
+* Clarified the distinction between product documentation, software architecture, engineering governance, and implementation artifacts.
+* Improved contributor onboarding by documenting how repository artifacts evolve over the project's lifecycle.
+
+### Reason for the Change:
+To provide new contributors (both human and AI) with a clear understanding of the project's governance model and document hierarchy. This change improves repository maintainability and reduces ambiguity regarding where changes should be made and the approval process required for different artifact types. No product behavior, business specifications, or software architecture were modified; therefore, Specification v1.0.0 remains unchanged.
+
+
 ## 2026-07-03
 
 ### Product Version
