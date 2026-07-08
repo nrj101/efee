@@ -76,23 +76,25 @@ Build an affordable, secure and audit-friendly SaaS platform that enables educat
 
 ## Current Gate
 
-🟡 **Gate 3 — Software Architecture**
+🟡 **Gate 5 — MVP Implementation**
 
 ---
 
 ## Current Milestone
 
-Architecture Design
+Sprint-001 Implementation Validation
 
 ---
 
-## Specification Baseline
+## Engineering Baseline
 
-**Specification v1.0.0**
+The following engineering artifacts are now approved and frozen for MVP implementation:
 
-Business and software modelling are complete and frozen.
+- Product Specification v1.0.0
+- Software Architecture v1.0.0
+- Technical Specification v1.0.0
 
-Architecture will build upon this baseline.
+Implementation will proceed incrementally through Story Packages while preserving these approved engineering baselines.
 
 ---
 
@@ -146,7 +148,7 @@ A stable specification that completely describes the business domain and softwar
 
 ---
 
-## 🟡 Gate 3 — Software Architecture
+## ✅ Gate 3 — Software Architecture
 
 ### Objective
 
@@ -168,48 +170,46 @@ A complete implementation-independent architecture suitable for realization in a
 
 ### Status
 
-🟡 In Progress
+✅ Completed
 
 ---
 
-## ⬜ Gate 4 — Technical Design
+## ✅ Gate 4 — Technical Specification
 
 ### Objective
 
-Translate the software architecture into detailed implementation guidance.
+Translate the approved Software Architecture into implementation-neutral Aggregate Technical Specifications.
 
 ### Deliverables
 
-* API Design
-* Persistence Model
-* Integration Design
-* Security Design
-* Non-Functional Requirements
-* Deployment Strategy
+* Technical Specification Standards
+* Aggregate Technical Specifications
+* Aggregate Implementation Obligations
+* Collaboration Contracts
+* Story Traceability
 
 ### Exit Criteria
 
-A complete technical design capable of guiding implementation.
+Implementation-neutral Technical Specifications exist for every Aggregate while preserving the approved Product Specification and Software Architecture.
 
 ### Status
 
-⬜ Not Started
+✅ Completed
 
 ---
 
-## ⬜ Gate 5 — MVP Implementation
+## 🟡 Gate 5 — MVP Implementation
 
 ### Objective
 
-Build the first production-ready implementation of E-Fee.
+Incrementally implement the approved Product Specification using Story Packages and the AI Engineering Framework.
 
 ### Deliverables
 
-* Backend
-* Frontend
-* Database
-* Automated Tests
-* CI/CD Pipeline
+* Aggregate implementations
+* Automated tests
+* Incremental Sprint deliveries
+* Continuous implementation validation
 
 ### Exit Criteria
 
@@ -217,7 +217,7 @@ Feature-complete MVP ready for deployment to the partner school.
 
 ### Status
 
-⬜ Not Started
+🟡 In Progress
 
 ---
 
@@ -277,9 +277,9 @@ The platform is ready for commercial rollout.
 | Business Specification   | ✅      |
 | Software Domain Model    | ✅      |
 | Repository Consolidation | ✅      |
-| Software Architecture    | 🟡     |
-| Technical Design         | ⬜      |
-| MVP Implementation       | ⬜      |
+| Software Architecture    | ✅      |
+| Technical Design         | ✅      |
+| MVP Implementation       | 🟡      |
 | Beta Validation          | ⬜      |
 | Commercial Readiness     | ⬜      |
 
@@ -287,23 +287,20 @@ The platform is ready for commercial rollout.
 
 # Current Focus
 
-The immediate objective is to complete **Gate 3 — Software Architecture**.
+The immediate objective is to validate the AI Engineering Framework through real implementation while incrementally delivering the MVP.
 
-The architecture should emerge naturally from the Software Domain Model while preserving the business truths established in **Specification v1.0.0**.
-
-No implementation technology should influence architectural decisions prematurely.
+Future engineering improvements should be driven by implementation evidence rather than speculative framework enhancements.
 
 ---
 
 # Success Criteria
 
-Gate 3 will be considered complete when:
+Gate 5 will be considered successful when:
 
-* Aggregate boundaries are clearly defined.
-* Aggregate Roots have been identified.
-* Domain responsibilities are well established.
-* Architectural decisions are documented through ADRs.
-* The architecture remains faithful to the Software Domain Model.
+* Aggregate implementations preserve the approved Product Specification.
+* Story Packages consistently produce deterministic implementations.
+* Unsupported implementation assumptions are minimized.
+* Sprint-001 validates the AI Engineering Framework under real implementation conditions.
 
 ---
 
@@ -338,6 +335,8 @@ None.
 | ------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | 1.0.0   | 2026-06-29 | Initial roadmap                                                                                                                    |
 | 1.1.0   | 2026-07-03 | Updated to reflect completed Gate 2, introduction of Software Domain Modelling as a distinct gate and revised engineering roadmap. |
+| 1.2.0   | 2026-07-08 | Updated to reflect completion of Software Architecture and Technical Specification, and transition to MVP implementation.          |
+
 
 ---
 

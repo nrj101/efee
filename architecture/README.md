@@ -18,6 +18,7 @@ The architecture documents establish:
 * module structure;
 * application orchestration; and
 * long-term design rationale.
+* architectural policies that apply consistently across the platform
 
 Implementation details are intentionally excluded.
 
@@ -34,6 +35,8 @@ Implementation details are intentionally excluded.
 | `SoftwareArchitecture.md`   | High-level software organization and architectural layers.      |
 | `ModuleDesign.md`           | Logical module decomposition and dependency rules.              |
 | `ApplicationServices.md`    | Application-layer orchestration of business capabilities.       |
+| `CrossCuttingConcerns.md`  | Defines architectural policies that may span the entire platform|
+
 
 ---
 
@@ -46,6 +49,7 @@ Implementation details are intentionally excluded.
 5. `SoftwareArchitecture.md`
 6. `ModuleDesign.md`
 7. `ApplicationServices.md`
+8. `CrossCuttingConcerns.md`
 
 ---
 

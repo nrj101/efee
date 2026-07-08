@@ -1,393 +1,213 @@
-# E-Fee Product & Engineering Specification
+# E-Fee — Student Fee Receivables Platform
 
-# README
+## Overview
 
-```yaml id="e7y2pk"
----
-document_id: README-001
-title: Repository Overview
-version: 1.1.0
-status: Approved
+**E-Fee** is a SaaS platform designed to help educational institutions manage the complete lifecycle of student fee receivables—from the creation of financial obligations through final settlement—while preserving complete financial auditability.
 
-owner: Product Owner
-reviewer: CTO
-
-created: 2026-06-29
-last_updated: 2026-07-03
-next_review: After Specification v1.0.0
-
-related_documents:
-  - SPECIFICATION_STANDARDS.md
-  - CHANGELOG.md
-  - ProjectRoadmap.md
----
-```
-
----
-
-# Welcome
-
-Welcome to the **E-Fee repository**.
-
-This repository contains the complete business, software and engineering specification for **E-Fee**, a SaaS platform that enables educational institutions to confidently manage student fee receivables.
-
-The specification is the **single source of truth** for the product.
-
-Implementation follows the specification.
-
----
-
-# Repository Structure
-
-```text
-# Repository Structure
-
-```text
-/
-│
-├── README.md                          ⭐ Repository entry point
-├── LICENSE
-├── .gitignore
-│
-├── app/                               # Production source code
-│
-├── architecture/                      # Software architecture
-│   │
-│   ├── ArchitecturePatterns.md
-│   ├── SoftwareArchitecture.md
-│   │
-│   └── adr/
-│       └── ADR-001-Domain Architecture Strategy.md
-│
-├── project/                           # Engineering governance & planning
-│   │
-│   ├── AI_COLLABORATION_CHARTER.md
-│   ├── NextSession.md
-│   └── StatusReport.md
-│
-└── spec/                              # Product specification
-    │
-    ├── CHANGELOG.md
-    ├── SPECIFICATION_STANDARDS.md
-    ├── BusinessObjectGraph.png
-    │
-    └── docs/
-        │
-        ├── ProblemStatement.md
-        ├── ProductVision.md
-        ....
-        ....
-        │
-        └── rfc/
-            └── RFC-001.md
-```
+The project follows a specification-first engineering approach. Product understanding, business modelling, software architecture and implementation are developed as distinct engineering phases, allowing each stage to remain independently reviewable and reusable.
 
 ---
 
 # Repository Organization
 
-The repository is organized into independent layers, each with a single responsibility. This separation ensures that product requirements, software architecture, engineering processes, and implementation evolve independently while remaining traceable. 
+The repository is organized into several major areas.
 
-| Folder          | Purpose                                                                   | Primary Question                             | Governed By                   |
-| --------------- | ------------------------------------------------------------------------- | -------------------------------------------- | ----------------------------- |
-| `/spec`         | Product specifications and business knowledge                             | **What** should the product do?              | RFC                           |
-| `/architecture` | Software architecture and design decisions                                | **How** should software realize the product? | ADR                           |
-| `/project`      | Project governance, planning, AI collaboration, and engineering processes | **How** is the project executed?             | Project Process               |
-| `/app`          | Production source code and implementation                                 | **How** is the architecture implemented?     | Code Review & AI Constitution |
+## `/spec`
 
-## Relationship Between Layers
+Authoritative product specification.
 
-The repository follows a layered evolution model.
+Contains the implementation-independent description of the business domain, including:
+
+* Product Vision
+* Problem Statement
+* MVP Scope
+* Business Rules
+* Business Workflow
+* Domain Glossary
+* Software Domain Model
+* Business Object Graph
+
+These documents define **what** the system must accomplish.
+
+They remain the permanent source of truth throughout the project lifecycle.
+
+---
+
+## `/architecture`
+
+Implementation-independent software architecture.
+
+Contains:
+
+* Software Architecture
+* Aggregate Design
+* Aggregate-specific Architecture
+* Architecture Patterns
+* Module Design
+* Architectural Decision Records (ADRs)
+* Architecture diagrams
+
+These documents define **how the software should be organized** while remaining independent of any programming language or framework.
+
+---
+
+## `/technical-specification`
+
+Implementation-neutral technical specifications.
+
+Contains one Technical Specification for each Aggregate.
+
+Each document defines:
+
+* Aggregate responsibilities
+* Owned state
+* Lifecycle model
+* Consistency requirements
+* Collaboration contracts
+* Implementation obligations
+* Story traceability
+
+These documents bridge the gap between Software Architecture and implementation while remaining independent of programming languages and frameworks.
+
+--- 
+
+## `/docs/ai`
+
+AI Engineering Framework adopted by this project.
+
+This repository adopts **AI Engineering Framework v1.0**, which provides a disciplined and repeatable methodology for AI-assisted software development.
+
+The framework includes:
+
+* Engineering Constitution
+* AI Personas
+* Runtime Prompts
+* Story Package Templates
+* Canonical Engineering Examples
+
+The framework governs **how AI engineers perform implementation**, but does not define product behaviour or software architecture.
+
+---
+
+## `/Sprint-*`
+
+Implementation workspaces.
+
+Each Sprint contains one or more Story Packages.
+
+A Story Package represents the complete implementation contract for a single engineering story and typically contains:
+
+* Story
+* Implementation Guide
+* README
+* Source artifacts
+* Test artifacts
+
+Story Packages are intentionally self-contained to support repeatable AI-assisted implementation.
+
+---
+
+## `/project`
+
+Project management artifacts.
+
+Examples include:
+
+* Status Reports
+* Next Session planning
+* Implementation planning
+* Other project coordination documents
+
+These artifacts support project execution but are not part of the product specification.
+
+---
+
+## `/app`
+
+Application source code.
+
+Production implementation will gradually emerge here as approved Story Packages are implemented.
+
+---
+
+# Engineering Lifecycle
+
+Development progresses through distinct engineering phases.
 
 ```text
-Product Specification
+Product Understanding
+        │
+        ▼
+Business Specification
+        │
+        ▼
+Software Domain Modelling
         │
         ▼
 Software Architecture
         │
         ▼
-Engineering Process
+Technical Specification
         │
         ▼
-Implementation
+Sprint Planning
+        │
+        ▼
+Story Packages
+        │
+        ▼
+AI-Assisted Implementation
+        │
+        ▼
+Verification & Review
 ```
 
-Each layer builds upon the one above it while remaining independently governable.
-
-* **Product Specification** defines the business domain and product behaviour without prescribing implementation.
-* **Software Architecture** translates the approved specification into a software design while preserving business intent.
-* **Engineering Process** defines how contributors (human and AI) collaborate to build the software consistently.
-* **Implementation** contains the executable realization of the approved architecture.
-
-## Folder Overview
-
-### `/spec`
-
-Contains the permanent product specification and business knowledge for the E-Fee platform.
-
-These documents describe **what the product is**, independent of any specific software architecture or technology. The Specification serves as the long-term source of truth for product behaviour and evolves through the RFC process.
+Each phase builds upon the previous one while preserving the approved engineering artifacts.
 
 ---
 
-### `/architecture`
+# AI-Assisted Development
 
-Contains the software architecture that realizes the approved product specification.
+Implementation is performed using the adopted AI Engineering Framework.
 
-These documents define **how the software is designed** while remaining faithful to the business domain. Architecture evolves independently from the product specification and is governed through Architecture Decision Records (ADRs).
+The framework enforces:
 
----
+* specification-first development;
+* architecture preservation;
+* explicit business rule compliance;
+* controlled implementation scope;
+* repeatable engineering behaviour.
 
-### `/project`
-
-Contains engineering governance and project management artifacts used during development.
-
-This includes AI collaboration guidance, planning documents, session notes, status reports, sprint planning, and other engineering processes that support implementation but do not define the product itself.
-
----
-
-### `/app`
-
-Contains the production source code.
-
-The implementation is expected to conform to both the approved Product Specification and the Software Architecture. Source code evolves through normal development practices, including code reviews and the AI Constitution.
-
+Implementation always begins from an approved Story Package rather than directly from the product specification.
 
 ---
 
-# Reading Order
+# Current Project Status
 
-New contributors should read the specification in the following order.
+The Product Specification, Software Architecture and Technical Specification together constitute the approved engineering baseline for MVP implementation.
 
-## Product Foundation
+Current development focuses on incrementally implementing Story Packages while validating the AI Engineering Framework through real engineering work.
 
-1. ProblemStatement.md
-2. ProductVision.md
-3. MVPScope.md
-4. UserPersonas.md
+The repository intentionally separates:
 
----
+* Product Specification
+* Software Architecture
+* Technical Specification
+* AI Engineering Framework
+* Story Packages
+* Implementation artifacts
 
-## Business Specification
-
-5. DomainGlossary.md
-6. BusinessRules.md
-7. BusinessWorkflow.md
-8. BusinessObjectGraph.md
-
----
-
-## Software Specification
-
-9. SoftwareDomainModel.md
-10. DecisionLog.md
-
----
-
-## Supporting Documents
-
-11. ProjectRoadmap.md
-
-Architecture Decision Records (ADRs) and Requests for Change (RFCs) should be consulted as required.
-
----
-
-## Modifications
-
-| Artifact                  | Purpose                       | Can change via        |
-| ------------------------- | ----------------------------- | --------------------- |
-| Product Vision            | Why the product exists        | Human                 |
-| MVP Scope                 | What is in/out                | RFC                   |
-| Business Rules            | Business truth                | RFC                   |
-| Domain Model              | Business concepts             | RFC                   |
-| **Software Architecture** | How business maps to software | ADR                   |
-| AI Constitution           | How AI works                  | Constitution version  |
-| Implementation            | Code                          | Pull Request + Review |
-
-
-# Specification Structure
-
-The specification progresses through a series of increasingly concrete models.
-
-```text
-Problem Statement
-        │
-        ▼
-Product Vision
-        │
-        ▼
-Business Rules
-        │
-        ▼
-Business Workflow
-        │
-        ▼
-Business Object Graph
-        │
-        ▼
-Software Domain Model
-        │
-        ▼
-Software Architecture
-        │
-        ▼
-Implementation
-```
-
-Each layer builds upon the previous one while preserving a single responsibility.
-
----
-
-# Current Status
-
-## Specification Version
-
-**Specification v1.0.0**
-
----
-
-## Current Milestone
-
-**Gate 2 — Business & Software Domain Modelling**
-
-**Status:** Complete
-
----
-
-## Next Milestone
-
-**Gate 3 — Software Architecture**
+This separation allows the product, architecture, implementation guidance and engineering process to evolve independently while remaining consistent.
 
 ---
 
 # Guiding Principles
 
-The product follows these principles.
+The project follows several core principles:
 
-* Business First
-* Simplicity Before Complexity
-* Software Preserves Business Truth
-* Every Financial Decision Must Be Explainable
-* Financial History Is Immutable
-* Architecture Drives Implementation
-* AI Assists, Humans Decide
-
----
-
-# Repository Rules
-
-* The specification is the permanent memory of the product.
-* Every significant decision should be documented.
-* Approved documents should evolve through controlled versioning.
-* Modelling decisions belong in the Modelling Decision Log.
-* Architecture decisions belong in ADRs.
-* Product evolution should begin with an RFC whenever appropriate.
-* Avoid duplicating knowledge across documents.
-
----
-
-# Versioning
-
-Each specification document is versioned independently using Semantic Versioning.
-
-The repository `CHANGELOG.md` records major specification milestones and repository evolution.
-
-Individual document version histories record document-specific changes.
-
----
-
-# Contribution Workflow
-
-Every significant change should follow this progression.
-
-```text
-Idea
-   │
-   ▼
-Discussion
-   │
-   ▼
-Specification Update
-   │
-   ▼
-Review
-   │
-   ▼
-Approval
-   │
-   ▼
-Implementation
-```
-
-Implementation should never precede an approved specification.
-
----
-
-# AI Usage
-
-AI is an engineering assistant.
-
-AI may assist with:
-
-* Analysis
-* Documentation
-* Design
-* Architecture discussions
-* Code generation
-* Test generation
-* Reviews
-
-Business ownership, modelling decisions and architectural decisions remain human responsibilities.
-
----
-
-# Repository Goals
-
-The specification aims to produce software that is:
-
-* Business-driven
-* Maintainable
-* Auditable
-* Secure
-* Extensible
-* Explainable
-* Understandable
-
-The specification should remain implementation-independent wherever practical.
-
----
-
-# Related Documents
-
-* SPECIFICATION_STANDARDS.md
-* CHANGELOG.md
-* ProjectRoadmap.md
-
----
-
-# Open Questions
-
-None.
-
----
-
-# Version History
-
-| Version | Date       | Description                                                                                |
-| ------- | ---------- | ------------------------------------------------------------------------------------------ |
-| 1.0.0   | 2026-06-29 | Initial repository overview                                                                |
-| 1.1.0   | 2026-07-03 | Updated for completed Gate 2, repository reorganization and Specification v1.0.0 baseline. |
-
----
-
-# Approval
-
-**Status:** Approved
-
-## Approved By
-
-* Product Owner
-* CTO
-
-## Approval Date
-
-2026-07-03
+* Business understanding precedes implementation.
+* Software architecture preserves business correctness.
+* Every implementation originates from an approved Story Package.
+* AI engineers operate under a common Engineering Constitution.
+* Implementation must never contradict approved specifications or architecture.
+* Product documentation remains the authoritative source of truth throughout the project lifecycle.

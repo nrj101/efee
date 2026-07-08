@@ -17,6 +17,7 @@ related_documents:
   - architecture/adr/ADR-001-Domain Architecture Strategy.md
   - ArchitecturePatterns.md
   - AggregateDesign.md
+  - CrossCuttingConcerns.md
   - ../spec/docs/SoftwareDomainModel.md
 ---
 ```
@@ -29,7 +30,7 @@ This document defines the high-level software architecture of the Student Fee Re
 
 It describes how the approved Product Specification is realized through software modules, architectural layers and component collaboration.
 
-The detailed domain design is defined in **AggregateDesign.md**.
+The detailed domain design is defined in **AggregateDesign.md**, while platform-wide architectural policies are documented in CrossCuttingConcerns.md.
 
 This document focuses on the organization of the software system rather than individual domain concepts.
 
@@ -55,6 +56,7 @@ This document focuses on the organization of the software system rather than ind
 * Framework implementation
 * Deployment topology
 * Infrastructure configuration
+* Cross-cutting architectural policies
 
 ---
 
@@ -150,6 +152,7 @@ Responsibilities include:
 
 * Aggregate behaviour
 * Business invariants
+* Aggregate invariants
 * Lifecycle management
 * Business policies
 * Domain services (where required)
@@ -181,3 +184,25 @@ Dependencies flow inward.
 Higher layers depend on lower-level abstractions, while the Domain Layer remains independent of infrastructure technologies.
 
 Business correctness is preserved regardless of implementation technology.
+
+---
+
+## Cross-Cutting Architectural Policies
+
+Several architectural policies apply uniformly across all modules, aggregates and application services. To avoid duplication and ensure consistency, these policies are documented separately in **CrossCuttingConcerns.md**.
+
+These cross-cutting concerns include:
+
+- Aggregate identity strategy
+- Business reference numbering
+- Business event catalogue
+- Audit and traceability
+- Monetary precision
+- Time handling
+- Transaction boundaries
+- Versioning philosophy
+- Authorization philosophy
+
+All architectural and implementation decisions shall comply with the policies defined in that document.
+
+---

@@ -17,6 +17,7 @@ related_documents:
   - ADR-001-Domain Architecture Strategy.md
   - ArchitecturePatterns.md
   - SoftwareDomainModel.md
+  - CrossCuttingConcerns.md
 ---
 ```
 
@@ -31,6 +32,16 @@ Aggregate boundaries are derived from the approved Product Specification, Softwa
 The purpose of this document is to identify ownership boundaries, business invariants and transactional consistency boundaries that govern the software implementation.
 
 This document SHALL NOT introduce new business behaviour.
+
+---
+
+## Relationship to Cross-Cutting Concerns
+
+This document defines the responsibilities, boundaries and collaboration of business aggregates.
+
+Platform-wide architectural policies—including aggregate identity, business reference numbering, audit requirements, transaction boundaries, versioning strategy and business events—are defined separately in **CrossCuttingConcerns.md**.
+
+This separation ensures that aggregate design remains focused on business ownership and consistency boundaries while common architectural policies are governed from a single authoritative source.
 
 ---
 
@@ -114,311 +125,25 @@ Lifecycle transitions SHALL preserve business correctness and financial integrit
 
 # Aggregate Catalogue
 
-The following Aggregate Roots define the primary ownership boundaries of the Student Fee Receivables Platform.
+The Student Fee Receivables Platform is composed of the following Aggregate Roots.
 
-Each Aggregate owns exactly one primary business truth and protects the business invariants associated with that truth.
+Each Aggregate owns exactly one primary business truth and preserves the business invariants associated with that truth.
 
-Aggregates collaborate through business operations while maintaining independent consistency boundaries.
+Detailed Aggregate specifications are maintained in the corresponding Aggregate documents (/architecture/).
 
----
+| Aggregate Root | Specification |
+|---------------|---------------|
+| Student | aggregates/Student.md |
+| Academic Year | aggregates/AcademicYear.md |
+| Fee Structure | aggregates/FeeStructure.md |
+| Fee Obligation | aggregates/FeeObligation.md |
+| Payment | aggregates/Payment.md |
+| Receipt | aggregates/Receipt.md |
+| Discount Policy | aggregates/DiscountPolicy.md |
 
-# Student
+The Aggregate specifications collectively form the authoritative Aggregate Design for the Student Fee Receivables Platform.
 
-## Responsibility
-
-Owns the identity and academic enrollment of a student.
-
-## Owned Business Truth
-
-* Student identity
-* Academic profile
-* Student lifecycle
-
-## Supporting Entities
-
-None
-
-## Primary Invariants
-
-* Student identity is unique.
-* Student lifecycle remains valid.
-* Student identity cannot be duplicated.
-
-## Allowed Operations
-
-* Register Student
-* Update Student Information
-* Activate Student
-* Deactivate Student
-
-## Collaborating Aggregates
-
-* Academic Year
-* Fee Obligation
-* Discount Policy
-
-## Repository
-
-`StudentRepository`
-
----
-
-# Academic Year
-
-## Responsibility
-
-Defines the financial and operational boundary of an academic session.
-
-## Owned Business Truth
-
-* Academic Year lifecycle
-* Financial opening and closure
-* Receipt numbering sequence
-
-## Supporting Entities
-
-None
-
-## Primary Invariants
-
-* Only one Academic Year may be active at any time.
-* Closed Academic Years reject new financial activity.
-* Receipt numbering remains unique within the Academic Year.
-
-## Allowed Operations
-
-* Open Academic Year
-* Close Academic Year
-* Generate Final Clearance
-* Generate Receipt Number
-
-## Collaborating Aggregates
-
-* Student
-* Fee Structure
-* Fee Obligation
-* Receipt
-
-## Repository
-
-`AcademicYearRepository`
-
----
-
-# Fee Structure
-
-## Responsibility
-
-Owns the institution's charging policy.
-
-## Owned Business Truth
-
-* Fee Components
-* Charging rules
-* Fee configuration
-
-## Supporting Entities
-
-* Fee Component
-
-## Primary Invariants
-
-* Fee Components are uniquely identifiable.
-* Charging rules remain internally consistent.
-* Historical charging policies remain traceable.
-
-## Allowed Operations
-
-* Create Fee Structure
-* Modify Fee Structure
-* Activate Fee Structure
-* Retire Fee Structure
-
-## Collaborating Aggregates
-
-* Academic Year
-* Fee Obligation
-* Discount Policy
-
-## Repository
-
-`FeeStructureRepository`
-
----
-
-# Fee Obligation
-
-## Responsibility
-
-Owns the student's financial receivable.
-
-## Owned Business Truth
-
-* Outstanding Amount
-* Settlement status
-* Applicable financial obligations
-
-## Supporting Entities
-
-* Obligation Line
-* Applied Discount
-
-## Primary Invariants
-
-* Outstanding Amount shall never become negative.
-* Outstanding Amount is derived from:
-
-  * Obligation Lines
-  * Applied Discounts
-  * Payment Allocations
-* Settled obligations reject retrospective policy changes.
-* Closed obligations reject further settlements.
-
-## Allowed Operations
-
-* Generate Fee Obligation
-* Apply Discount
-* Allocate Payment
-* Reverse Allocation
-* Close Obligation
-
-## Collaborating Aggregates
-
-* Student
-* Academic Year
-* Fee Structure
-* Payment
-* Discount Policy
-
-## Repository
-
-`FeeObligationRepository`
-
----
-
-# Payment
-
-## Responsibility
-
-Owns the immutable record of money received by the institution.
-
-## Owned Business Truth
-
-* Payment amount
-* Payment method
-* Payment lifecycle
-
-## Supporting Entities
-
-* Payment Allocation
-
-## Primary Invariants
-
-* Payment amount is immutable after successful acceptance.
-* Total allocated amount shall never exceed the received payment amount.
-* Allocation corrections preserve financial history.
-
-## Allowed Operations
-
-* Record Payment
-* Allocate Payment
-* Reverse Allocation
-
-## Collaborating Aggregates
-
-* Fee Obligation
-* Receipt
-
-## Repository
-
-`PaymentRepository`
-
----
-
-# Receipt
-
-## Responsibility
-
-Owns the institution's official acknowledgement of an accepted payment.
-
-## Owned Business Truth
-
-* Receipt acknowledgement
-* Receipt numbering
-* Receipt lifecycle
-
-## Supporting Entities
-
-None
-
-## Primary Invariants
-
-* A Receipt acknowledges exactly one Payment.
-* Receipt numbering is unique within an Academic Year.
-* Receipt corrections preserve historical auditability.
-* Receipt shall never reference a different Payment.
-
-## Allowed Operations
-
-* Issue Receipt
-* Reprint Receipt
-* Request Receipt Correction
-* Approve Receipt Correction
-* Execute Receipt Correction
-
-## Collaborating Aggregates
-
-* Payment
-* Academic Year
-
-## Repository
-
-`ReceiptRepository`
-
----
-
-# Discount Policy
-
-## Responsibility
-
-Owns institutional discount definitions, eligibility rules and grant lifecycle.
-
-## Owned Business Truth
-
-* Discount eligibility
-* Discount rules
-* Discount lifecycle
-
-## Supporting Entities
-
-* Discount Grant
-
-## Primary Invariants
-
-* Discount eligibility remains internally consistent.
-* Revoked policies cannot issue new grants.
-* Existing grants remain historically traceable.
-* Approval is required before issuing a Discount Grant.
-
-## Allowed Operations
-
-* Create Discount Policy
-* Modify Discount Policy
-* Retire Discount Policy
-* Grant Discount
-* Revoke Discount Grant
-
-## Collaborating Aggregates
-
-* Student
-* Academic Year
-* Fee Structure
-* Fee Obligation
-
-## Repository
-
-`DiscountPolicyRepository`
-
+This document defines the architectural principles shared by every Aggregate and should be read together with the individual Aggregate specifications.
 ---
 
 
