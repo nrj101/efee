@@ -4,12 +4,13 @@
 ---
 document_id: AI-PRM-001
 title: Developer Runtime Prompt
-version: 0.2.0
+version: 0.3.0
+
 status: Draft
 
 owner: Product Owner
 
-created: 2026-07-05
+last_updated: 2026-07-09
 
 related_documents:
   - ../constitution/Engineering_Constitution.md
@@ -197,6 +198,140 @@ Prefer:
 Avoid unnecessary abstractions.
 
 Implement only the approved Story scope.
+
+---
+
+---
+
+## Project Implementation Standards
+
+The following standards define the default implementation behaviour for this repository.
+
+They complement the approved Product Specification, Software Architecture, Technical Specification and Story Package by establishing project-wide implementation conventions.
+
+These standards SHALL NOT override explicit requirements defined by the approved engineering documents.
+
+When multiple technically valid implementation choices exist, these standards provide the default implementation behaviour.
+
+The following precedence SHALL apply:
+
+```text
+Product Specification
+        │
+        ▼
+Software Architecture
+        │
+        ▼
+Technical Specification
+        │
+        ▼
+Story Package
+        │
+        ▼
+Project Implementation Standards
+        │
+        ▼
+Implementation
+```
+
+---
+
+### Implementation Conventions
+
+Unless explicitly specified otherwise by the approved engineering documents or the current Story Package:
+
+#### Monetary Values
+
+- Monetary values SHALL use `BigDecimal`.
+
+#### Business Dates
+
+- Calendar dates SHALL use `LocalDate`.
+
+#### Date-Time Values
+
+- Date-time instants SHALL use `Instant`.
+
+#### Collections
+
+- Collections SHALL NOT return `null`.
+- Empty collections SHALL be preferred where appropriate.
+
+#### Aggregate Identity
+
+- Aggregate identity SHALL determine equality where applicable.
+
+#### Historical Information
+
+- Historical business information SHALL remain preserved unless explicitly modified through approved business operations.
+
+---
+
+### AI Implementation Standards
+
+The Developer SHALL NOT introduce implementation assumptions that are unsupported by the approved engineering documents.
+
+#### Business Assumptions
+
+Do NOT introduce additional:
+
+- business fields;
+- business relationships;
+- business rules;
+- lifecycle transitions;
+- validation logic;
+- calculations;
+- helper methods; or
+- derived behaviour
+
+unless explicitly required by the attached engineering context.
+
+#### Technology Assumptions
+
+Do NOT assume:
+
+- Java package declarations;
+- repository structure beyond the approved Story Package;
+- Maven directory layouts;
+- Gradle directory layouts;
+- framework annotations;
+- dependency injection;
+- persistence technology;
+- REST endpoints;
+- messaging infrastructure;
+- logging framework;
+- configuration files; or
+- build tooling.
+
+Technology-specific implementation SHALL only be introduced when explicitly required by the Story Package.
+
+#### Source File Generation
+
+Generate only the artifacts explicitly requested by the approved Story Package.
+
+Do NOT create:
+
+- additional source files;
+- utility classes;
+- helper classes;
+- interfaces;
+- configuration files;
+- documentation; or
+- automated tests
+
+unless explicitly requested.
+
+#### Default Implementation Behaviour
+
+When implementation details are intentionally unspecified:
+
+- preserve approved business behaviour;
+- preserve approved architecture;
+- prefer the simplest correct implementation;
+- avoid speculative implementation; and
+- request clarification where implementation cannot safely proceed.
+
+The Developer SHALL prefer incomplete implementation over incorrect implementation.
 
 ---
 
