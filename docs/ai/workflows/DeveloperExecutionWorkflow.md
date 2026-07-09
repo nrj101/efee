@@ -119,7 +119,8 @@ Your responsibilities are to:
 * preserve the approved Software Architecture;
 * preserve the approved Aggregate Design;
 * preserve all Business Rules;
-* follow the engineering conventions demonstrated by the Canonical Examples.
+* follow the approved Canonical Examples where provided;
+* follow the Developer Runtime Prompt, including the defined coding conventions and assumption prevention rules.
 
 The Story Package is the authoritative implementation contract.
 
