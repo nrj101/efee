@@ -1,5 +1,6 @@
 // /Sprint-001/Story-001/source/Student.java
 
+
 import java.util.Objects;
 
 public class Student {
@@ -8,11 +9,21 @@ public class Student {
     private String academicProfile;
     private boolean active;
 
-    public Student(String studentId, String name, String academicProfile, boolean active) {
+    public Student(String studentId, String name, String academicProfile) {
+        if (studentId == null || studentId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Student ID cannot be null or empty");
+        }
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        if (academicProfile == null || academicProfile.trim().isEmpty()) {
+            throw new IllegalArgumentException("Academic profile cannot be null or empty");
+        }
+        
         this.studentId = studentId;
         this.name = name;
         this.academicProfile = academicProfile;
-        this.active = active;
+        this.active = true; // Aggregate controls initial lifecycle
     }
 
     public String getStudentId() {
@@ -23,16 +34,20 @@ public class Student {
         return name;
     }
 
-    public void updateName(String name) {
+    public void updateInformation(String name, String academicProfile) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        if (academicProfile == null || academicProfile.trim().isEmpty()) {
+            throw new IllegalArgumentException("Academic profile cannot be null or empty");
+        }
+        
         this.name = name;
+        this.academicProfile = academicProfile;
     }
 
     public String getAcademicProfile() {
         return academicProfile;
-    }
-
-    public void updateAcademicProfile(String academicProfile) {
-        this.academicProfile = academicProfile;
     }
 
     public boolean isActive() {

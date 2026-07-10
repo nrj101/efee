@@ -20,9 +20,6 @@ The Student Aggregate is responsible for managing student identity, information,
 - Student lifecycle remains valid.
 - Student identity cannot be duplicated.
 
-### Collaboration
-- Collaborates with Academic Year, Fee Obligation, and Discount Policy Aggregates.
-
 ### Implementation Notes
 - The implementation strictly adheres to the approved Story Package.
 - No additional business behavior or infrastructure concerns have been introduced.
