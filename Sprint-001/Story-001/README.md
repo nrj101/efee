@@ -1,22 +1,28 @@
-# Student Aggregate Implementation
+# Student Aggregate README.md
 
-This directory contains the implementation of the **Student Aggregate** as defined in Story-001.
+## Student Aggregate
 
-## Files
+The Student Aggregate is responsible for managing student identity, information, and lifecycle within the institution.
 
-- `Student.java`: The core implementation of the Student Aggregate.
-- `StudentTest.java`: Unit tests for the Student Aggregate.
-- `README.md`: This document.
+### Responsibilities
+- Owns the identity and academic enrollment of a student.
+- Preserves student information required by the financial domain.
+- Supports the student lifecycle.
 
-## Implementation Notes
+### Public Operations
+- Register Student
+- Update Student Information
+- Activate Student
+- Deactivate Student
 
-- The Student Aggregate is responsible for maintaining student identity, academic profile, and lifecycle.
-- The implementation strictly follows the approved architecture and business rules.
-- Only the approved operations (Register Student, Update Student Information, Activate Student, Deactivate Student) are implemented.
-- The implementation does not introduce any infrastructure concerns or framework-specific behaviour.
+### Invariants
+- Student identity is unique.
+- Student lifecycle remains valid.
+- Student identity cannot be duplicated.
 
-## Compliance
+### Collaboration
+- Collaborates with Academic Year, Fee Obligation, and Discount Policy Aggregates.
 
-- This implementation is faithful to the approved Software Architecture.
-- All business invariants are preserved.
-- No implementation contradicts the Product Specification or Software Architecture.
+### Implementation Notes
+- The implementation strictly adheres to the approved Story Package.
+- No additional business behavior or infrastructure concerns have been introduced.

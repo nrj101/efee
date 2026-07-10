@@ -6,41 +6,49 @@
 
 This guide provides implementation guidance specific to **Story-001 — Student Aggregate**.
 
-It supplements the approved Story Package by highlighting implementation considerations relevant to this Story.
+It supplements the approved Story by providing implementation guidance while preserving the approved Product Specification, Software Architecture and Aggregate Design.
 
-This document does **not** redefine business behaviour, software architecture or Aggregate ownership.
-
-The Product Specification and Software Architecture remain authoritative.
+This guide SHALL NOT redefine business behaviour, architectural responsibilities or Story scope.
 
 ---
 
 # Implementation Objective
 
-Implement the **Student Aggregate** exactly as defined by the approved architecture.
+Implement the **Student Aggregate** exactly as approved by the Story Package.
 
-The implementation shall faithfully realize the approved Aggregate responsibilities while preserving all documented business invariants.
+The implementation SHALL faithfully realize the approved Aggregate while preserving all documented ownership boundaries, invariants and lifecycle rules.
 
-Implementation shall remain intentionally simple.
+Implementation should remain intentionally simple, explicit and maintainable.
 
 ---
 
 # Aggregate Context
 
-This Story implements the following Aggregate Root:
+This Story implements the following Aggregate Root.
 
 **Student**
 
-The authoritative definition of the Aggregate, including:
+The authoritative definition of the Aggregate remains documented by:
 
-* responsibilities;
-* owned business truth;
-* invariants;
-* lifecycle;
-* collaborating Aggregates;
+* AggregateDesign.md
+* Student Aggregate Technical Specification
+* SoftwareArchitecture.md
 
-is maintained in **AggregateDesign.md**.
+This guide intentionally avoids duplicating those documents.
 
-This guide intentionally does not duplicate that information.
+---
+
+# Story Authority
+
+The implementation contract for this Story is defined by:
+
+1. Story.md
+2. Sprint-001.md
+3. Aggregate Technical Specification
+4. Software Architecture
+5. Product Specification
+
+If any ambiguity exists between these documents, implementation SHALL stop and clarification SHALL be requested.
 
 ---
 
@@ -48,42 +56,39 @@ This guide intentionally does not duplicate that information.
 
 The implementation should:
 
-* realize only the approved Student Aggregate;
+* implement only the approved Aggregate Model defined by the Story;
+* implement only the approved public operations;
 * preserve Aggregate autonomy;
-* expose only behaviour approved by the Story;
-* avoid introducing infrastructure concerns;
-* avoid introducing framework-specific behaviour.
+* preserve Aggregate invariants;
+* preserve lifecycle integrity;
+* favour explicit business behaviour over unnecessary abstraction;
+* remain readable and maintainable.
 
-Implementation should favour clarity and explicit business behaviour over unnecessary abstraction.
+Implementation should introduce the minimum amount of code necessary to satisfy the approved Story.
 
 ---
 
 # Story Boundaries
 
-The following capabilities belong to this Story:
+The implementation SHALL remain strictly within the approved Story scope.
+
+This Story includes only:
 
 * Register Student
 * Update Student Information
 * Activate Student
 * Deactivate Student
 
-The following capabilities belong to other Stories and shall not be introduced here:
-
-* Academic Year management
-* Fee Structure management
-* Fee Obligation management
-* Payment processing
-* Receipt management
-* Discount Policy management
+The implementation SHALL NOT introduce behaviour belonging to other Aggregates or future Stories.
 
 ---
 
 # Implementation Constraints
 
-The implementation shall not introduce:
+The implementation SHALL NOT introduce:
 
-* database persistence;
-* repositories beyond those implied by the Story Package;
+* persistence;
+* repositories;
 * REST APIs;
 * dependency injection;
 * messaging;
@@ -91,48 +96,58 @@ The implementation shall not introduce:
 * authentication;
 * authorization;
 * framework annotations;
-* implementation intended for future Stories.
+* serialization;
+* caching;
+* infrastructure concerns;
+* speculative extension points.
 
-Future implementation shall extend the software through additional Story Packages rather than speculative implementation.
+Future Stories SHALL extend the software through approved Story Packages rather than speculative implementation.
 
 ---
 
 # Testing Guidance
 
-Unit tests should validate:
+Unit tests should verify:
 
-* approved Student operations;
+* Aggregate construction;
+* approved Aggregate operations;
 * Aggregate invariants;
 * lifecycle transitions;
-* invalid operations where appropriate.
+* invalid input where approved by the Story;
+* behaviour explicitly defined by the Acceptance Criteria.
 
-Tests shall validate approved behaviour only.
+Tests SHALL verify approved behaviour only.
 
-Tests shall not introduce new business requirements.
+Tests SHALL NOT introduce additional requirements or assumptions.
 
 ---
 
-# Developer Notes
+# Implementation Review Checklist
 
-When implementation decisions appear ambiguous:
+Before requesting review, verify:
 
-1. consult the Product Specification;
-2. consult the Software Architecture;
-3. consult the Aggregate Design;
-4. consult the Story Package.
-
-If ambiguity remains, implementation shall stop and request clarification rather than introducing undocumented assumptions.
+* Aggregate responsibilities remain unchanged.
+* Aggregate ownership remains unchanged.
+* Only the approved Aggregate Model has been implemented.
+* Only approved public operations have been implemented.
+* No additional business behaviour has been introduced.
+* No implementation assumptions contradict Sprint-001 decisions.
+* No implementation assumptions contradict the Story.
+* Only approved artifacts have been modified.
+* Unit tests verify approved behaviour.
 
 ---
 
 # Completion Reminder
 
-Before completing the Story, verify that:
+The objective of this Story is to faithfully realize the approved **Student Aggregate**.
 
-* implementation remains faithful to the approved Aggregate Design;
-* implementation scope has not expanded beyond the Story;
-* no architectural responsibilities have been redefined;
-* no business rules have been invented;
-* only approved implementation artifacts have been modified.
+Implementation quality is determined by:
 
-The objective of this Story is to faithfully realize the approved Student Aggregate—not to extend the product beyond the approved implementation scope.
+* adherence to the approved Product Specification;
+* adherence to the approved Software Architecture;
+* adherence to the approved Story Package;
+* preservation of Aggregate ownership and business correctness;
+* avoidance of undocumented assumptions.
+
+No functionality beyond the approved Story scope shall be introduced.

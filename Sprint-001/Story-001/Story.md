@@ -4,7 +4,7 @@
 ---
 story_id: Story-001
 title: Student Aggregate
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 sprint: Sprint-001
@@ -28,18 +28,11 @@ The Student Aggregate establishes the software ownership boundary responsible fo
 
 # Architectural Context
 
-This Story realizes the **Student Aggregate** defined by the approved Aggregate Design.
+This Story realizes the approved **Student Aggregate** defined by the Software Architecture.
 
-The Aggregate Design remains the authoritative definition of:
+Aggregate responsibilities, ownership, invariants, lifecycle and collaboration boundaries remain authoritatively defined by the Architecture documentation.
 
-* Aggregate responsibilities;
-* owned business truth;
-* supporting entities;
-* invariants;
-* collaboration rules;
-* lifecycle ownership.
-
-This Story SHALL faithfully realize the approved Aggregate without redefining architectural responsibilities.
+This Story SHALL faithfully implement the approved Aggregate without redefining architectural responsibilities.
 
 ---
 
@@ -57,12 +50,13 @@ Student Identity
 
 * AggregateDesign.md
 * SoftwareArchitecture.md
+* Student Aggregate Technical Specification
 
 ## Product Specification References
 
 * SoftwareDomainModel.md
 * BusinessRules.md
-* BusinessWorkflow.md
+* StudentRegistration.md
 
 ---
 
@@ -72,23 +66,92 @@ This Story implements the approved behaviour of the Student Aggregate.
 
 Included operations are limited to those defined by the approved Aggregate Design.
 
-Included:
+### Included
 
 * Register Student
 * Update Student Information
 * Activate Student
 * Deactivate Student
 
-Excluded:
+### Excluded
 
-* Fee Obligations
-* Payments
-* Receipts
-* Discounts
-* Academic Year lifecycle
+* Academic Year management
+* Fee Structure management
+* Fee Obligation management
+* Discount management
+* Payment processing
+* Receipt management
 * Reporting
 * Persistence
 * REST APIs
+
+---
+
+# Story Implementation Decisions
+
+The following implementation decisions are approved specifically for this Story.
+
+Sprint-wide implementation decisions defined by **Sprint-001.md** continue to apply unless explicitly overridden below.
+
+## Package
+
+The Aggregate SHALL be implemented in:
+
+```java
+package com.efee.domain.student;
+```
+
+No alternative package hierarchy is approved.
+
+---
+
+## Aggregate Root Class
+
+The Aggregate Root SHALL be implemented as:
+
+```text
+Student
+```
+
+---
+
+# Approved Aggregate Model
+
+The following Aggregate Model is approved for implementation.
+
+| Field | Type | Required | Mutable | Purpose |
+|------|------|----------|---------|---------|
+| studentId | String | Yes | No | Unique Student identifier. |
+| name | String | Yes | Yes | Student name. |
+| academicProfile | String | Yes | Yes | Student academic profile. |
+| active | boolean | Yes | Yes | Student lifecycle state. |
+
+The Aggregate SHALL implement only the fields listed above.
+
+The Developer SHALL NOT:
+
+- introduce additional fields;
+- rename approved fields;
+- change approved types;
+- change approved mutability;
+- introduce alternative representations.
+
+If implementation requires additional Aggregate state, STOP and request clarification.
+
+---
+
+## Approved Public Operations
+
+The following public behaviour is approved.
+
+| Operation | Purpose |
+|-----------|---------|
+| Register Student | Create a valid Student Aggregate. |
+| Update Student Information | Update approved Student information. |
+| Activate Student | Transition Student to Active. |
+| Deactivate Student | Transition Student to Inactive. |
+
+Additional public behaviour requires explicit Story approval.
 
 ---
 
@@ -98,11 +161,16 @@ The implementation shall:
 
 * preserve Student identity;
 * preserve Student lifecycle;
-* enforce all approved Student Aggregate invariants;
-* implement only approved Student Aggregate operations;
-* remain faithful to the approved architecture.
+* implement only the approved Aggregate Model defined by this Story;
+* implement only the approved public operations defined by this Story;
+* implement the approved Aggregate Model exactly as defined by this Story;
+* preserve the approved field names;
+* preserve the approved field types;
+* preserve the approved field mutability;
+* preserve all approved Student Aggregate invariants;
+* remain faithful to the approved Software Architecture.
 
-No behaviour outside the approved implementation scope shall be introduced.
+The implementation SHALL NOT introduce additional Aggregate state, public operations or business behaviour.
 
 ---
 
@@ -137,7 +205,7 @@ Only the following implementation artifacts may be created or modified.
 
 * /Sprint-001/Story-001/README.md
 
-No additional implementation artifacts may be modified without explicit approval.
+Artifacts outside the approved Write Scope SHALL NOT be modified.
 
 ---
 
@@ -145,19 +213,19 @@ No additional implementation artifacts may be modified without explicit approval
 
 The following Output Locations are authoritative.
 
-| Artifact         | Output Location                              |
-| ---------------- | -------------------------------------------- |
-| Student.java     | /Sprint-001/Story-001/source/Student.java    |
+| Artifact | Output Location |
+|----------|-----------------|
+| Student.java | /Sprint-001/Story-001/source/Student.java |
 | StudentTest.java | /Sprint-001/Story-001/tests/StudentTest.java |
-| README.md        | /Sprint-001/Story-001/README.md              |
+| README.md | /Sprint-001/Story-001/README.md |
 
 The Developer SHALL:
 
 * create or modify artifacts only at the approved Output Locations;
-* preserve the Story Package structure;
+* preserve the approved Story Package structure;
 * avoid introducing additional folders;
-* avoid inferring Maven or Gradle project layouts;
-* avoid introducing package hierarchies unless explicitly approved by the project.
+* avoid inferring repository layouts;
+* use only the approved package specified by this Story.
 
 ---
 
@@ -166,6 +234,8 @@ The Developer SHALL:
 Before marking this Story complete, verify:
 
 * Student Aggregate responsibilities have been implemented.
+* Approved Aggregate Model has been implemented.
+* Approved public operations have been implemented.
 * Student Aggregate invariants are preserved.
 * Aggregate ownership remains unchanged.
 * Business Rules remain preserved.
@@ -173,3 +243,4 @@ Before marking this Story complete, verify:
 * Only approved implementation artifacts have been modified.
 * Unit tests have been completed.
 * No undocumented assumptions have been introduced.
+```

@@ -157,7 +157,7 @@ STOP implementation and request clarification.
 
 ### Completion
 
-When implementation is complete:
+Criteria for completion:
 
 * generate all requested artifacts;
 * place every artifact only in its approved Output Location;

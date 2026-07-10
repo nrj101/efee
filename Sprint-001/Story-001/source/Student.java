@@ -1,25 +1,18 @@
-package com.example.student;
+// /Sprint-001/Story-001/source/Student.java
+
+import java.util.Objects;
 
 public class Student {
-    private String studentId;
+    private final String studentId;
     private String name;
     private String academicProfile;
-    private boolean isActive;
+    private boolean active;
 
-    public Student(String studentId, String name, String academicProfile) {
-        if (studentId == null || studentId.isEmpty()) {
-            throw new IllegalArgumentException("Student ID cannot be null or empty");
-        }
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Student name cannot be null or empty");
-        }
-        if (academicProfile == null || academicProfile.isEmpty()) {
-            throw new IllegalArgumentException("Academic profile cannot be null or empty");
-        }
+    public Student(String studentId, String name, String academicProfile, boolean active) {
         this.studentId = studentId;
         this.name = name;
         this.academicProfile = academicProfile;
-        this.isActive = false; // Student is registered but not yet activated
+        this.active = active;
     }
 
     public String getStudentId() {
@@ -30,32 +23,50 @@ public class Student {
         return name;
     }
 
+    public void updateName(String name) {
+        this.name = name;
+    }
+
     public String getAcademicProfile() {
         return academicProfile;
     }
 
+    public void updateAcademicProfile(String academicProfile) {
+        this.academicProfile = academicProfile;
+    }
+
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void activate() {
-        if (!isActive) {
-            isActive = true;
-        }
+        this.active = true;
     }
 
     public void deactivate() {
-        if (isActive) {
-            isActive = false;
-        }
+        this.active = false;
     }
 
-    public void updateInformation(String name, String academicProfile) {
-        if (name != null && !name.isEmpty()) {
-            this.name = name;
-        }
-        if (academicProfile != null && !academicProfile.isEmpty()) {
-            this.academicProfile = academicProfile;
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return active == student.active && studentId.equals(student.studentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(studentId, active);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentId='" + studentId + '\'' +
+                ", name='" + name + '\'' +
+                ", academicProfile='" + academicProfile + '\'' +
+                ", active=" + active +
+                '}';
     }
 }
