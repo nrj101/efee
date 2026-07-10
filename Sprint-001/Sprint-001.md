@@ -4,12 +4,13 @@
 ---
 sprint_id: Sprint-001
 title: Core Financial Foundation
-version: 1.0.0
+version: 1.1.0
 status: Draft
 
 owner: Product Owner
 
 created: 2026-07-06
+last_updated: 2026-07-10
 
 related_documents:
   - ../architecture/AggregateDesign.md
@@ -67,13 +68,13 @@ Implementation SHALL NOT redefine the approved architecture.
 
 Sprint-001 introduces the following Aggregate Roots.
 
-| Story     | Aggregate Root  | Primary Business Truth                 |
-| --------- | --------------- | -------------------------------------- |
-| Story-001 | Student         | Student Identity                       |
-| Story-002 | Academic Year   | Academic Year Lifecycle                |
-| Story-003 | Fee Structure   | Institutional Charging Policy          |
-| Story-004 | Discount Policy | Discount Eligibility & Grant Lifecycle |
-| Story-005 | Fee Obligation  | Student Fee Receivable                 |
+| Story | Aggregate Root | Primary Business Truth |
+|--------|----------------|------------------------|
+| Story-001 | Student | Student Identity |
+| Story-002 | Academic Year | Academic Year Lifecycle |
+| Story-003 | Fee Structure | Institutional Charging Policy |
+| Story-004 | Discount | Discount Eligibility & Grant Lifecycle |
+| Story-005 | Fee Obligation | Student Fee Receivable |
 
 ---
 
@@ -97,7 +98,7 @@ Fee Structure
         │
         ▼
 Story-004
-Discount Policy
+Discount
         │
         ▼
 Story-005
@@ -108,14 +109,205 @@ Fee Obligation is intentionally implemented after its collaborating Aggregates h
 
 ---
 
+# Implementation Decisions
+
+The following implementation decisions have been approved during Sprint Planning.
+
+These decisions apply to every Story within Sprint-001 unless a Story explicitly states otherwise.
+
+## Package Structure
+
+The domain package root SHALL be:
+
+```text
+com.efee.domain
+```
+
+Each Aggregate SHALL be implemented within its own sub-package beneath the approved package root.
+
+Example:
+
+```text
+com.efee.domain.student
+com.efee.domain.academicyear
+com.efee.domain.feestructure
+```
+
+Package declarations SHALL be taken only from the approved Story.
+
+Developers SHALL NOT infer alternative package hierarchies.
+
+---
+
+## Aggregate Model
+
+Each Story SHALL explicitly define its approved Aggregate Model.
+
+The Aggregate Model SHALL specify, for every field introduced by the Story:
+
+- field name;
+- type;
+- whether the field is required;
+- mutability;
+- business purpose.
+
+The approved Aggregate Model is authoritative for implementation.
+
+Developers SHALL NOT infer additional Aggregate fields or alternative representations.
+
+If implementation requires additional Aggregate state, implementation SHALL stop and request clarification.
+
+---
+
+## Identifier Strategy
+
+Aggregate identifiers SHALL use:
+
+```text
+String
+```
+
+unless explicitly overridden by an approved Story.
+
+---
+
+## Monetary Values
+
+Monetary values SHALL use:
+
+```text
+BigDecimal
+```
+
+Floating-point types such as `float` and `double` SHALL NOT be used to represent monetary values.
+
+---
+
+## Date Representation
+
+Dates SHALL use:
+
+```text
+LocalDate
+```
+
+Date and time values SHALL use:
+
+```text
+LocalDateTime
+```
+
+unless explicitly stated otherwise.
+
+---
+
+## Validation Strategy
+
+Invalid constructor arguments SHALL fail fast using:
+
+```text
+IllegalArgumentException
+```
+
+unless an approved Story specifies a different strategy.
+
+---
+
+## Aggregate State
+
+Aggregate state SHALL:
+
+* remain private;
+* be modified only through approved Aggregate behaviour;
+* preserve documented Aggregate invariants.
+
+---
+
+## Lifecycle Representation
+
+Binary lifecycle states MAY be represented using a boolean.
+
+Lifecycles containing more than two business states SHOULD be represented using an enumeration.
+
+---
+
+## Collection Strategy
+
+Collections SHALL use:
+
+```text
+List
+```
+
+unless ordering or uniqueness requirements explicitly require another collection type.
+
+---
+
+## Mutability
+
+Aggregate Roots are mutable unless an approved Story explicitly specifies otherwise.
+
+---
+
+# Engineering Clarifications
+
+The following clarifications were agreed during Sprint Planning.
+
+These clarifications remove implementation ambiguity.
+
+They SHALL NOT redefine the approved Product Specification or Software Architecture.
+
+If implementation requires behaviour beyond these clarifications, implementation SHALL stop and clarification SHALL be requested.
+
+### Student Lifecycle
+
+Only an **Active** Student may receive new Fee Obligations.
+
+Inactive Students SHALL remain available for:
+
+* historical financial records;
+* historical audit;
+* historical reporting;
+* settlement of existing financial responsibilities.
+
+---
+
+### Aggregate Collaboration
+
+Aggregate collaboration SHALL occur only through the relationships approved by the Software Architecture.
+
+Collaborating Aggregates SHALL NOT modify each other's owned business state directly.
+
+---
+
+### Story Authority
+
+A Story MAY refine implementation decisions for its own Aggregate.
+
+A Story SHALL NOT contradict Sprint-wide implementation decisions unless explicitly approved.
+
+---
+
+### Traceability
+
+Implementation decisions made during Sprint Planning SHALL be documented in this section.
+
+Business decisions belong in the Product Specification.
+
+Architectural decisions belong in the Architecture documentation.
+
+Only implementation clarifications belong here.
+
+---
+
 # Deferred Aggregates
 
 The following Aggregate Roots are intentionally excluded from Sprint-001.
 
 | Aggregate | Planned Sprint |
-| --------- | -------------- |
-| Payment   | Sprint-002     |
-| Receipt   | Sprint-002     |
+|-----------|----------------|
+| Payment | Sprint-002 |
+| Receipt | Sprint-002 |
 
 These Aggregates primarily realize financial settlement rather than financial responsibility and therefore belong to the next implementation phase.
 
@@ -156,6 +348,8 @@ A Story shall not require implementation details from unrelated Stories beyond t
 Sprint-001 will be considered complete when:
 
 * all approved Stories have been implemented;
+* Sprint-wide implementation decisions have been preserved;
+* Sprint-wide engineering clarifications have been respected;
 * Aggregate ownership remains faithful to the approved architecture;
 * business invariants are preserved;
 * automated tests have been completed for each Story;
@@ -189,9 +383,10 @@ The primary engineering risks for this Sprint include:
 * incorrect decomposition of Aggregate responsibilities;
 * accidental violation of Aggregate boundaries;
 * implementation introducing behaviour not defined by the Product Specification;
-* implementation coupling that contradicts the approved architecture.
+* implementation coupling that contradicts the approved architecture;
+* undocumented implementation assumptions becoming implicit team knowledge.
 
-The adopted AI Engineering Framework should be used to minimize these risks through disciplined Story-based implementation.
+The adopted AI Engineering Framework should be used to minimize these risks through disciplined Story-based implementation and explicit Sprint Planning decisions.
 
 ---
 
@@ -201,6 +396,7 @@ Sprint-001 is complete when:
 
 * every planned Story has been approved and implemented;
 * all implementation artifacts conform to their Story Packages;
+* Sprint-wide implementation decisions remain consistently applied;
 * the approved Software Architecture remains intact;
 * the implementation provides a stable foundation for introducing financial settlement capabilities in Sprint-002.
 
@@ -213,7 +409,7 @@ Sprint-001 shall produce:
 * Story-001 — Student Aggregate
 * Story-002 — Academic Year Aggregate
 * Story-003 — Fee Structure Aggregate
-* Story-004 — Discount Policy Aggregate
+* Story-004 — Discount Aggregate
 * Story-005 — Fee Obligation Aggregate
 
 Each completed Story should become a candidate for future Canonical Engineering Examples once implementation quality has been validated.
