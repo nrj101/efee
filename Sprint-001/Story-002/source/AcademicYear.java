@@ -11,10 +11,10 @@ public class AcademicYear {
     private AcademicYearStatus status;
 
     public AcademicYear(String id, String name, LocalDate startDate, LocalDate endDate) {
-        this.id = id;
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.id = validateNonEmpty(id, "ID");
+        this.name = validateNonEmpty(name, "Name");
+        this.startDate = validateDate(startDate, "Start Date");
+        this.endDate = validateDate(endDate, "End Date");
         this.status = AcademicYearStatus.PENDING;
     }
 
@@ -50,6 +50,36 @@ public class AcademicYear {
             throw new IllegalStateException("Cannot close an Academic Year that is not active");
         }
         status = AcademicYearStatus.CLOSED;
+    }
+
+    public void update(String newName, LocalDate newStartDate, LocalDate newEndDate) {
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        if (newStartDate == null || newEndDate == null) {
+            throw new IllegalArgumentException("Start and end dates must be provided");
+        }
+        if (newStartDate.isAfter(newEndDate)) {
+            throw new IllegalArgumentException("Start date cannot be after end date");
+        }
+        
+        this.name = newName;
+        this.startDate = newStartDate;
+        this.endDate = newEndDate;
+    }
+
+    private String validateNonEmpty(String value, String fieldName) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException(fieldName + " cannot be empty");
+        }
+        return value;
+    }
+
+    private LocalDate validateDate(LocalDate date, String fieldName) {
+        if (date == null) {
+            throw new IllegalArgumentException(fieldName + " cannot be null");
+        }
+        return date;
     }
 
     @Override
