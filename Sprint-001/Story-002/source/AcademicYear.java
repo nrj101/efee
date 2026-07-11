@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class AcademicYear {
-    private final String id;
-    private final String name;
-    private final LocalDate startDate;
-    private final LocalDate endDate;
+    private String id;
+    private String name;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private AcademicYearStatus status;
 
     public AcademicYear(String id, String name, LocalDate startDate, LocalDate endDate) {
