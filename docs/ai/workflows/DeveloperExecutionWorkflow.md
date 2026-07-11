@@ -56,11 +56,11 @@ Read the Story Package and identify the approved Output Location for every writa
 Output the resolved locations using the following format.
 
 ```text
-Student.java      -> /Sprint-001/Story-001/source/Student.java
+Student.java      -> /Sprint-00X/Story-00Y/source/Student.java
 
-StudentTest.java  -> /Sprint-001/Story-001/tests/StudentTest.java
+StudentTest.java  -> /Sprint-00X/Story-00Y/tests/StudentTest.java
 
-README.md         -> /Sprint-001/Story-001/README.md
+README.md         -> /Sprint-00X/Story-00Y/README.md
 ```
 
 Output Locations SHALL be taken only from the Story Package.
