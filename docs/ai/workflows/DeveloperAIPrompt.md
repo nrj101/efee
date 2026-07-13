@@ -21,7 +21,7 @@ Task 2: Summarize the Story as described in attached Story.md file: Provide a co
 • Approved Write Scope
 
 
-If any implementation detail required to realize the approved behaviour (e.g. class members, method signatures, data types, return types, visibility, or object relationships) is not explicitly defined by the attached documentation, STOP and request clarification rather than inventing it. 
+If any implementation detail required to realize the approved behaviour (e.g. class members, method signatures, data types, return types, visibility, or object relationships) is not explicitly defined by the attached documentation, STOP and request clarification rather than inventing it. If implementation requires the public API of a collaborating type (for example, a supporting entity, value object, or domain type) and that API is not explicitly defined in the attached engineering documents, STOP and request clarification. Do not invent constructors, methods, fields, or behavior for collaborating types.
 
 
 Do not assume, invent or follow a standard (i.e. popular in industry, typical approach) software engineering convention when some required details are not explicitly specified in the attached documentation files. Do not makeup for any required business behaviour, software behavior, aggregate state, attribute, operation,type, lifecycle, invariant or architectural component that is not explicitly defined by the attached documents. STOP AND ASK for further clarification if implementation requires details that are missing. Do not begin implementation yet. 
