@@ -27,7 +27,7 @@ public class FeeStructureTest {
 
         assertEquals("2026 Academic Year Updated", feeStructure.getFeeStructureName());
         assertEquals(1, feeStructure.getFeeComponents().size());
-        assertFalse(feeStructure.isActive());
+        assertTrue(feeStructure.isActive());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class FeeStructureTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             feeStructure.update("2026 Academic Year Updated", Arrays.asList(
                 new FeeComponent("C001", "Duplicate Fee", new BigDecimal("150.00")),
-                new FeeComponent("C002", "Tuition Fee", new BigDecimal("500.00"))
+                new FeeComponent("C001", "Tuition Fee", new BigDecimal("500.00"))
             ));
         });
 
@@ -74,7 +74,7 @@ public class FeeStructureTest {
         FeeStructure feeStructure = new FeeStructure("FS001", "2026 Academic Year", Arrays.asList(component));
         feeStructure.retire();
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
             feeStructure.retire();
         });
 

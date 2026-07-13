@@ -3,9 +3,9 @@
 import java.math.BigDecimal;
 
 public class FeeComponent {
-    private final String feeComponentIdentifier;
-    private final String feeComponentName;
-    private final BigDecimal feeAmount;
+    private String feeComponentIdentifier;
+    private String feeComponentName;
+    private BigDecimal feeAmount;
 
     public FeeComponent(String feeComponentIdentifier, String feeComponentName, BigDecimal feeAmount) {
         if (feeComponentIdentifier == null || feeComponentIdentifier.isEmpty()) {

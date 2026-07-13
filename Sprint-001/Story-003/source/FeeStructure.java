@@ -3,9 +3,9 @@
 import java.util.*;
 
 public class FeeStructure {
-    private final String feeStructureIdentifier;
+    private String feeStructureIdentifier;
     private String feeStructureName;
-    private final List<FeeComponent> feeComponents;
+    private List<FeeComponent> feeComponents;
     private boolean active;
 
     public FeeStructure(String feeStructureIdentifier, String feeStructureName, List<FeeComponent> feeComponents) {
@@ -41,21 +41,37 @@ public class FeeStructure {
         return active;
     }
 
-    public void update(String feeStructureName, List<FeeComponent> feeComponents) {
-        if (feeStructureName == null || feeStructureName.isEmpty()) {
-            throw new IllegalArgumentException("Fee Structure Name is required");
-        }
-        if (feeComponents == null || feeComponents.isEmpty()) {
-            throw new IllegalArgumentException("Fee Components are required");
+    public void update(String feeStructureName,
+                    List<FeeComponent> feeComponents) {
+
+        if (!active) {
+            throw new IllegalStateException(
+                    "Cannot update a retired Fee Structure");
         }
 
-        // Check for duplicate components
+        if (feeStructureName == null || feeStructureName.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Fee Structure Name is required");
+        }
+
+        if (feeComponents == null || feeComponents.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Fee Components are required");
+        }
+
         Set<String> componentIdentifiers = new HashSet<>();
+
         for (FeeComponent component : feeComponents) {
-            if (componentIdentifiers.contains(component.getFeeComponentIdentifier())) {
-                throw new IllegalArgumentException("Duplicate Fee Component Identifier found");
+
+            if (component == null) {
+                throw new IllegalArgumentException(
+                        "Fee Components cannot contain null entries");
             }
-            componentIdentifiers.add(component.getFeeComponentIdentifier());
+
+            if (!componentIdentifiers.add(component.getFeeComponentIdentifier())) {
+                throw new IllegalArgumentException(
+                        "Duplicate Fee Component Identifier found");
+            }
         }
 
         this.feeStructureName = feeStructureName;
@@ -63,14 +79,23 @@ public class FeeStructure {
     }
 
     public void addFeeComponent(FeeComponent feeComponent) {
-        if (feeComponent == null) {
-            throw new IllegalArgumentException("Fee Component is required");
+
+        if (!active) {
+            throw new IllegalStateException(
+                    "Cannot modify a retired Fee Structure");
         }
 
-        // Check for duplicate component
-        for (FeeComponent component : feeComponents) {
-            if (component.getFeeComponentIdentifier().equals(feeComponent.getFeeComponentIdentifier())) {
-                throw new IllegalArgumentException("Duplicate Fee Component Identifier found");
+        if (feeComponent == null) {
+            throw new IllegalArgumentException(
+                    "Fee Component is required");
+        }
+
+        for (FeeComponent existingComponent : feeComponents) {
+            if (existingComponent.getFeeComponentIdentifier()
+                    .equals(feeComponent.getFeeComponentIdentifier())) {
+
+                throw new IllegalArgumentException(
+                        "Duplicate Fee Component Identifier found");
             }
         }
 
