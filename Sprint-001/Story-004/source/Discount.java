@@ -14,10 +14,10 @@ public class Discount {
     private boolean active;
 
     public Discount(String discountIdentifier, String studentIdentifier, List<FeeComponent> applicableFeeComponents, double discountValue, boolean active) {
-        if (discountIdentifier == null || discountIdentifier.isEmpty()) {
+        if (discountIdentifier == null || discountIdentifier.isBlank()) {
             throw new IllegalArgumentException("Discount identifier cannot be null or empty");
         }
-        if (studentIdentifier == null || studentIdentifier.isEmpty()) {
+        if (studentIdentifier == null || studentIdentifier.isBlank()) {
             throw new IllegalArgumentException("Student identifier cannot be null or empty");
         }
         if (discountValue < 0) {
@@ -45,11 +45,11 @@ public class Discount {
     }
 
     public void retire() {
-        if (this.active) {
-            this.active = false;
-        } else {
-            throw new IllegalStateException("Cannot retire an already retired discount");
+        if (!active) {
+            throw new IllegalStateException(
+                    "Cannot retire an already retired Discount");
         }
+        active = false;
     }
 
     private void validateFeeComponents(List<FeeComponent> feeComponents) {
@@ -61,10 +61,10 @@ public class Discount {
             if (component == null) {
                 throw new IllegalArgumentException("Fee component cannot be null");
             }
-            if (componentIds.contains(component.getId())) {
-                throw new IllegalArgumentException("Duplicate fee component ID: " + component.getId());
+            if (!componentIds.add(component.getId())) {
+                throw new IllegalArgumentException(
+                    "Duplicate Fee Component Identifier found");
             }
-            componentIds.add(component.getId());
         }
     }
 

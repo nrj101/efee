@@ -17,7 +17,7 @@ class DiscountTest {
         assertEquals("D1", discount.getDiscountIdentifier());
         assertEquals("S1", discount.getStudentIdentifier());
         assertEquals(components, discount.getApplicableFeeComponents());
-        assertEquals(20.0, discount.getDiscount0Value());
+        assertEquals(20.0, discount.getDiscountValue());
         assertTrue(discount.isActive());
     }
 
@@ -114,10 +114,10 @@ class DiscountTest {
 
     @Test
     void testExternalModificationDoesNotAffectAggregate() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
-        List<FeeComponent> externalList = discount.getApplicableFeeComponents();
-        externalList.add(new FeeComponent("F2", 200.0));
+        List<FeeComponent> input = new ArrayList<>();
+        input.add(new FeeComponent("F1", 100.0));
+        Discount discount =new Discount("D1", "S1", input, 20.0, true);
+        input.add(new FeeComponent("F2", 200.0));
         assertEquals(1, discount.getApplicableFeeComponents().size());
     }
 }
