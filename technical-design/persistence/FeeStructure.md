@@ -4,20 +4,19 @@
 ---
 document_id: TD-FEESTRUCTURE-001
 title: Fee Structure Aggregate Persistence Model
-version: 1.0.0
+version: 2.0.0
 status: Draft
 
 owner: Product Owner
 reviewer: Chief Architect
 
 created: 2026-07-10
-last_updated: 2026-07-10
+last_updated: 2026-07-13
 
 related_documents:
   - ../../architecture/aggregates/FeeStructure.md
   - ../../architecture/technical-specification/aggregates/FeeStructure.md
   - ../../architecture/SoftwareArchitecture.md
-  - ../../spec/docs/SoftwareDomainModel.md
 ---
 ```
 
@@ -25,13 +24,11 @@ related_documents:
 
 # Purpose
 
-This document defines the implementation-neutral persistence model for the **Fee Structure Aggregate**.
+This document defines the approved persistence representation of the Fee Structure Aggregate.
 
-It specifies the complete persistent state required to preserve the business truth owned by the Fee Structure Aggregate.
+It realizes the implementation contract defined by the Fee Structure Aggregate Technical Specification by specifying the concrete persistent field names, implementation types and persistence representation.
 
-This document is derived from the approved Software Domain Model, Software Architecture and Aggregate Technical Specification.
-
-It SHALL NOT introduce new business behaviour or architectural responsibilities.
+This document SHALL NOT introduce new business behaviour, Aggregate responsibilities or public interfaces.
 
 ---
 
@@ -43,27 +40,100 @@ It SHALL NOT introduce new business behaviour or architectural responsibilities.
 
 # Aggregate Responsibility
 
-Persist the information owned by the Fee Structure Aggregate while preserving:
+Persist the business truth owned by the Fee Structure Aggregate while preserving:
 
 - Fee Structure identity;
-- Fee policy definition;
-- Fee Components;
-- Fee Structure lifecycle.
+- Fee Structure definition;
+- Fee Component collection;
+- Aggregate lifecycle.
 
-Business truths owned by other Aggregates remain outside the scope of this document.
+Business truth owned by collaborating Aggregates remains outside the scope of this document.
 
 ---
 
-# Persistent State
+# Persistent Aggregate State
 
 The following Aggregate state is approved for persistence.
 
-| Field | Type | Required | Mutable | Purpose | Source |
-|--------|------|----------|----------|---------|--------|
-| feeStructureId | String | Yes | No | Unique Fee Structure identifier. | Fee Structure ATS |
-| name | String | Yes | Yes | Fee Structure name. | Fee Structure ATS |
-| feeComponents | List<FeeComponent> | Yes | Yes | Collection of approved Fee Components. | Fee Structure ATS |
-| active | Boolean | Yes | Yes | Fee Structure lifecycle state. | Fee Structure ATS |
+| Persistent Field | Implementation Type | Required | Mutable |
+|------------------|---------------------|----------|----------|
+| feeStructureIdentifier | String | Yes | No |
+| feeStructureName | String | Yes | Yes |
+| feeComponents | List<FeeComponent> | Yes | Yes |
+| active | Boolean | Yes | Yes |
+
+No additional Aggregate state shall be persisted.
+
+---
+
+# Persistent Supporting Entity State
+
+## Fee Component
+
+The following Supporting Entity state is approved.
+
+| Persistent Field | Implementation Type | Required | Mutable |
+|------------------|---------------------|----------|----------|
+| feeComponentIdentifier | String | Yes | No |
+| feeComponentName | String | Yes | Yes |
+| feeAmount | BigDecimal | Yes | Yes |
+
+No additional Supporting Entity state shall be persisted.
+
+---
+
+# Aggregate Construction Mapping
+
+The approved Aggregate constructor SHALL map to the following persistent state.
+
+| Constructor Parameter | Persistent Field |
+|-----------------------|------------------|
+| feeStructureIdentifier | feeStructureIdentifier |
+| feeStructureName | feeStructureName |
+| feeComponents | feeComponents |
+
+Lifecycle state SHALL be initialized by the Aggregate implementation.
+
+---
+
+# Public Interface Mapping
+
+The following approved Aggregate interface maps to the persistent representation.
+
+| Approved Interface | Persistent State |
+|--------------------|------------------|
+| getFeeStructureIdentifier() | feeStructureIdentifier |
+| getFeeStructureName() | feeStructureName |
+| getFeeComponents() | feeComponents |
+| isActive() | active |
+
+---
+
+# Collection Representation
+
+The following collection implementations are approved.
+
+| Domain Concept | Implementation Type |
+|----------------|---------------------|
+| Fee Components | List<FeeComponent> |
+
+Alternative collection implementations require explicit architectural approval.
+
+---
+
+# Value Type Representation
+
+The following implementation types are approved.
+
+| Domain Concept | Implementation Type |
+|----------------|---------------------|
+| Fee Structure Identifier | String |
+| Fee Structure Name | String |
+| Fee Component Identifier | String |
+| Fee Component Name | String |
+| Monetary Value | BigDecimal |
+| Fee Component Collection | List<FeeComponent> |
+| Fee Structure Lifecycle | Boolean |
 
 ---
 
@@ -81,29 +151,28 @@ None.
 
 # Relationships
 
-The Fee Structure Aggregate maintains no persistent references to collaborating Aggregates.
+The Fee Structure Aggregate owns:
 
-Relationships are established by collaborating Aggregates that own those business truths.
+- Fee Component
+
+The Fee Structure Aggregate SHALL NOT persist references to:
+
+- Academic Year
+- Fee Obligation
+
+Ownership remains defined by the Software Architecture.
 
 ---
 
 # Persistence Constraints
 
-The implementation SHALL preserve:
-
-- Fee Structure identity;
-- Fee policy definition;
-- Fee Component collection;
-- Fee Structure lifecycle;
-- Aggregate ownership.
-
-The implementation SHALL NOT:
+Implementation SHALL NOT:
 
 - introduce additional persistent fields;
-- remove approved persistent fields;
 - rename approved persistent fields;
-- change approved field types;
-- change approved field mutability.
+- change approved implementation types;
+- remove approved fields;
+- change field mutability.
 
 If additional persistent state appears necessary, implementation SHALL stop and request clarification.
 
@@ -118,25 +187,45 @@ This document intentionally excludes:
 - ORM mappings;
 - framework annotations;
 - indexes;
-- constraints specific to any persistence technology.
+- persistence framework configuration.
 
-These concerns belong to subsequent Technical Design documents.
+These belong to subsequent Technical Design documents.
 
 ---
 
 # Traceability
 
-| Persistent Field | Traceability |
-|------------------|--------------|
-| feeStructureId | Fee Structure Aggregate Technical Specification |
-| name | Fee Structure Aggregate Technical Specification |
-| feeComponents | Fee Structure Aggregate Technical Specification |
-| active | Fee Structure Aggregate Technical Specification |
+| Persistent Element | Source |
+|--------------------|--------|
+| feeStructureIdentifier | Fee Structure ATS |
+| feeStructureName | Fee Structure ATS |
+| feeComponents | Fee Structure ATS |
+| active | Fee Structure ATS |
+| feeComponentIdentifier | Fee Structure ATS |
+| feeComponentName | Fee Structure ATS |
+| feeAmount | Fee Structure ATS |
 
 ---
 
 # Notes
 
-This document represents the approved persistent representation of the Fee Structure Aggregate.
+The Aggregate Technical Specification defines the approved software contract.
 
-Implementation SHALL faithfully realize this persistence model without introducing undocumented state or alternative representations.
+This document defines the concrete persistence representation of that contract.
+
+Implementation SHALL faithfully realize both documents without introducing undocumented fields, types or alternative representations.
+
+---
+
+# Version History
+
+| Version | Date | Description |
+|----------|------|-------------|
+| 1.0.0 | 2026-07-10 | Initial persistence model. |
+| 2.0.0 | 2026-07-13 | Expanded to define concrete persistent field names, implementation types, constructor mapping, interface mapping and supporting entity persistence. |
+
+---
+
+# Approval
+
+**Status:** Draft

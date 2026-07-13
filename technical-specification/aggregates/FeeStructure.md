@@ -4,20 +4,20 @@
 ---
 document_id: ATS-FEESTRUCTURE-001
 title: Fee Structure Aggregate Technical Specification
-version: 1.0.0
+version: 3.0.0
 status: Draft
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-06
-last_updated: 2026-07-06
+last_updated: 2026-07-13
 
 related_documents:
-  - ../../spec/docs/SoftwareDomainModel.md
+  - ../../architecture/aggregates/FeeStructure.md
   - ../../spec/docs/BusinessRules.md
   - ../../spec/docs/workflows/FeePolicyManagement.md
-  - ../../architecture/aggregates/FeeStructure.md
+  - ../../persistence/FeeStructure.md
 ---
 ```
 
@@ -25,37 +25,22 @@ related_documents:
 
 # Purpose
 
-This document defines the implementation-neutral technical specification for the Fee Structure Aggregate.
+This document defines the implementation contract for the Fee Structure Aggregate.
 
-It refines the approved Software Domain Model and Aggregate Design by defining the technical obligations required to preserve the institution's charging policy.
+It specifies the approved Aggregate interface, Aggregate state, Supporting Entity interface, lifecycle, invariants and implementation obligations required to faithfully realize the approved Software Architecture.
+
+This specification intentionally remains programming-language independent.
 
 ---
 
 # Aggregate Responsibility
 
-The Fee Structure Aggregate owns the institution's charging policy.
-
-It preserves:
+The Fee Structure Aggregate owns:
 
 - Fee Structure identity
-- Versioned charging policy
-- Collection of Fee Components
-- Policy metadata
-- Applicability rules
-
-The Fee Structure Aggregate does not own Student-specific financial information.
-
----
-
-# Owned State
-
-The Aggregate owns:
-
-- Fee Structure identity
-- Fee Components
-- Policy metadata
-- Applicability rules
-- Version information
+- institutional charging policy
+- Fee Component composition
+- Fee Structure lifecycle
 
 The Aggregate does not own:
 
@@ -67,73 +52,260 @@ The Aggregate does not own:
 
 ---
 
-# Ownership Boundaries
+# Approved Aggregate State
 
-Fee Structure owns institutional charging policy.
+Only the following Aggregate state is approved.
 
-Student financial responsibility remains owned by the Fee Obligation Aggregate.
+| Aggregate State | Domain Type | Mutable |
+|-----------------|-------------|----------|
+| Fee Structure Identifier | Fee Structure Identifier | No |
+| Fee Structure Name | Fee Structure Name | Yes |
+| Fee Components | Collection of Fee Components | Yes |
+| Lifecycle Status | Fee Structure Lifecycle | Yes |
 
-Operational financial state remains outside the responsibility of this Aggregate.
+No additional Aggregate state shall be introduced.
+
+---
+
+# Approved Supporting Entity State
+
+## Fee Component
+
+Only the following Supporting Entity state is approved.
+
+| State | Domain Type | Mutable |
+|--------|-------------|----------|
+| Fee Component Identifier | Fee Component Identifier | No |
+| Fee Component Name | Fee Component Name | Yes |
+| Fee Amount | Monetary Value | Yes |
+
+No additional Supporting Entity state shall be introduced.
+
+---
+
+# Approved Aggregate Interface
+
+## Construction
+
+```
+FeeStructure(
+    feeStructureIdentifier,
+    feeStructureName,
+    feeComponents
+)
+```
+
+The Aggregate shall be constructed only from approved Aggregate state.
+
+---
+
+## Approved Business Operations
+
+### update
+
+```
+update(
+    feeStructureName,
+    feeComponents
+)
+```
+
+### addFeeComponent
+
+```
+addFeeComponent(
+    feeComponent
+)
+```
+
+### retire
+
+```
+retire()
+```
+
+No additional public Aggregate operations are approved.
+
+---
+
+## Approved State Access
+
+```
+getFeeStructureIdentifier()
+
+getFeeStructureName()
+
+getFeeComponents()
+
+isActive()
+```
+
+No additional Aggregate accessors are approved.
+
+---
+
+# Approved Supporting Entity Interface
+
+## Construction
+
+```
+FeeComponent(
+    feeComponentIdentifier,
+    feeComponentName,
+    feeAmount
+)
+```
+
+---
+
+## Approved State Access
+
+```
+getFeeComponentIdentifier()
+
+getFeeComponentName()
+
+getFeeAmount()
+```
+
+No additional Supporting Entity operations are approved.
+
+---
+
+# Aggregate Relationships
+
+```text
+FeeStructure
+
+    owns
+
+        Collection<FeeComponent>
+
+AcademicYear
+
+    references
+
+        FeeStructure
+
+FeeObligation
+
+    references
+
+        FeeStructure
+```
+
+---
+
+# Aggregate Invariants
+
+The implementation shall preserve:
+
+- Fee Structure identity remains immutable.
+- A Fee Structure contains one or more Fee Components.
+- Every Fee Component belongs to exactly one Fee Structure.
+- Historical Fee Structures remain immutable once used.
+- Aggregate ownership remains preserved.
 
 ---
 
 # Lifecycle Model
 
-The Aggregate preserves the lifecycle of an approved institutional charging policy.
+Approved lifecycle states:
 
-Historical Fee Structures remain preserved.
-
-New Academic Years may reference new Fee Structure versions without modifying historical Fee Structures.
-
----
-
-# Consistency Requirements
-
-The Aggregate preserves:
-
-- identity integrity;
-- policy integrity;
-- version integrity;
-- Fee Component consistency.
-
-Consistency requirements remain traceable to the approved Business Rules and Software Domain Model.
+- Active
+- Retired
 
 ---
 
 # Implementation Obligations
 
-| Obligation | Source |
-|------------|--------|
-| Preserve Fee Structure identity | Software Domain Model |
-| Preserve versioned charging policy | Software Domain Model |
-| Preserve Fee Component collection | Software Domain Model |
-| Preserve policy applicability | Software Domain Model |
-| Preserve Aggregate ownership | Aggregate Design |
-| Preserve consistency requirements | Business Rules |
+## FeeStructure(...)
+
+### Preconditions
+
+- feeStructureIdentifier shall be provided.
+- feeStructureName shall be provided.
+- feeComponents shall contain one or more Fee Components.
+
+### Postconditions
+
+- Aggregate identity established.
+- Aggregate invariants satisfied.
+- Lifecycle initialized.
+
+---
+
+## update(...)
+
+### Preconditions
+
+- feeStructureName shall be provided.
+- feeComponents shall contain one or more Fee Components.
+
+### Postconditions
+
+- Only approved mutable Aggregate state may change.
+- Aggregate identity remains unchanged.
+- Lifecycle state remains unchanged.
+- Aggregate invariants remain preserved.
+
+---
+
+## addFeeComponent(...)
+
+### Preconditions
+
+- feeComponent shall be provided.
+
+### Postconditions
+
+- Fee Component becomes owned by this Aggregate.
+- Aggregate invariants remain preserved.
+
+---
+
+## retire()
+
+### Preconditions
+
+None.
+
+### Postconditions
+
+- Aggregate transitions to Retired lifecycle state.
+- Aggregate identity remains unchanged.
+- Historical integrity remains preserved.
+
+---
+
+## State Access
+
+State accessors shall not modify Aggregate state.
 
 ---
 
 # Collaboration Contract
 
-The Fee Structure Aggregate collaborates with:
+Collaborates with:
 
 - Academic Year
 - Fee Obligation
 
-Collaborations occur without transferring ownership of business truth.
+Business truth ownership shall never be transferred.
 
 ---
 
 # Implementation Constraints
 
-Implementation shall preserve:
+Implementation shall not introduce:
 
-- Aggregate ownership
-- Version integrity
-- Historical policy preservation
-- Collaboration boundaries
-
-Implementation technology remains outside the scope of this specification.
+- persistence logic
+- repositories
+- REST APIs
+- dependency injection
+- messaging
+- framework annotations
+- infrastructure concerns
 
 ---
 
@@ -141,18 +313,16 @@ Implementation technology remains outside the scope of this specification.
 
 Initially implemented through:
 
-- Sprint-001 / Story-003 *(anticipated)*
-
-Future Stories may extend implementation while preserving this specification.
+- Sprint-001 / Story-003
 
 ---
 
 # Related Documents
 
-- SoftwareDomainModel.md
-- FeePolicyManagement.md
-- BusinessRules.md
 - Fee Structure Aggregate Design
+- Fee Structure Persistence Model
+- BusinessRules.md
+- FeePolicyManagement.md
 
 ---
 
@@ -160,7 +330,9 @@ Future Stories may extend implementation while preserving this specification.
 
 | Version | Date | Description |
 |----------|------|-------------|
-| 1.0.0 | 2026-07-06 | Initial Aggregate Technical Specification. |
+| 1.0.0 | 2026-07-06 | Initial specification. |
+| 2.0.0 | 2026-07-13 | Introduced implementation contract. |
+| 3.0.0 | 2026-07-13 | Added explicit Aggregate interface, Supporting Entity interface, constructor contract, operation contracts, preconditions and postconditions. |
 
 ---
 
