@@ -3,9 +3,11 @@
 import java.util.*;
 
 public class FeeStructure {
+
     private final String feeStructureIdentifier;
     private String feeStructureName;
     private final List<FeeComponent> feeComponents;
+  
     private boolean active;
 
     public FeeStructure(String feeStructureIdentifier, String feeStructureName, List<FeeComponent> feeComponents) {
