@@ -3,15 +3,15 @@
 import java.math.BigDecimal;
 
 public class FeeComponent {
-    private String feeComponentIdentifier;
-    private String feeComponentName;
-    private BigDecimal feeAmount;
+    private final String feeComponentIdentifier;
+    private final String feeComponentName;
+    private final BigDecimal feeAmount;
 
     public FeeComponent(String feeComponentIdentifier, String feeComponentName, BigDecimal feeAmount) {
-        if (feeComponentIdentifier == null || feeComponentIdentifier.isEmpty()) {
+        if (feeComponentIdentifier == null || feeComponentIdentifier.isBlank()) {
             throw new IllegalArgumentException("Fee Component Identifier is required");
         }
-        if (feeComponentName == null || feeComponentName.isEmpty()) {
+        if (feeComponentName == null || feeComponentName.isBlank()) {
             throw new IllegalArgumentException("Fee Component Name is required");
         }
         if (feeAmount == null || feeAmount.compareTo(BigDecimal.ZERO) < 0) {

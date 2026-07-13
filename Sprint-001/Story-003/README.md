@@ -60,7 +60,7 @@ The implementation includes comprehensive unit tests to validate the expected be
 ## Usage
 
 The implementation provides the following operations:
-- `createFeeStructure()`: Constructor to create a Fee Structure
+- `FeeStructure()`: Constructor to create a Fee Structure
 - `update()`: Update Fee Structure name and components
 - `addFeeComponent()`: Add a Fee Component to the Fee Structure
 - `retire()`: Retire a Fee Structure

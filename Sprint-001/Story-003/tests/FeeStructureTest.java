@@ -80,4 +80,65 @@ public class FeeStructureTest {
 
         assertEquals("Cannot retire an already retired Fee Structure", exception.getMessage());
     }
+
+    @Test
+    public void testCannotUpdateRetiredFeeStructure() {
+
+        FeeComponent component =
+                new FeeComponent(
+                        "C001",
+                        "Registration Fee",
+                        new BigDecimal("100.00"));
+
+        FeeStructure feeStructure =
+                new FeeStructure(
+                        "FS001",
+                        "2026 Academic Year",
+                        Arrays.asList(component));
+
+        feeStructure.retire();
+
+        IllegalStateException exception =
+                assertThrows(
+                        IllegalStateException.class,
+                        () -> feeStructure.update(
+                                "Updated",
+                                Arrays.asList(component)));
+
+        assertEquals(
+                "Cannot update a retired Fee Structure",
+                exception.getMessage());
+    }
+
+    @Test
+    public void testCannotAddFeeComponentToRetiredFeeStructure() {
+
+        FeeComponent component =
+                new FeeComponent(
+                        "C001",
+                        "Registration Fee",
+                        new BigDecimal("100.00"));
+
+        FeeStructure feeStructure =
+                new FeeStructure(
+                        "FS001",
+                        "2026 Academic Year",
+                        Arrays.asList(component));
+
+        feeStructure.retire();
+
+        IllegalStateException exception =
+                assertThrows(
+                        IllegalStateException.class,
+                        () -> feeStructure.addFeeComponent(
+                                new FeeComponent(
+                                        "C002",
+                                        "Tuition Fee",
+                                        new BigDecimal("500.00"))));
+
+        assertEquals(
+                "Cannot modify a retired Fee Structure",
+                exception.getMessage());
+    }
+
 }
