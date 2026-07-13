@@ -1,128 +1,87 @@
-// /Sprint-001/Story-003/tests/FeeStructureTest.java
+// /Sprint-001/Story-003/source/FeeStructure.java
 
-package com.example.fee.structure;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.*;
 
 public class FeeStructure {
-    private final String feeStructureId;
-    private final String name;
+    private final String feeStructureIdentifier;
+    private String feeStructureName;
     private final List<FeeComponent> feeComponents;
-    private final boolean active;
+    private boolean active;
 
-    public FeeStructure(String feeStructureId, String name, List<FeeComponent> feeComponents, boolean active) {
-        if (feeStructureId == null || feeStructureId.isEmpty()) {
-            throw new IllegalArgumentException("Fee structure ID cannot be null or empty");
+    public FeeStructure(String feeStructureIdentifier, String feeStructureName, List<FeeComponent> feeComponents) {
+        if (feeStructureIdentifier == null || feeStructureIdentifier.isEmpty()) {
+            throw new IllegalArgumentException("Fee Structure Identifier is required");
         }
-        
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+        if (feeStructureName == null || feeStructureName.isEmpty()) {
+            throw new IllegalArgumentException("Fee Structure Name is required");
         }
-        
         if (feeComponents == null || feeComponents.isEmpty()) {
-            throw new IllegalArgumentException("Fee structure must contain at least one fee component");
+            throw new IllegalArgumentException("Fee Components are required");
         }
-        
-        if (feeComponents.stream().anyMatch(component -> component.getAmount().compareTo(BigDecimal.ZERO) <= 0)) {
-            throw new IllegalArgumentException("All fee components must have positive amounts");
-        }
-        
-        this.feeStructureId = feeStructureId;
-        this.name = name;
+
+        this.feeStructureIdentifier = feeStructureIdentifier;
+        this.feeStructureName = feeStructureName;
         this.feeComponents = new ArrayList<>(feeComponents);
-        this.active = active;
-    }
-
-    // Business operations
-    public void addFeeComponent(FeeComponent feeComponent) {
-        if (feeComponent.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Fee component amount must be positive");
-        }
-        
-        this.feeComponents.add(feeComponent);
-    }
-
-    public void activate() {
         this.active = true;
     }
 
-    public void deactivate() {
-        this.active = false;
+    public String getFeeStructureIdentifier() {
+        return feeStructureIdentifier;
     }
 
-    public void retire() {
-        this.active = false;
-        // Additional retirement logic can be added here
-    }
-
-    public void update(String newName, List<FeeComponent> newFeeComponents) {
-        if (newName == null || newName.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
-        }
-        
-        if (newFeeComponents == null || newFeeComponents.isEmpty()) {
-            throw new IllegalArgumentException("Fee structure must contain at least one fee component");
-        }
-        
-        if (newFeeComponents.stream().anyMatch(component -> component.getAmount().compareTo(BigDecimal.ZERO) <= 0)) {
-            throw new IllegalArgumentException("All fee components must have positive amounts");
-        }
-        
-        this.name = newName;
-        this.feeComponents = new ArrayList<>(newFeeComponents);
-    }
-
-    // Getters
-    public String getFeeStructureId() {
-        return feeStructureId;
-    }
-
-    public String getName() {
-        return name;
+    public String getFeeStructureName() {
+        return feeStructureName;
     }
 
     public List<FeeComponent> getFeeComponents() {
-        return feeComponents;
+        return Collections.unmodifiableList(feeComponents);
     }
 
     public boolean isActive() {
         return active;
     }
 
-    // FeeComponent class
-    public static class FeeComponent {
-        private final String componentName;
-        private final BigDecimal amount;
-        private final boolean active;
+    public void update(String feeStructureName, List<FeeComponent> feeComponents) {
+        if (feeStructureName == null || feeStructureName.isEmpty()) {
+            throw new IllegalArgumentException("Fee Structure Name is required");
+        }
+        if (feeComponents == null || feeComponents.isEmpty()) {
+            throw new IllegalArgumentException("Fee Components are required");
+        }
 
-        public FeeComponent(String componentName, BigDecimal amount, boolean active) {
-            if (componentName == null || componentName.isEmpty()) {
-                throw new IllegalArgumentException("Component name cannot be null or empty");
+        // Check for duplicate components
+        Set<String> componentIdentifiers = new HashSet<>();
+        for (FeeComponent component : feeComponents) {
+            if (componentIdentifiers.contains(component.getFeeComponentIdentifier())) {
+                throw new IllegalArgumentException("Duplicate Fee Component Identifier found");
             }
-            
-            if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-                throw new IllegalArgumentException("Amount must be a positive number");
+            componentIdentifiers.add(component.getFeeComponentIdentifier());
+        }
+
+        this.feeStructureName = feeStructureName;
+        this.feeComponents = new ArrayList<>(feeComponents);
+    }
+
+    public void addFeeComponent(FeeComponent feeComponent) {
+        if (feeComponent == null) {
+            throw new IllegalArgumentException("Fee Component is required");
+        }
+
+        // Check for duplicate component
+        for (FeeComponent component : feeComponents) {
+            if (component.getFeeComponentIdentifier().equals(feeComponent.getFeeComponentIdentifier())) {
+                throw new IllegalArgumentException("Duplicate Fee Component Identifier found");
             }
-            
-            this.componentName = componentName;
-            this.amount = amount;
-            this.active = active;
         }
 
-        // Getters
-        public String getComponentName() {
-            return componentName;
+        feeComponents.add(feeComponent);
+    }
+
+    public void retire() {
+        if (!active) {
+            throw new IllegalStateException("Cannot retire an already retired Fee Structure");
         }
 
-        public BigDecimal getAmount() {
-            return amount;
-        }
-
-        public boolean isActive() {
-            return active;
-        }
+        active = false;
     }
 }

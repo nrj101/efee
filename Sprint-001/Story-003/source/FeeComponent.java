@@ -3,38 +3,35 @@
 import java.math.BigDecimal;
 
 public class FeeComponent {
-    private final String componentName;
-    private final BigDecimal amount;
-    private boolean active;
+    private final String feeComponentIdentifier;
+    private final String feeComponentName;
+    private final BigDecimal feeAmount;
 
-    public FeeComponent(String componentName, BigDecimal amount, boolean active) {
-        if (componentName == null || componentName.isEmpty()) {
-            throw new IllegalArgumentException("Component name cannot be null or empty");
+    public FeeComponent(String feeComponentIdentifier, String feeComponentName, BigDecimal feeAmount) {
+        if (feeComponentIdentifier == null || feeComponentIdentifier.isEmpty()) {
+            throw new IllegalArgumentException("Fee Component Identifier is required");
         }
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Amount cannot be null or negative");
+        if (feeComponentName == null || feeComponentName.isEmpty()) {
+            throw new IllegalArgumentException("Fee Component Name is required");
+        }
+        if (feeAmount == null || feeAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Fee Amount must be a positive value");
         }
 
-        this.componentName = componentName;
-        this.amount = amount;
-        this.active = active;
+        this.feeComponentIdentifier = feeComponentIdentifier;
+        this.feeComponentName = feeComponentName;
+        this.feeAmount = feeAmount;
     }
 
-    // Business operations
-    public void setActive(boolean active) {
-        this.active = active;
+    public String getFeeComponentIdentifier() {
+        return feeComponentIdentifier;
     }
 
-    // Getters
-    public String getComponentName() {
-        return componentName;
+    public String getFeeComponentName() {
+        return feeComponentName;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public boolean isActive() {
-        return active;
+    public BigDecimal getFeeAmount() {
+        return feeAmount;
     }
 }
