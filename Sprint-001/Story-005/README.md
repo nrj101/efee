@@ -1,67 +1,161 @@
-# Student Fee Receivables Platform (eFee)
+# Fee Obligation Implementation
 
-## Story Scope
+This Story implements the **Fee Obligation Aggregate** as defined by the approved Software Domain Model, Aggregate Technical Specification and Persistence Model.
 
-This project implements the **Aggregate Root** for the `FeeObligation` domain entity. The following components are implemented as part of this story:
+---
 
-- `FeeObligation` (Aggregate Root)
-- `ObligationLine` (Supporting Entity)
-- `MonetaryAmount` (Value Object)
+## Overview
 
-The following components are **not implemented** as part of this story and remain outside the current scope:
+The implementation includes:
 
-- `FeeStructure`
-- `Student`
-- `AcademicYear`
-- `FeeDiscount`
-- `FeePayment`
-- `FeeReconciliation`
+- `FeeObligation.java` — Fee Obligation Aggregate Root
+- `FeeObligationTest.java` — Unit tests for the Aggregate
+
+The implementation assumes the existence of collaborating domain types such as:
+
+- `ObligationLine`
+- `BigDecimal`
+
+These collaborators are referenced by the Aggregate but are not implemented as part of this Story.
+
+---
+
+## Aggregate Responsibility
+
+The Fee Obligation Aggregate owns a Student's financial responsibility for a specific Academic Year.
+
+The Aggregate preserves:
+
+- Fee Obligation identity
+- Student reference
+- Academic Year reference
+- Fee Structure reference
+- Obligation Line collection
+- Outstanding Amount
+- Aggregate lifecycle
+
+The Aggregate intentionally does **not** own:
+
+- Student identity
+- Academic Year definition
+- Fee Structure policy
+- Payment information
+- Discount information
+
+---
 
 ## Implementation Details
 
-### FeeObligation
-- Represents a fee obligation for a student in a specific academic year
-- Maintains a collection of obligation lines
-- Tracks the outstanding amount
-- Supports lifecycle operations: `create`, `update`, `retire`
+### Fee Obligation Aggregate
 
-### ObligationLine
-- Represents a specific fee line item
-- Contains:
-  - Line identifier
-  - Description
-  - Amount
+The Aggregate Root provides the following business operations:
 
-### MonetaryAmount
-- Represents a monetary value with currency
-- Provides:
-  - Amount
-  - Currency
-- Ensures immutability and defensive copying
+- Create a Fee Obligation
+- Update Obligation Lines
+- Update Outstanding Amount
+- Retire a Fee Obligation
 
-## Domain Rules
+### Aggregate State
 
-### Lifecycle
-- A `FeeObligation` can be:
-  - **Active**: Can be updated
-  - **Retired**: Cannot be updated
+The Aggregate preserves:
+
+- Immutable identifiers
+- Mutable Obligation Line collection
+- Mutable Outstanding Amount
+- Lifecycle state (Active / Retired)
+
+---
+
+## Business Rules
+
+The implementation enforces the following business invariants.
 
 ### Validation
-- All constructors and update operations validate:
-  - Non-null identifiers
-  - Valid monetary amounts
-  - No duplicate obligation lines
-  - No null entries in obligation lines
 
-### Defensiveness
-- Collections are defensively copied
-- Immutable value objects are used where appropriate
-- No direct mutation of internal state
+A Fee Obligation:
+
+- must have a Fee Obligation Identifier
+- must reference a Student
+- must reference an Academic Year
+- must reference a Fee Structure
+- must contain at least one Obligation Line
+- cannot contain null Obligation Lines
+- cannot contain duplicate Obligation Line Identifiers
+- cannot have a negative Outstanding Amount
+
+### Lifecycle
+
+A retired Fee Obligation:
+
+- cannot be updated
+- cannot be retired again
+
+Historical information is preserved.
+
+---
+
+## Defensive Programming
+
+The implementation preserves Aggregate ownership through defensive programming.
+
+Specifically:
+
+- constructor performs defensive copying
+- update performs defensive copying
+- internal collections are never exposed directly
+- callers receive immutable collection views
+
+---
 
 ## Testing
-- Unit tests cover:
-  - Constructor validation
-  - Update validation
-  - Retirement behavior
-  - Immutable collection behavior
-  - Defensive copying
+
+Unit tests verify:
+
+- Aggregate creation
+- Constructor validation
+- Successful update
+- Update validation
+- Duplicate Obligation Line detection
+- Null Obligation Line validation
+- Outstanding Amount validation
+- Retirement
+- Double retirement prevention
+- Update after retirement
+- Immutable collection behaviour
+- Defensive copying
+
+---
+
+## Supported Operations
+
+The Aggregate exposes the following operations.
+
+```text
+FeeObligation(...)
+update(...)
+retire()
+
+getFeeObligationIdentifier()
+getStudentIdentifier()
+getAcademicYearIdentifier()
+getFeeStructureIdentifier()
+getObligationLines()
+getOutstandingAmount()
+isActive()
+```
+
+---
+
+## Notes
+
+The implementation intentionally remains technology independent.
+
+It does **not** introduce:
+
+- persistence annotations
+- framework dependencies
+- database mappings
+- REST endpoints
+- messaging infrastructure
+
+Implementation follows the approved Story Package, Aggregate Technical Specification, Persistence Model and Engineering Constitution.
