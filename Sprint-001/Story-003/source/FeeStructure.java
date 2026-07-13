@@ -3,9 +3,9 @@
 import java.util.*;
 
 public class FeeStructure {
-    private String feeStructureIdentifier;
+    private final String feeStructureIdentifier;
     private String feeStructureName;
-    private List<FeeComponent> feeComponents;
+    private final List<FeeComponent> feeComponents;
     private boolean active;
 
     public FeeStructure(String feeStructureIdentifier, String feeStructureName, List<FeeComponent> feeComponents) {
@@ -18,6 +18,16 @@ public class FeeStructure {
         if (feeComponents == null || feeComponents.isEmpty()) {
             throw new IllegalArgumentException("Fee Components are required");
         }
+
+        validateFeeComponents(feeComponents);
+
+        this.feeStructureIdentifier = feeStructureIdentifier;
+        this.feeStructureName = feeStructureName;
+        this.feeComponents = new ArrayList<>(feeComponents);
+        this.active = true;
+    }
+
+    private void validateFeeComponents(List<FeeComponent> feeComponents) {
 
         Set<String> componentIdentifiers = new HashSet<>();
 
@@ -33,11 +43,6 @@ public class FeeStructure {
                         "Duplicate Fee Component Identifier found");
             }
         }
-
-        this.feeStructureIdentifier = feeStructureIdentifier;
-        this.feeStructureName = feeStructureName;
-        this.feeComponents = new ArrayList<>(feeComponents);
-        this.active = true;
     }
 
     public String getFeeStructureIdentifier() {
@@ -74,20 +79,7 @@ public class FeeStructure {
                     "Fee Components are required");
         }
 
-        Set<String> componentIdentifiers = new HashSet<>();
-
-        for (FeeComponent component : feeComponents) {
-
-            if (component == null) {
-                throw new IllegalArgumentException(
-                        "Fee Components cannot contain null entries");
-            }
-
-            if (!componentIdentifiers.add(component.getFeeComponentIdentifier())) {
-                throw new IllegalArgumentException(
-                        "Duplicate Fee Component Identifier found");
-            }
-        }
+        validateFeeComponents(feeComponents);
 
         this.feeStructureName = feeStructureName;
 
