@@ -96,9 +96,29 @@ class DiscountTest {
     }
 
     @Test
+    void shouldRejectZeroDiscountValue() {
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Discount(
+                        "D-001",
+                        "S-001",
+                        BigDecimal.ZERO,
+                        new ApprovalInformation(
+                                "Principal",
+                                "APR-001"),
+                        new BusinessJustification(
+                                "Reason")));
+
+        assertEquals(
+                "Discount Value must be greater than zero.",
+                exception.getMessage());
+    }
+
+    @Test
     void shouldRejectNegativeDiscountValue() {
 
-        assertThrows(
+        IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> new Discount(
                         "D-001",
@@ -109,6 +129,10 @@ class DiscountTest {
                                 "APR-001"),
                         new BusinessJustification(
                                 "Reason")));
+
+        assertEquals(
+                "Discount Value must be greater than zero.",
+                exception.getMessage());
     }
 
     @Test
@@ -183,9 +207,43 @@ class DiscountTest {
 
         discount.retire();
 
-        assertThrows(
+        IllegalStateException exception = assertThrows(
                 IllegalStateException.class,
                 discount::retire);
+
+        assertEquals(
+                "Discount has already been retired.",
+                exception.getMessage());
+    }
+
+    @Test
+    void shouldNotAllowUpdateAfterRetirement() {
+
+        Discount discount = new Discount(
+                "D-001",
+                "S-001",
+                BigDecimal.valueOf(500),
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                new BusinessJustification(
+                        "Merit Scholarship"));
+
+        discount.retire();
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> discount.update(
+                        BigDecimal.valueOf(750),
+                        new ApprovalInformation(
+                                "Manager",
+                                "APR-002"),
+                        new BusinessJustification(
+                                "Financial Assistance")));
+
+        assertEquals(
+                "Discount has already been retired.",
+                exception.getMessage());
     }
 
     @Test
@@ -234,4 +292,5 @@ class DiscountTest {
         assertTrue(value.contains("S-001"));
         assertTrue(value.contains("500"));
     }
+
 }

@@ -5,7 +5,7 @@
 document_id: ATS-PAYMENT-001
 title: Payment Aggregate Technical Specification
 version: 1.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
@@ -297,4 +297,4 @@ Future Stories may extend implementation while preserving this specification.
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

@@ -5,7 +5,7 @@
 document_id: AGG-ACADEMICYEAR-001
 title: Academic Year Aggregate
 version: 1.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
@@ -153,4 +153,4 @@ The authoritative Aggregate Design is collectively defined by **AggregateDesign.
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

@@ -2,7 +2,7 @@
 
 # Modelling Decision Log
 
-```yaml id="n4pkx8"
+```
 ---
 document_id: MODEL-DECISION-001
 title: Modelling Decision Log

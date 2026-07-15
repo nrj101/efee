@@ -5,7 +5,7 @@
 document_id: ATS-FEEOBLIGATION-001
 title: Fee Obligation Aggregate Technical Specification
 version: 1.3.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
@@ -367,4 +367,4 @@ Future Stories may incrementally implement additional approved operations while 
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

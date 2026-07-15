@@ -25,8 +25,14 @@ public class Discount {
             ApprovalInformation approvalInformation,
             BusinessJustification businessJustification) {
 
-        validateIdentifier(discountIdentifier, "Discount Identifier");
-        validateIdentifier(studentIdentifier, "Student Identifier");
+        validateIdentifier(
+                discountIdentifier,
+                "Discount Identifier");
+
+        validateIdentifier(
+                studentIdentifier,
+                "Student Identifier");
+
         validateDiscountValue(discountValue);
 
         this.approvalInformation = Objects.requireNonNull(
@@ -48,6 +54,8 @@ public class Discount {
             ApprovalInformation approvalInformation,
             BusinessJustification businessJustification) {
 
+        ensureActive();
+
         validateDiscountValue(discountValue);
 
         this.approvalInformation = Objects.requireNonNull(
@@ -63,10 +71,7 @@ public class Discount {
 
     public void retire() {
 
-        if (!active) {
-            throw new IllegalStateException(
-                    "Discount has already been retired.");
-        }
+        ensureActive();
 
         active = false;
     }
@@ -95,25 +100,36 @@ public class Discount {
         return active;
     }
 
+    private void ensureActive() {
+
+        if (!active) {
+            throw new IllegalStateException(
+                    "Discount has already been retired.");
+        }
+    }
+
     private void validateIdentifier(
             String identifier,
             String fieldName) {
 
         if (identifier == null || identifier.isBlank()) {
+
             throw new IllegalArgumentException(
                     fieldName + " cannot be null or blank.");
         }
     }
 
-    private void validateDiscountValue(BigDecimal discountValue) {
+    private void validateDiscountValue(
+            BigDecimal discountValue) {
 
         Objects.requireNonNull(
                 discountValue,
                 "Discount Value cannot be null.");
 
-        if (discountValue.compareTo(BigDecimal.ZERO) < 0) {
+        if (discountValue.compareTo(BigDecimal.ZERO) <= 0) {
+
             throw new IllegalArgumentException(
-                    "Discount Value cannot be negative.");
+                    "Discount Value must be greater than zero.");
         }
     }
 
@@ -135,11 +151,13 @@ public class Discount {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(discountIdentifier);
     }
 
     @Override
     public String toString() {
+
         return "Discount{" +
                 "discountIdentifier='" + discountIdentifier + '\'' +
                 ", studentIdentifier='" + studentIdentifier + '\'' +
@@ -149,4 +167,5 @@ public class Discount {
                 ", active=" + active +
                 '}';
     }
+
 }

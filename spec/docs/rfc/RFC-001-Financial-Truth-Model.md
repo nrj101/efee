@@ -5,7 +5,7 @@
 document_id: RFC-002
 title: Financial Truth Model
 version: 1.0.0
-status: Proposed
+status: Accepted
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -257,9 +257,7 @@ It clarifies the architectural interpretation of existing specifications.
 
 # Status
 
-**Proposed**
-
-Pending architectural approval.
+**Accepted**
 
 ---
 

@@ -355,15 +355,8 @@ It does not supersede any existing architectural decision.
 
 ---
 
-# Approval
+# Status
 
-**Status:** Approved
+**Accepted**
 
-## Approved By
-
-- Product Owner
-- Chief Architect
-
-## Approval Date
-
-2026-07-15
+This RFC forms part of Specification v1.1.0.

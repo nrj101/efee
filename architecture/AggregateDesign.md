@@ -5,7 +5,7 @@
 document_id: AGG-001
 title: Aggregate Design
 version: 1.0.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO

@@ -5,7 +5,7 @@
 document_id: TD-ACADEMICYEAR-001
 title: Academic Year Aggregate Persistence Model
 version: 1.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -206,4 +206,4 @@ Implementation SHALL faithfully realize this persistence model without:
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

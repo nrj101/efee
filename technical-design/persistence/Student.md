@@ -5,7 +5,7 @@
 document_id: TD-STUDENT-001
 title: Student Aggregate Persistence Model
 version: 1.2.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -193,4 +193,4 @@ Implementation SHALL faithfully realize this persistence model without:
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

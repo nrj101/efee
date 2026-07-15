@@ -5,7 +5,7 @@
 story_id: Story-004
 aggregate: Discount
 version: 1.1.0
-status: Draft
+status: Approved
 ---
 ```
 

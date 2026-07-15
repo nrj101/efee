@@ -1,100 +1,109 @@
-# Story-004: Discount Aggregate
+# Discount Aggregate
 
 ## Purpose
 
-This Story implements the Discount Aggregate defined by the approved Software Architecture.
+This Story implements the **Discount Aggregate** defined by the approved Product Specification, Software Architecture and Aggregate Technical Specification.
 
-The implementation establishes ownership of an approved financial concession entitlement granted to a Student while preserving the approved Aggregate boundaries.
+The implementation establishes the ownership boundary responsible for preserving approved financial concession entitlements granted to Students.
 
-The financial application of a Discount is intentionally outside the scope of this Story.
+This implementation intentionally realizes only the subset of Aggregate behavior approved by **Story-004**.
 
 ---
 
-## Aggregate Responsibility
+## Responsibilities
 
 The Discount Aggregate owns:
 
 - Discount identity
 - Student reference
 - Approved concession value
-- Approval information
-- Business justification
-- Discount lifecycle
+- Approval Information
+- Business Justification
+- Aggregate lifecycle
 
-The Aggregate authorises financial concessions only.
+The Discount Aggregate does not own:
 
-It does not own Fee Obligations, Applied Discounts, Payments or Receipts.
+- Discount Policies
+- Fee Obligations
+- Applied Discounts
+- Payments
+- Receipts
 
----
+The Aggregate preserves only the approved entitlement to a financial concession.
 
-## Implemented Files
-
-### Source
-
-- `Discount.java` – Aggregate Root
-- `ApprovalInformation.java` – Supporting Value Object representing approval authority and approval reference
-- `BusinessJustification.java` – Supporting Value Object representing the approved business rationale
-
-### Tests
-
-- `DiscountTest.java`
-- `ApprovalInformationTest.java`
-- `BusinessJustificationTest.java`
-
-### Documentation
-
-- `README.md`
+The financial application of that entitlement is intentionally outside the scope of this Story.
 
 ---
 
-## Supported Operations
+## Public Operations
 
-### Discount
+The Aggregate exposes the following public operations:
 
-- `Discount(...)`
-- `update(...)`
-- `retire()`
+- Create Discount
+- Update Discount
+- Retire Discount
 
-### ApprovalInformation
+---
 
-- `ApprovalInformation(...)`
+## Supporting Value Objects
 
-### BusinessJustification
+The implementation includes the following Supporting Value Objects:
 
-- `BusinessJustification(...)`
+- ApprovalInformation
+- BusinessJustification
+
+Both Supporting Value Objects are immutable and owned exclusively by the Discount Aggregate.
+
+---
+
+## Business Invariants
+
+The implementation preserves the following invariants:
+
+- Discount identifier is immutable.
+- Student identifier is immutable.
+- Discount value must be greater than zero.
+- Approval Information cannot be null.
+- Business Justification cannot be null.
+- Historical Discounts remain permanently preserved.
+- Retired Discounts cannot be modified.
+- Aggregate ownership is preserved.
+
+---
+
+## Story Scope
+
+This implementation includes only the behavior approved by **Story-004**.
+
+The following responsibilities remain intentionally outside the scope of this Story:
+
+- Discount Policy management
+- Financial application of Discounts
+- Fee Obligation updates
+- Payment interaction
+- Receipt interaction
+
+No persistence, repositories, REST APIs, framework dependencies or infrastructure concerns are included.
 
 ---
 
 ## Implementation Notes
 
-- The implementation follows the approved Aggregate Design, Aggregate Technical Specification and Aggregate Persistence Model.
-- The Discount Aggregate preserves only the business entitlement to an approved financial concession.
-- Financial application of a Discount is intentionally excluded and remains the responsibility of the Fee Obligation Aggregate.
-- Approval Information and Business Justification are implemented as immutable Supporting Value Objects owned exclusively by the Discount Aggregate.
+This implementation intentionally remains:
+
+- implementation-neutral;
+- framework-independent;
+- focused on Aggregate behavior;
+- faithful to the approved Story Package.
+
+Additional implementation characteristics include:
+
+- ApprovalInformation is implemented as an immutable Supporting Value Object.
+- BusinessJustification is implemented as an immutable Supporting Value Object.
+- Cross-Aggregate collaboration occurs only through stable identifiers.
 - Monetary values are represented using `BigDecimal`.
 - Aggregate identity is immutable.
 - Aggregate equality is based solely on `discountIdentifier`.
-- Lifecycle transitions are managed exclusively through the `retire()` operation.
-- No framework dependencies, persistence concerns or infrastructure code have been introduced.
+- Lifecycle transitions are managed exclusively through the approved `retire()` operation.
 
----
-
-## Architectural Compliance
-
-This implementation:
-
-- preserves Aggregate ownership boundaries;
-- preserves the approved Aggregate state;
-- preserves the approved lifecycle;
-- preserves the approved business invariants;
-- introduces no undocumented business behaviour;
-- introduces no cross-Aggregate Supporting Entity references;
-- remains implementation-independent and framework-neutral.
-
----
-
-## Story Outcome
-
-Story-004 successfully establishes the Discount Aggregate as the owner of authorised financial concession entitlements.
-
-The financial application of those concessions will be implemented by the Fee Obligation Aggregate in a subsequent Story while preserving the approved Aggregate ownership boundaries.
+No undocumented business behavior has been introduced.

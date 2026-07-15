@@ -5,7 +5,7 @@
 document_id: ATS-FEESTRUCTURE-001
 title: Fee Structure Aggregate Technical Specification
 version: 3.0.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
@@ -347,4 +347,4 @@ Initially implemented through:
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

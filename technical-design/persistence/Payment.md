@@ -5,7 +5,7 @@
 document_id: TD-PAYMENT-001
 title: Payment Aggregate Persistence Model
 version: 1.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -209,4 +209,4 @@ Payment Allocation remains intentionally outside the Payment Aggregate because s
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

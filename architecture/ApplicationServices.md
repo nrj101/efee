@@ -5,7 +5,7 @@
 document_id: APP-001
 title: Application Services
 version: 1.0.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO

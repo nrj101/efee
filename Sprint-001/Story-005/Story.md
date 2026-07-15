@@ -5,7 +5,7 @@
 story_id: Story-005
 title: Fee Obligation Aggregate
 version: 1.2.0
-status: Draft
+status: Approved
 
 sprint: Sprint-001
 priority: High

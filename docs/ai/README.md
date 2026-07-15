@@ -5,7 +5,7 @@
 document_id: AI-README-001
 title: AI Engineering Framework
 version: 0.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 

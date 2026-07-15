@@ -7,7 +7,7 @@
 document_id: RFC-007
 title: Discount Model Simplification for MVP
 version: 1.0.0
-status: Approved
+status: Accepted
 
 owner: Product Owner
 reviewer: CTO
@@ -216,15 +216,8 @@ Future specification versions may extend the model without invalidating existing
 
 ---
 
-# Approval
+# Status
 
-**Status:** Approved
+**Accepted**
 
-## Approved By
-
-- Product Owner
-- CTO
-
-## Approval Date
-
-2026-07-15
+This RFC forms part of Specification v1.1.0.

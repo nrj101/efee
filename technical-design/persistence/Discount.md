@@ -5,7 +5,7 @@
 document_id: TD-DISCOUNT-001
 title: Discount Aggregate Persistence Model
 version: 1.2.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -226,4 +226,4 @@ Application of that entitlement remains the responsibility of the Fee Obligation
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

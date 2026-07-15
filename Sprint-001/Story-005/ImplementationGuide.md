@@ -5,7 +5,7 @@
 story_id: Story-005
 aggregate: Fee Obligation
 version: 1.1.0
-status: Draft
+status: Approved
 ---
 ```
 

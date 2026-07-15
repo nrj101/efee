@@ -5,7 +5,7 @@
 document_id: AGG-DISCOUNT-001
 title: Discount Aggregate
 version: 1.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
@@ -149,4 +149,4 @@ The authoritative Aggregate Design is collectively defined by **AggregateDesign.
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

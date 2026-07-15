@@ -5,7 +5,7 @@
 document_id: AGG-FEEOBLIGATION-001
 title: Fee Obligation Aggregate
 version: 1.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
@@ -153,4 +153,4 @@ The authoritative Aggregate Design is collectively defined by **AggregateDesign.
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

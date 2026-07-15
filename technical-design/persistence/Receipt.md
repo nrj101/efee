@@ -5,7 +5,7 @@
 document_id: TD-RECEIPT-001
 title: Receipt Aggregate Persistence Model
 version: 1.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -208,4 +208,4 @@ Implementation SHALL faithfully realize this persistence model without:
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

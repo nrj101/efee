@@ -6,7 +6,7 @@ document_id: AI-PRM-001
 title: Developer Runtime Prompt
 version: 0.3.0
 
-status: Draft
+status: Approved
 
 owner: Product Owner
 
