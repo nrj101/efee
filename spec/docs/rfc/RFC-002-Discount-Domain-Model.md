@@ -7,7 +7,9 @@
 document_id: RFC-002
 title: Discount Domain Model
 version: 1.0.0
-status: Accepted
+
+status: Superseded
+superseded_by: RFC-007
 
 owner: Product Owner
 reviewer: CTO
@@ -22,6 +24,8 @@ related_documents:
   - ../../../architecture/ArchitecturePatterns.md
 ---
 ```
+
+Superseded: This RFC has been superseded by RFC-007 — Discount Model Simplification for MVP. It is retained for historical traceability and no longer defines the current architectural baseline.
 
 ---
 

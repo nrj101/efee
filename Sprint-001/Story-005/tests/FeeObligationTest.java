@@ -49,7 +49,9 @@ class FeeObligationTest {
                 1,
                 feeObligation.getObligationLines().size());
 
-        assertTrue(feeObligation.isActive());
+        assertEquals(
+                FeeObligationLifecycle.ACTIVE,
+                feeObligation.getLifecycleState());
     }
 
     @Test
@@ -169,7 +171,9 @@ class FeeObligationTest {
                         .get(0)
                         .getObligationLineIdentifier());
 
-        assertTrue(feeObligation.isActive());
+        assertEquals(
+                FeeObligationLifecycle.ACTIVE,
+                feeObligation.getLifecycleState());
     }
 
     @Test
@@ -189,7 +193,9 @@ class FeeObligationTest {
 
         feeObligation.retire();
 
-        assertFalse(feeObligation.isActive());
+        assertEquals(
+                FeeObligationLifecycle.RETIRED,
+                feeObligation.getLifecycleState());
     }
 
     @Test
@@ -403,6 +409,7 @@ class FeeObligationTest {
         assertTrue(value.contains("FO-001"));
         assertTrue(value.contains("ST-001"));
         assertTrue(value.contains("5000"));
+        assertTrue(value.contains("ACTIVE"));
     }
 
 }

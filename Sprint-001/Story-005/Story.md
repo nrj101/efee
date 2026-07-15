@@ -93,13 +93,13 @@ Student Financial Responsibility
 
 ---
 
-# Supporting Entities
+# Supporting Value Objects
 
-Implement the following Supporting Entity owned exclusively by the Fee Obligation Aggregate.
+Implement the following immutable Supporting Value Object owned exclusively by the Fee Obligation Aggregate.
 
 - ObligationLine
 
-The Supporting Entity SHALL exist only within the owning Aggregate.
+The Supporting Value Object SHALL exist only within the owning Aggregate.
 
 Ownership SHALL NOT be transferred to collaborating Aggregates.
 
@@ -122,9 +122,9 @@ Collaborations SHALL preserve Aggregate ownership boundaries.
 This Story implements only:
 
 - Fee Obligation Aggregate Root
-- ObligationLine Supporting Entity
+- ObligationLine Supporting Value Object
 - Aggregate unit tests
-- Supporting Entity unit tests
+- Supporting Value Object unit tests
 - Story README
 
 The implementation SHALL preserve the approved Aggregate contract defined by the Aggregate Technical Specification.
@@ -188,11 +188,11 @@ The implementation SHALL:
 - preserve approved lifecycle;
 - preserve approved Aggregate invariants;
 - preserve approved public operations;
-- implement the approved Supporting Entity;
+- implement the approved Supporting Value Object;
 - preserve Outstanding Amount consistency;
 - derive Outstanding Amount from owned financial facts;
 - generate only approved implementation artifacts;
-- include unit tests for the Aggregate Root and Supporting Entity.
+- include unit tests for the Aggregate Root and Supporting Value Object.
 
 Implementation SHALL NOT:
 
@@ -216,6 +216,8 @@ Implementation SHALL NOT:
 ```text
 /Sprint-001/Story-005/source/FeeObligation.java
 
+/Sprint-001/Story-005/source/FeeObligationLifecycle.java
+
 /Sprint-001/Story-005/source/ObligationLine.java
 ```
 
@@ -223,6 +225,8 @@ Implementation SHALL NOT:
 
 ```text
 /Sprint-001/Story-005/tests/FeeObligationTest.java
+
+/Sprint-001/Story-005/tests/FeeObligationLifecycleTest.java
 
 /Sprint-001/Story-005/tests/ObligationLineTest.java
 ```
@@ -242,8 +246,10 @@ No additional implementation artifacts are approved.
 | Artifact | Output Location |
 |----------|-----------------|
 | FeeObligation.java | /Sprint-001/Story-005/source/FeeObligation.java |
+| FeeObligationLifecycle.java | /Sprint-001/Story-005/source/FeeObligationLifecycle.java |
 | ObligationLine.java | /Sprint-001/Story-005/source/ObligationLine.java |
 | FeeObligationTest.java | /Sprint-001/Story-005/tests/FeeObligationTest.java |
+| FeeObligationLifecycleTest.java | /Sprint-001/Story-005/tests/FeeObligationLifecycleTest.java |
 | ObligationLineTest.java | /Sprint-001/Story-005/tests/ObligationLineTest.java |
 | README.md | /Sprint-001/Story-005/README.md |
 
@@ -288,7 +294,7 @@ Before marking this Story complete, verify:
 - Fee Obligation responsibilities implemented.
 - Aggregate ownership preserved.
 - Approved Aggregate state preserved.
-- Supporting Entity implemented.
+- Supporting Value Object implemented.
 - Outstanding Amount derived from Aggregate financial facts.
 - Lifecycle preserved.
 - Architecture preserved.

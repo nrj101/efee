@@ -43,13 +43,26 @@ The Aggregate exposes the following public operations:
 
 ---
 
-## Supporting Value Object
+## Supporting Types
 
-The implementation includes the Supporting Value Object:
+The implementation includes:
 
-- ObligationLine
+### Supporting Value Object
 
-ObligationLine represents an individual financial responsibility owned exclusively by the Fee Obligation Aggregate.
+- `ObligationLine`
+
+`ObligationLine` represents an individual financial responsibility owned exclusively by the Fee Obligation Aggregate.
+
+### Lifecycle
+
+- `FeeObligationLifecycle`
+
+The Aggregate lifecycle is represented using the approved lifecycle states:
+
+- `ACTIVE`
+- `RETIRED`
+
+Lifecycle transitions are irreversible.
 
 ---
 
@@ -79,6 +92,8 @@ The following approved operations remain intentionally unimplemented in this Sto
 - Apply Discount
 - Allocate Payment
 
+Although the Aggregate Technical Specification defines Outstanding Amount as being derived from all owned financial facts, this Story currently derives Outstanding Amount from Obligation Lines only. Discount application and Payment Allocation will be introduced in subsequent Stories without changing Aggregate ownership.
+
 No persistence, repositories, REST APIs, framework dependencies or infrastructure concerns are included.
 
 ---
@@ -94,10 +109,11 @@ This implementation intentionally remains:
 
 Additional implementation characteristics include:
 
-- ObligationLine is implemented as an immutable Supporting Value Object.
+- `ObligationLine` is implemented as an immutable Supporting Value Object.
+- `FeeObligationLifecycle` implements the approved Aggregate lifecycle.
 - Cross-Aggregate collaboration occurs only through stable identifiers.
 - Monetary values are represented using `BigDecimal`.
-- Outstanding Amount is derived from the owned Obligation Lines.
+- Outstanding Amount is derived from the currently implemented financial facts (Obligation Lines).
 - Defensive copying protects owned collections.
 - Public collection accessors expose immutable views.
 - Aggregate equality is based solely on `feeObligationIdentifier`.

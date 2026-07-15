@@ -2,7 +2,6 @@
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -76,7 +75,7 @@ public class FeeObligation {
         validateObligationLines(obligationLines);
 
         this.obligationLines.clear();
-        this.obligationLines.addAll(obligationLines);
+        this.obligationLines.addAll(new ArrayList<>(obligationLines));
 
         this.outstandingAmount = calculateOutstandingAmount();
     }
@@ -85,7 +84,7 @@ public class FeeObligation {
 
         ensureActive();
 
-        lifecycleState = FeeObligationLifecycle.RETIRED;
+        this.lifecycleState = FeeObligationLifecycle.RETIRED;
     }
 
     public String getFeeObligationIdentifier() {
@@ -105,7 +104,7 @@ public class FeeObligation {
     }
 
     public List<ObligationLine> getObligationLines() {
-        return Collections.unmodifiableList(obligationLines);
+        return List.copyOf(obligationLines);
     }
 
     public BigDecimal getOutstandingAmount() {
@@ -150,9 +149,11 @@ public class FeeObligation {
     private void validateObligationLines(
             List<ObligationLine> obligationLines) {
 
-        Objects.requireNonNull(
-                obligationLines,
-                "Obligation Lines cannot be null.");
+        if (obligationLines == null) {
+
+            throw new IllegalArgumentException(
+                    "Obligation Lines cannot be null.");
+        }
 
         if (obligationLines.isEmpty()) {
 
@@ -164,9 +165,11 @@ public class FeeObligation {
 
         for (ObligationLine obligationLine : obligationLines) {
 
-            Objects.requireNonNull(
-                    obligationLine,
-                    "Obligation Line cannot be null.");
+            if (obligationLine == null) {
+
+                throw new IllegalArgumentException(
+                        "Obligation Line cannot be null.");
+            }
 
             if (!identifiers.add(
                     obligationLine.getObligationLineIdentifier())) {
