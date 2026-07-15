@@ -4,20 +4,21 @@
 ---
 document_id: TD-FEEOBLIGATION-001
 title: Fee Obligation Aggregate Persistence Model
-version: 1.1.0
+version: 1.3.0
 status: Draft
 
 owner: Product Owner
 reviewer: Chief Architect
 
 created: 2026-07-10
-last_updated: 2026-07-13
+last_updated: 2026-07-15
 
 related_documents:
   - ../../architecture/aggregates/FeeObligation.md
-  - ../../architecture/technical-specification/aggregates/FeeObligation.md
+  - ../../technical-specification/aggregates/FeeObligation.md
   - ../../architecture/SoftwareArchitecture.md
   - ../../spec/docs/SoftwareDomainModel.md
+  - ../../spec/docs/rfc/RFC-001-Financial-Truth-Model.md
 ---
 ```
 
@@ -34,6 +35,7 @@ This document is derived from the approved:
 - Software Domain Model
 - Aggregate Design
 - Aggregate Technical Specification
+- RFC-001 Financial Truth Model
 
 It SHALL NOT introduce new business behaviour, Aggregate responsibilities or implementation logic.
 
@@ -54,7 +56,9 @@ Persist the business truth owned by the Fee Obligation Aggregate while preservin
 - Academic Year reference
 - Fee Structure reference
 - Obligation Line collection
-- Outstanding Amount
+- Applied Discounts
+- Payment Allocations
+- Derived Outstanding Amount
 - Aggregate lifecycle
 
 Business truths owned by collaborating Aggregates remain outside the scope of this document.
@@ -72,16 +76,24 @@ The following Aggregate state is approved for persistence.
 | academicYearIdentifier | String | Yes | No | References the governing Academic Year | Fee Obligation ATS |
 | feeStructureIdentifier | String | Yes | No | References the governing Fee Structure | Fee Obligation ATS |
 | obligationLines | List<ObligationLine> | Yes | Yes | Collection of owned financial obligation lines | Fee Obligation ATS |
-| outstandingAmount | Monetary Amount | Yes | Yes | Remaining financial responsibility | Fee Obligation ATS |
-| active | Boolean | Yes | Yes | Aggregate lifecycle state | Fee Obligation ATS |
+| appliedDiscounts | List<AppliedDiscount> | Yes | Yes | Discounts applied to this obligation | Fee Obligation ATS |
+| paymentAllocations | List<PaymentAllocation> | Yes | Yes | Payment allocations settling this obligation | Fee Obligation ATS |
+| outstandingAmount | Monetary Amount | Yes | Yes | Persisted derived outstanding balance | Fee Obligation ATS |
+| lifecycleState | Fee Obligation Lifecycle | Yes | Yes | Aggregate lifecycle state | Fee Obligation ATS |
 
 ---
 
 # Derived State
 
-None.
+The following Aggregate state is derived from other owned financial facts.
 
-No persistent values are derived from other persisted state.
+| Derived State | Derived From |
+|---------------|--------------|
+| outstandingAmount | Obligation Lines, Applied Discounts and Payment Allocations |
+
+Outstanding Amount MAY be persisted as a rebuildable optimization provided it remains fully reproducible from its source financial facts.
+
+Outstanding Amount SHALL NOT become the authoritative business truth.
 
 ---
 
@@ -101,7 +113,7 @@ The Fee Obligation Aggregate persists references to collaborating Aggregates onl
 | Academic Year | academicYearIdentifier |
 | Fee Structure | feeStructureIdentifier |
 
-No persistent ownership of collaborating Aggregates is introduced.
+Ownership of collaborating Aggregates SHALL NOT be transferred.
 
 ---
 
@@ -114,8 +126,10 @@ Implementation SHALL preserve:
 - Academic Year reference
 - Fee Structure reference
 - Obligation Line collection
-- Outstanding Amount
-- lifecycle integrity
+- Applied Discount collection
+- Payment Allocation collection
+- Outstanding Amount consistency
+- Aggregate lifecycle
 - Aggregate ownership
 
 Implementation SHALL NOT:
@@ -124,16 +138,35 @@ Implementation SHALL NOT:
 - remove approved persistent fields;
 - rename approved persistent fields;
 - change approved field types;
-- change approved field mutability;
-- persist derived state.
+- change approved field mutability.
 
-Outstanding Amount SHALL never become negative.
+Outstanding Amount SHALL:
+
+- never become negative;
+- always reconcile with the Aggregate's owned financial facts;
+- always be reproducible from persisted financial facts.
 
 Obligation Lines SHALL NOT contain duplicate identifiers.
 
 Obligation Lines SHALL NOT contain null entries.
 
 If additional persistent state appears necessary, implementation SHALL stop and request clarification.
+
+---
+
+# Persistent Representation Rules
+
+Implementation SHALL ensure:
+
+- `feeObligationIdentifier` remains immutable after creation.
+- `studentIdentifier` remains immutable after creation.
+- `academicYearIdentifier` remains immutable after creation.
+- `feeStructureIdentifier` remains immutable after creation.
+- `obligationLines` preserve the complete financial responsibility established by the Aggregate.
+- `appliedDiscounts` preserve every approved Discount application.
+- `paymentAllocations` preserve every realised Payment Allocation.
+- `outstandingAmount` always reconciles with the Aggregate's owned financial facts.
+- `lifecycleState` accurately represents the approved Fee Obligation lifecycle.
 
 ---
 
@@ -162,8 +195,10 @@ These concerns belong to later Technical Design documents.
 | academicYearIdentifier | Fee Obligation ATS |
 | feeStructureIdentifier | Fee Obligation ATS |
 | obligationLines | Fee Obligation ATS |
+| appliedDiscounts | Fee Obligation ATS |
+| paymentAllocations | Fee Obligation ATS |
 | outstandingAmount | Fee Obligation ATS |
-| active | Fee Obligation ATS |
+| lifecycleState | Fee Obligation ATS |
 
 ---
 
@@ -171,11 +206,19 @@ These concerns belong to later Technical Design documents.
 
 This document represents the complete approved persistent representation of the Fee Obligation Aggregate.
 
+Outstanding Amount is persisted as a rebuildable derived value for operational efficiency.
+
+The authoritative financial truth remains the Aggregate's owned financial facts:
+
+- Obligation Lines
+- Applied Discounts
+- Payment Allocations
+
 Implementation SHALL faithfully realize this persistence model without:
 
 - introducing undocumented persistent state;
-- persisting derived information;
-- altering approved ownership boundaries;
+- violating Aggregate ownership boundaries;
+- permitting inconsistency between persisted Outstanding Amount and its source financial facts;
 - introducing alternative persistent representations.
 
 ---
@@ -184,8 +227,12 @@ Implementation SHALL faithfully realize this persistence model without:
 
 | Version | Date | Description |
 |----------|------|-------------|
-| 1.0.0 | 2026-07-10 | Initial Persistence Model |
+| 1.0.0 | 2026-07-10 | Initial Persistence Model. |
 | 1.1.0 | 2026-07-13 | Aligned with ATS v1.1.0. Standardized field names, lifecycle representation, traceability, persistence constraints and ownership rules. |
+| 1.2.0 | 2026-07-14 | Aligned with RFC-001 Financial Truth Model. Added Applied Discounts and Payment Allocations, clarified Outstanding Amount as a persisted derived value, and updated persistence constraints accordingly. |
+| 1.3.0 | 2026-07-15 | Aligned with ATS v1.3.0. Replaced boolean lifecycle with Fee Obligation Lifecycle, strengthened derived-state wording, expanded Persistent Representation Rules and clarified traceability. |
+
+---
 
 # Approval
 

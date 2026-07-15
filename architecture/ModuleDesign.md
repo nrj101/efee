@@ -1,21 +1,23 @@
 # Module Design
 
-```yaml id="jlwm5q"
+```yaml
 ---
 document_id: MOD-001
 title: Module Design
-version: 1.0.0
-status: Draft
+version: 1.1.0
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-04
+last_updated: 2026-07-14
 
 related_documents:
   - AggregateDesign.md
   - SoftwareArchitecture.md
   - ApplicationServices.md
+  - CrossCuttingConcerns.md
 ---
 ```
 
@@ -23,11 +25,11 @@ related_documents:
 
 # Purpose
 
-This document defines the logical software modules of the Student Fee Receivables Platform.
+This document defines the logical software modules of the E-Fee platform.
 
-Modules partition the codebase into cohesive business capabilities while preserving the architectural boundaries established by the Aggregate Design.
+Modules partition the software into cohesive business capabilities while preserving the Aggregate ownership boundaries established by the Software Architecture.
 
-Modules are the primary unit of software organization within the Beta Modular Monolith.
+Modules provide the primary unit of organization within the MVP Modular Monolith.
 
 ---
 
@@ -35,168 +37,201 @@ Modules are the primary unit of software organization within the Beta Modular Mo
 
 Modules are organized around business capabilities rather than technical layers.
 
-Each module:
+Each module SHALL:
 
-* owns one business capability;
-* encapsulates its internal implementation;
-* exposes well-defined interfaces to collaborating modules; and
-* minimizes coupling with other modules.
+- own one primary business capability;
+- own one or more closely related Aggregates;
+- encapsulate its internal implementation;
+- expose well-defined business interfaces;
+- collaborate with other modules only through approved interfaces or Application Services; and
+- minimise coupling with other modules.
 
-![Image- Module Dependencies](/architecture/diagrams/D2-ModuleDependencies.png)
+The objective is to preserve high cohesion, clear ownership and long-term maintainability.
+
+![Image - Module Dependencies](/architecture/diagrams/D2-ModuleDependencies.png)
+
 ---
 
 # Module Catalogue
 
 ## Shared
 
-Provides common abstractions reused across the application.
+Provides reusable technical building blocks that are common across the platform.
 
 Examples include:
 
-* Value Objects
-* Common Exceptions
-* Base Domain Types
-* Shared Utilities
+- Value Objects
+- Domain Exceptions
+- Common Types
+- Shared Utilities
 
-The Shared module SHALL NOT contain business behaviour.
+The Shared module SHALL NOT contain business behaviour or business rules.
 
 ---
 
 ## Student
 
-Owns student lifecycle and identity.
+### Responsibility
 
-Primary Aggregate:
+Owns Student identity and lifecycle.
 
-* Student
+### Primary Aggregate
 
-Collaborating Modules:
+- Student
 
-* Academic Year
-* Receivables
-* Discount
+### Collaborating Modules
+
+- Academic Year
+- Fee Obligation
+- Discount
 
 ---
 
 ## Academic Year
 
-Owns academic session lifecycle.
+### Responsibility
 
-Primary Aggregate:
+Owns Academic Year lifecycle and operational boundaries.
 
-* Academic Year
+### Primary Aggregate
 
-Collaborating Modules:
+- Academic Year
 
-* Fee Structure
-* Receivables
-* Receipt
+### Collaborating Modules
+
+- Fee Structure
+- Fee Obligation
+- Receipt
 
 ---
 
 ## Fee Structure
 
+### Responsibility
+
 Owns institutional charging policy.
 
-Primary Aggregate:
+### Primary Aggregate
 
-* Fee Structure
+- Fee Structure
 
-Collaborating Modules:
+### Collaborating Modules
 
-* Academic Year
-* Discount
-* Receivables
+- Academic Year
+- Fee Obligation
 
 ---
 
 ## Discount
 
-Owns institutional discount policies and grants.
+### Responsibility
 
-Primary Aggregate:
+Owns approved student discount entitlements.
 
-* Discount Policy
+### Primary Aggregate
 
-Collaborating Modules:
+- Discount
 
-* Student
-* Fee Structure
-* Receivables
+### Collaborating Modules
+
+- Student
+- Fee Obligation
 
 ---
 
-## Receivables
+## Fee Obligation
 
-Owns student financial receivables.
+### Responsibility
 
-Primary Aggregate:
+Owns student financial responsibility and receivable state.
 
-* Fee Obligation
+### Primary Aggregate
 
-Collaborating Modules:
+- Fee Obligation
 
-* Student
-* Payment
-* Discount
+### Collaborating Modules
+
+- Student
+- Academic Year
+- Fee Structure
+- Discount
+- Payment
 
 ---
 
 ## Payment
 
-Owns money received by the institution.
+### Responsibility
 
-Primary Aggregate:
+Owns realised payments received by the institution.
 
-* Payment
+### Primary Aggregate
 
-Collaborating Modules:
+- Payment
 
-* Receivables
-* Receipt
+### Collaborating Modules
+
+- Fee Obligation
+- Receipt
 
 ---
 
 ## Receipt
 
-Owns official payment acknowledgement.
+### Responsibility
 
-Primary Aggregate:
+Owns official acknowledgement of accepted Payments.
 
-* Receipt
+### Primary Aggregate
 
-Collaborating Modules:
+- Receipt
 
-* Payment
-* Academic Year
+### Collaborating Modules
+
+- Payment
 
 ---
 
 # Module Dependencies
 
-The following dependency rules apply.
+Logical dependencies between modules are intentionally restricted.
 
-| Module        | May Depend On                                           |
-| ------------- | ------------------------------------------------------- |
-| Student       | Shared                                                  |
-| Academic Year | Shared                                                  |
-| Fee Structure | Shared, Academic Year                                   |
-| Discount      | Shared, Student, Fee Structure                          |
-| Receivables   | Shared, Student, Academic Year, Fee Structure, Discount |
-| Payment       | Shared, Receivables                                     |
-| Receipt       | Shared, Payment, Academic Year                          |
+| Module | May Depend On |
+|---------|---------------|
+| Student | Shared |
+| Academic Year | Shared |
+| Fee Structure | Shared, Academic Year |
+| Discount | Shared, Student |
+| Fee Obligation | Shared, Student, Academic Year, Fee Structure, Discount |
+| Payment | Shared, Fee Obligation |
+| Receipt | Shared, Payment |
 
 Dependencies SHALL remain acyclic.
 
 ---
 
+# Collaboration Principles
+
+Modules collaborate through Application Services.
+
+Cross-module business workflows SHALL be coordinated by the Application Layer rather than by direct module orchestration.
+
+Each module remains responsible only for the Aggregates and business truths it owns.
+
+---
+
 # Visibility Rules
 
-Modules expose only public business interfaces.
+Modules expose only approved business interfaces.
 
 Internal implementation details SHALL remain encapsulated within the owning module.
 
-Cross-module access SHALL occur through Application Services or explicitly exposed interfaces.
+Modules SHALL NOT directly modify another module's owned business state.
+
+Cross-module communication SHALL occur only through:
+
+- Application Services; or
+- explicitly approved public interfaces.
 
 ---
 
@@ -204,4 +239,58 @@ Cross-module access SHALL occur through Application Services or explicitly expos
 
 The Modular Monolith establishes clear business boundaries that may later evolve into independently deployable services if justified by business requirements.
 
-Such evolution SHALL preserve the ownership boundaries established by Aggregate Design.
+Any future decomposition SHALL preserve:
+
+- Aggregate ownership;
+- business invariants;
+- module responsibilities; and
+- Application Service orchestration.
+
+---
+
+# Key Decisions
+
+- Modules are organized around business capabilities.
+- Aggregate ownership determines module ownership.
+- Cross-module workflows are coordinated by Application Services.
+- Business truths remain owned by a single module.
+- Modules remain implementation-independent.
+
+---
+
+# Related Documents
+
+- SoftwareArchitecture.md
+- AggregateDesign.md
+- ApplicationServices.md
+- CrossCuttingConcerns.md
+
+---
+
+# Open Questions
+
+None.
+
+---
+
+# Version History
+
+| Version | Date | Description |
+|---------|------------|-------------|
+| 1.0.0 | 2026-07-04 | Initial Module Design. |
+| 1.1.0 | 2026-07-14 | Aligned module responsibilities with Aggregate Design v1.1.0. Renamed the Receivables module to Fee Obligation, simplified the Discount module following RFC-002, clarified Application Service orchestration, standardized dependency rules and visibility principles, and approved the document as the MVP modular architecture baseline. |
+
+---
+
+# Approval
+
+**Status:** Approved
+
+## Approved By
+
+- Product Owner
+- CTO
+
+## Approval Date
+
+2026-07-14

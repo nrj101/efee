@@ -67,11 +67,13 @@ Separating these responsibilities reduces coupling while preserving business cor
 
 ## Examples
 
-| Stable Policy       | Operational State                                 |
-| ------------------- | ------------------------------------------------- |
-| Fee Component       | Obligation Line                                   |
-| Discount Policy     | Discount Grant *(software realization candidate)* |
-| Academic Year Rules | Financial Activity                                |
+| Stable Policy       | Operational State  |
+| ------------------- | ------------------ |
+| Fee Component       | Obligation Line    |
+| Fee Structure       | Fee Obligation     |
+| Approved Discount   | Applied Discount   |
+| Academic Year Rules | Financial Activity |
+
 
 ## Consequences
 
@@ -97,10 +99,11 @@ Shared ownership introduces ambiguity, duplicated state and inconsistent busines
 | ------------------------ | --------------- |
 | Student Identity         | Student         |
 | Charging Policy          | Fee Structure   |
-| Student Receivable       | Fee Obligation  |
+| Student Financial Responsibility (Receivable)   | Fee Obligation  |
 | Money Received           | Payment         |
 | Official Acknowledgement | Receipt         |
-| Discount Entitlement     | Discount Policy |
+| Discount Approval        | Discount       |
+
 
 ## Consequences
 
@@ -194,6 +197,7 @@ Approval governs **when** a state transition may occur, but does not own the bus
 
 * Discount Grant
 * Receipt Correction
+* Financial Correction
 * Modification of active Fee Obligations
 
 ## Future Evolution
@@ -202,26 +206,60 @@ Future versions may introduce a generalized Approval Workflow without requiring 
 
 ---
 
-# AP-007 — Entitlement vs Financial Effect
+# AP-007 — Business Approval vs Financial Effect
 
 ## Intent
 
-Separate business entitlement from its financial application.
+Separate the approval of a business decision from its financial effect.
 
 ## Motivation
 
-A business entitlement may exist independently of whether it produces an immediate financial impact.
+Business approval establishes that an action is authorised.
 
-Examples
+The resulting financial effect is owned and preserved by the Aggregate responsible for the financial truth.
 
-Entitlement	Financial Effect
-Discount Grant	Applied Discount
+This separation preserves clear Aggregate ownership while maintaining complete auditability.
+
+## Examples
+
+| Business Approval | Financial Effect |
+|-------------------|------------------|
+| Approved Discount | Applied Discount |
+| Accepted Payment | Payment Allocation |
 
 ## Consequences
 
-Historical financial effects remain immutable.
-Future policy changes affect only future financial activity.
-Business entitlements remain independently traceable.
+* Financial effects remain reproducible.
+* Business approvals remain independently auditable.
+* Aggregate ownership remains explicit.
+* Future business policy changes do not alter historical financial facts.
+
+---
+
+# AP-008 — Derived Financial State
+
+## Intent
+
+Derived financial values shall be calculated from authoritative financial facts owned by a single Aggregate.
+
+## Motivation
+
+Financial summaries improve operational efficiency but must never become independent business facts.
+
+Persisting derived values is permitted only when they remain fully reproducible from the underlying financial facts.
+
+## Examples
+
+| Derived State | Authoritative Financial Facts |
+|---------------|-------------------------------|
+| Outstanding Amount | Obligation Lines, Applied Discounts, Payment Allocations |
+
+## Consequences
+
+* Financial reconciliation remains deterministic.
+* Historical balances remain reproducible.
+* Derived state cannot diverge from business truth.
+* Performance optimisations remain safe.
 
 ---
 
@@ -245,6 +283,17 @@ For example:
 * Patterns guide software implementation but do not redefine business behaviour.
 * New architectural patterns require an ADR.
 * Existing patterns may evolve only through an approved ADR.
+
+---
+
+---
+
+# Version History
+
+| Version | Date | Description |
+|----------|------|-------------|
+| 1.0.0 | 2026-07-04 | Initial Architecture Patterns. |
+| 1.1.0 | 2026-07-14 | Aligned with RFC-001 and RFC-003. Updated ownership terminology, clarified approval vs financial effect, and introduced the Derived Financial State pattern. |
 
 ---
 

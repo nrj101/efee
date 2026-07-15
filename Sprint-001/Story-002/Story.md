@@ -4,7 +4,7 @@
 ---
 story_id: Story-002
 title: Academic Year Aggregate
-version: 1.0.0
+version: 1.2.0
 status: Approved
 
 sprint: Sprint-001
@@ -12,141 +12,217 @@ priority: High
 
 owner: Product Owner
 
-aggregate_root: Academic Year
+aggregate_root: AcademicYear
+
+created: 2026-07-13
+last_updated: 2026-07-15
+
+related_documents:
+  - ../../Sprint-001.md
+  - ../../../architecture/AggregateDesign.md
+  - ../../../architecture/aggregates/AcademicYear.md
+  - ../../../technical-specification/aggregates/AcademicYear.md
+  - ../../../technical-specification/persistence-model/aggregates/AcademicYear.md
+  - ../../../spec/docs/SoftwareDomainModel.md
+  - ../../../spec/docs/BusinessRules.md
 ---
 ```
 
 ---
 
+# Purpose
+
+Implement the Academic Year Aggregate defined by the approved Software Architecture.
+
+The implementation establishes ownership of the Academic Year operational boundary, operational period, applicable Fee Structure reference and lifecycle while preserving the approved Aggregate boundaries.
+
+No additional business behaviour shall be introduced.
+
+---
+
 # Business Objective
 
-Introduce the Academic Year Aggregate into the implementation of the Student Fee Receivables Platform.
+Introduce the Academic Year Aggregate responsible for defining the operational period within which institutional financial activity occurs.
 
-The Academic Year Aggregate establishes the software ownership boundary responsible for maintaining Academic Year identity, definition and lifecycle while preserving the business invariants defined by the approved architecture.
-
----
-
-# Architectural Context
-
-This Story realizes the **Academic Year Aggregate** defined by the approved Aggregate Design.
-
-The Aggregate Design remains the authoritative definition of:
-
-- Aggregate responsibilities;
-- owned business truth;
-- supporting entities;
-- invariants;
-- collaboration rules;
-- lifecycle ownership.
-
-This Story SHALL faithfully realize the approved Aggregate without redefining architectural responsibilities.
+The implementation establishes the Aggregate ownership boundary only.
 
 ---
 
-# Architecture Traceability
+# Aggregate Root
 
-## Aggregate Root
+AcademicYear
 
-Academic Year
+---
 
-## Primary Business Truth
+# Supporting Entities
 
-Academic Year Lifecycle
+None.
 
-## Architecture References
+---
 
-- AggregateDesign.md
-- SoftwareArchitecture.md
+# Supporting Domain Types
 
-## Product Specification References
+- AcademicYearLifecycle
 
-- SoftwareDomainModel.md
-- BusinessRules.md
-- BusinessWorkflow.md
+---
 
-## Technical Design References
+# Collaborating Aggregates
 
-- Academic Year Aggregate Technical Specification
-- Academic Year Aggregate Persistence Model
+- Student
+- Fee Structure
+- Fee Obligation
+
+Collaboration SHALL preserve Aggregate ownership.
 
 ---
 
 # Implementation Scope
 
-This Story implements the approved behaviour of the Academic Year Aggregate.
+Implement only:
 
-Included operations are limited to those defined by the approved Aggregate Design.
+- AcademicYear Aggregate Root
+- Supporting Domain Types
+- Aggregate unit tests
+- Story README
 
-Included:
+---
 
-- Create Academic Year
-- Update Academic Year
-- Activate Academic Year
-- Close Academic Year
+# Write Scope
 
-Excluded:
+## Source
 
-- Student management
-- Fee Structure management
-- Discount management
-- Fee Obligation management
-- Payment processing
-- Receipt management
-- Persistence
-- REST APIs
+```
+AcademicYear.java
+
+AcademicYearLifecycle.java
+```
+
+## Tests
+
+```
+AcademicYearTest.java
+
+AcademicYearLifecycleTest.java
+```
+
+## Documentation
+
+```
+README.md
+```
+
+No additional implementation artifacts are approved.
+
+---
+
+# Output Locations
+
+```
+/Sprint-001/Story-002/source/AcademicYear.java
+
+/Sprint-001/Story-002/source/AcademicYearLifecycle.java
+
+/Sprint-001/Story-002/tests/AcademicYearTest.java
+
+/Sprint-001/Story-002/tests/AcademicYearLifecycleTest.java
+
+/Sprint-001/Story-002/README.md
+```
+
+---
+
+# Dependencies
+
+Implementation depends upon:
+
+- Sprint-001 implementation decisions
+- Academic Year Aggregate Design
+- Academic Year Aggregate Technical Specification
+- Academic Year Aggregate Persistence Model
+
+Implementation SHALL NOT depend upon implementation details of previous Stories.
 
 ---
 
 # Approved Aggregate Model
 
-The Academic Year Aggregate SHALL implement the following persistent state exactly.
+The following Aggregate Model is approved for implementation.
 
 | Field | Type | Required | Mutable | Purpose |
 |--------|------|----------|----------|---------|
-| academicYearId | String | Yes | No | Unique Academic Year identifier. |
-| name | String | Yes | Yes | Academic Year name. |
-| startDate | LocalDate | Yes | Yes | Beginning of the Academic Year. |
-| endDate | LocalDate | Yes | Yes | End of the Academic Year. |
-| active | Boolean | Yes | Yes | Academic Year lifecycle state. |
+| academicYearIdentifier | String | Yes | No | Unique Academic Year identifier |
+| academicYearCode | String | Yes | No | Institution-defined Academic Year reference |
+| startDate | LocalDate | Yes | No | Beginning of the operational period |
+| endDate | LocalDate | Yes | No | End of the operational period |
+| feeStructureIdentifier | String | Yes | Yes | Applicable Fee Structure reference |
+| lifecycleState | AcademicYearLifecycle | Yes | Yes | Academic Year lifecycle |
+
+The Aggregate SHALL implement only the approved state defined above.
 
 The Developer SHALL NOT:
 
-- introduce additional Aggregate fields;
+- introduce additional Aggregate state;
 - rename approved fields;
 - change approved field types;
-- change approved mutability.
+- change approved field mutability; or
+- introduce alternative representations.
 
-If additional Aggregate state appears necessary, STOP implementation and request clarification.
+If implementation requires additional Aggregate state, STOP and request clarification.
 
 ---
 
-# Approved Aggregate Operations
+# Approved Public Operations
 
-The following Aggregate operations are approved.
+The following public behaviour is approved.
 
 | Operation | Purpose |
 |-----------|---------|
-| Create Academic Year | Create a new Academic Year while preserving approved invariants. |
-| Update Academic Year | Update approved Academic Year information. |
-| Activate Academic Year | Transition the Academic Year to the Active lifecycle state. |
-| Close Academic Year | Transition the Academic Year to the Closed lifecycle state. |
+| Create Academic Year | Create a valid Academic Year Aggregate |
+| Assign Fee Structure | Associate the approved Fee Structure reference |
+| Activate Academic Year | Transition Planned → Active |
+| Close Academic Year | Transition Active → Closed |
 
-The Developer SHALL expose only these business operations.
+Additional public behaviour requires explicit Story approval.
 
 ---
 
 # Acceptance Criteria
 
-The implementation shall:
+Implementation SHALL:
 
 - preserve Academic Year identity;
+- preserve operational period;
+- preserve Fee Structure association;
 - preserve Academic Year lifecycle;
-- preserve approved Aggregate state exactly as defined by the Persistence Model;
-- implement only the approved Aggregate operations;
-- preserve all approved invariants;
-- remain faithful to the approved architecture.
+- implement only the approved Aggregate Model;
+- implement only the approved public operations;
+- preserve approved field names;
+- preserve approved field types;
+- preserve approved field mutability;
+- preserve Aggregate ownership; and
+- remain faithful to the approved Software Architecture and Technical Specification.
 
-No behaviour outside the approved implementation scope shall be introduced.
+Implementation SHALL NOT:
+
+- introduce additional Aggregate state;
+- introduce additional public operations; or
+- introduce undocumented business behaviour.
+
+---
+
+# Out of Scope
+
+This Story intentionally excludes:
+
+- Student management
+- Fee Structure implementation
+- Fee Obligation implementation
+- Discount management
+- Payment processing
+- Receipt management
+- Persistence
+- REST APIs
+- Infrastructure
 
 ---
 
@@ -163,55 +239,28 @@ No behaviour outside the approved implementation scope shall be introduced.
 
 ---
 
-# Implementation Contract
-
-## Write Scope
-
-Only the following implementation artifacts may be created or modified.
-
-### Source
-
-- /Sprint-001/Story-002/source/AcademicYear.java
-
-### Tests
-
-- /Sprint-001/Story-002/tests/AcademicYearTest.java
-
-### Documentation
-
-- /Sprint-001/Story-002/README.md
-
-No additional implementation artifacts may be modified without explicit approval.
-
----
-
-## Output Locations
-
-| Artifact | Output Location |
-|----------|-----------------|
-| AcademicYear.java | /Sprint-001/Story-002/source/AcademicYear.java |
-| AcademicYearTest.java | /Sprint-001/Story-002/tests/AcademicYearTest.java |
-| README.md | /Sprint-001/Story-002/README.md |
-
-The Developer SHALL:
-
-- create or modify artifacts only at the approved Output Locations;
-- preserve the Story Package directory structure;
-- avoid introducing additional folders;
-- avoid inferring package hierarchies unless explicitly approved.
-
----
-
 # Completion Checklist
 
 Before marking this Story complete, verify:
 
-- Academic Year responsibilities implemented.
-- Aggregate Model preserved exactly.
-- Aggregate invariants preserved.
-- Aggregate ownership unchanged.
-- Business Rules preserved.
-- Software Architecture preserved.
-- Only approved implementation artifacts modified.
-- Unit tests completed.
-- No undocumented assumptions introduced.
+- Academic Year Aggregate responsibilities have been implemented.
+- Supporting Domain Types have been implemented.
+- Approved Aggregate Model has been implemented.
+- Approved public operations have been implemented.
+- Academic Year Aggregate invariants are preserved.
+- Aggregate ownership remains unchanged.
+- Business Rules remain preserved.
+- Software Architecture remains preserved.
+- Only approved implementation artifacts have been modified.
+- Unit tests have been completed.
+- No undocumented assumptions have been introduced.
+
+---
+
+# Version History
+
+| Version | Date | Description |
+|----------|------|-------------|
+| 1.0.0 | 2026-07-13 | Initial Story definition. |
+| 1.1.0 | 2026-07-15 | Reconciled with the approved Aggregate Design, Technical Specification and Persistence Model. Introduced explicit lifecycle, operational period and Fee Structure reference while aligning the Story with the standardized Sprint-001 Story Package template. |
+| 1.2.0 | 2026-07-15 | Authorized implementation of the `AcademicYearLifecycle` supporting domain type and its unit tests. Clarified Write Scope, Output Locations and Completion Checklist accordingly. |

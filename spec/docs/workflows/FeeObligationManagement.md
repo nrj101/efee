@@ -6,14 +6,14 @@
 ---
 document_id: WF-FEEOBLIGATION-001
 title: Fee Obligation Management
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-06
-last_updated: 2026-07-06
+last_updated: 2026-07-14
 next_review: Upon approval of changes affecting Fee Obligations
 
 related_documents:
@@ -30,9 +30,13 @@ related_documents:
 
 This document defines the business workflow governing the creation, maintenance and closure of Student Fee Obligations within the Student Fee Receivables Platform.
 
-It describes how financial responsibilities are established, maintained and ultimately settled while preserving complete financial auditability.
+It describes how a Student's financial responsibility is established, maintained and ultimately settled while preserving complete financial auditability and explainability.
 
 This document is part of the Business Workflow package and SHALL be read together with **BusinessWorkflow.md**.
+
+This document defines business sequencing only.
+
+All governing business rules remain defined by **BusinessRules.md**.
 
 ---
 
@@ -43,8 +47,9 @@ This document is part of the Business Workflow package and SHALL be read togethe
 This workflow covers:
 
 - Fee Obligation creation
+- Obligation Line creation
 - Fee Obligation maintenance
-- Outstanding balance management
+- Financial event application
 - Fee Obligation closure
 
 ## Out of Scope
@@ -52,7 +57,7 @@ This workflow covers:
 This workflow intentionally excludes:
 
 - Student registration
-- Fee policy preparation
+- Fee Structure preparation
 - Payment collection
 - Receipt generation
 - Discount approval
@@ -84,7 +89,8 @@ A Student becomes financially responsible for one or more institutional charges.
 
 - Student has been registered.
 - Academic Year is active.
-- Applicable Fee Structure has been approved.
+- Applicable Fee Structure has been published.
+- Applicable Fee Components have been identified.
 
 ---
 
@@ -92,30 +98,34 @@ A Student becomes financially responsible for one or more institutional charges.
 
 1. Identify the applicable Fee Structure.
 2. Create the Student Fee Obligation.
-3. Itemize the Fee Obligation using the approved Fee Components.
-4. Establish the initial outstanding balance.
-5. Maintain the Fee Obligation throughout its lifecycle.
-6. Apply approved financial events such as Payments and Discounts.
-7. Close the Fee Obligation once all financial responsibilities have been satisfied or otherwise completed according to institutional policy.
+3. Create one or more Obligation Lines using the approved Fee Components.
+4. Preserve the original financial responsibility.
+5. Apply approved financial events such as Discounts and realised Payment Allocations throughout the lifecycle of the Fee Obligation.
+6. Recalculate the Outstanding Balance from the current financial facts.
+7. Close the Fee Obligation once all financial responsibilities have been settled or otherwise completed according to institutional policy.
 
 ---
 
 ## Outcome
 
 - Student Fee Obligation established.
-- Outstanding balance accurately maintained.
-- Complete financial history preserved.
+- Obligation Lines preserve the Student's financial responsibility.
+- Outstanding Balance accurately reflects the current financial position.
+- Complete financial history is preserved.
 - Fee Obligation progresses through its approved lifecycle.
 
 ---
 
 ## Related Business Rules
 
-- Every Student Fee Obligation belongs to one Student.
-- Every Fee Obligation belongs to one Academic Year.
-- Outstanding balances shall never become negative.
-- Financial history shall remain fully auditable.
-- Historical Fee Obligations shall be preserved.
+This workflow is governed by the following approved Business Rules.
+
+- BR-008 — Fee Obligations exist independently of Payments.
+- BR-009 — Every Fee Obligation belongs to exactly one Student and one Academic Year.
+- BR-010 — A Fee Obligation shall be itemized by one or more Fee Components.
+- BR-011 — Outstanding Balance is derived from Original Amount, Approved Discounts and Settled Payments.
+- BR-012 — Outstanding Balance shall never become negative.
+- BR-031 — Every significant financial activity shall remain traceable.
 
 ---
 
@@ -132,7 +142,7 @@ A Student becomes financially responsible for one or more institutional charges.
 
 This document is a structural extraction from **BusinessWorkflow.md**.
 
-No business behaviour, workflow, business rules or operational intent have been modified.
+No business behaviour, workflow intent or operational sequencing has been modified.
 
 The authoritative Business Workflow specification is collectively defined by **BusinessWorkflow.md** together with the individual Business Capability workflow documents.
 
@@ -141,8 +151,9 @@ The authoritative Business Workflow specification is collectively defined by **B
 # Version History
 
 | Version | Date | Description |
-|---------|------|-------------|
+|----------|------|-------------|
 | 1.0.0 | 2026-07-06 | Initial extraction from BusinessWorkflow.md. |
+| 1.1.0 | 2026-07-14 | Aligned workflow with RFC-001 Financial Truth Model, clarified that Outstanding Balance is derived from financial facts, strengthened traceability to Business Rules, and updated terminology. |
 
 ---
 

@@ -4,26 +4,101 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class AcademicYear {
-    private String id;
-    private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private AcademicYearStatus status;
 
-    public AcademicYear(String id, String name, LocalDate startDate, LocalDate endDate) {
-        this.id = validateNonEmpty(id, "ID");
-        this.name = validateNonEmpty(name, "Name");
-        this.startDate = validateDate(startDate, "Start Date");
-        this.endDate = validateDate(endDate, "End Date");
-        this.status = AcademicYearStatus.PENDING;
+    private final String academicYearIdentifier;
+    private final String academicYearCode;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
+
+    private String feeStructureIdentifier;
+    private AcademicYearLifecycle lifecycleState;
+
+    public AcademicYear(
+            String academicYearIdentifier,
+            String academicYearCode,
+            LocalDate startDate,
+            LocalDate endDate,
+            String feeStructureIdentifier) {
+
+        if (academicYearIdentifier == null || academicYearIdentifier.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Academic Year Identifier cannot be null or empty");
+        }
+
+        if (academicYearCode == null || academicYearCode.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Academic Year Code cannot be null or empty");
+        }
+
+        if (startDate == null) {
+            throw new IllegalArgumentException(
+                    "Start date cannot be null");
+        }
+
+        if (endDate == null) {
+            throw new IllegalArgumentException(
+                    "End date cannot be null");
+        }
+
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException(
+                    "Start date cannot be after end date");
+        }
+
+        if (feeStructureIdentifier == null || feeStructureIdentifier.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Fee Structure Identifier cannot be null or empty");
+        }
+
+        this.academicYearIdentifier = academicYearIdentifier;
+        this.academicYearCode = academicYearCode;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.feeStructureIdentifier = feeStructureIdentifier;
+        this.lifecycleState = AcademicYearLifecycle.PLANNED;
     }
 
-    public String getId() {
-        return id;
+    public void assignFeeStructure(String feeStructureIdentifier) {
+
+        if (lifecycleState == AcademicYearLifecycle.CLOSED) {
+            throw new IllegalStateException(
+                    "Cannot assign Fee Structure to a closed Academic Year");
+        }
+
+        if (feeStructureIdentifier == null || feeStructureIdentifier.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Fee Structure Identifier cannot be null or empty");
+        }
+
+        this.feeStructureIdentifier = feeStructureIdentifier;
     }
 
-    public String getName() {
-        return name;
+    public void activate() {
+
+        if (lifecycleState != AcademicYearLifecycle.PLANNED) {
+            throw new IllegalStateException(
+                    "Only a planned Academic Year can be activated");
+        }
+
+        lifecycleState = AcademicYearLifecycle.ACTIVE;
+    }
+
+    public void close() {
+
+        if (lifecycleState != AcademicYearLifecycle.ACTIVE) {
+            throw new IllegalStateException(
+                    "Only an active Academic Year can be closed");
+        }
+
+        lifecycleState = AcademicYearLifecycle.CLOSED;
+    }
+
+    public String getAcademicYearIdentifier() {
+        return academicYearIdentifier;
+    }
+
+    public String getAcademicYearCode() {
+        return academicYearCode;
     }
 
     public LocalDate getStartDate() {
@@ -34,68 +109,45 @@ public class AcademicYear {
         return endDate;
     }
 
-    public AcademicYearStatus getStatus() {
-        return status;
+    public String getFeeStructureIdentifier() {
+        return feeStructureIdentifier;
     }
 
-    public void activate() {
-        if (status != AcademicYearStatus.PENDING) {
-            throw new IllegalStateException("Cannot activate an Academic Year that is not pending");
-        }
-        status = AcademicYearStatus.ACTIVE;
-    }
-
-    public void close() {
-        if (status != AcademicYearStatus.ACTIVE) {
-            throw new IllegalStateException("Cannot close an Academic Year that is not active");
-        }
-        status = AcademicYearStatus.CLOSED;
-    }
-
-    public void update(String newName, LocalDate newStartDate, LocalDate newEndDate) {
-        if (newName == null || newName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-        if (newStartDate == null || newEndDate == null) {
-            throw new IllegalArgumentException("Start and end dates must be provided");
-        }
-        if (newStartDate.isAfter(newEndDate)) {
-            throw new IllegalArgumentException("Start date cannot be after end date");
-        }
-        
-        this.name = newName;
-        this.startDate = newStartDate;
-        this.endDate = newEndDate;
-    }
-
-    private String validateNonEmpty(String value, String fieldName) {
-        if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException(fieldName + " cannot be empty");
-        }
-        return value;
-    }
-
-    private LocalDate validateDate(LocalDate date, String fieldName) {
-        if (date == null) {
-            throw new IllegalArgumentException(fieldName + " cannot be null");
-        }
-        return date;
+    public AcademicYearLifecycle getLifecycleState() {
+        return lifecycleState;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AcademicYear that = (AcademicYear) o;
-        return id.equals(that.id);
+    public boolean equals(Object object) {
+
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof AcademicYear other)) {
+            return false;
+        }
+
+        return Objects.equals(
+                academicYearIdentifier,
+                other.academicYearIdentifier);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(academicYearIdentifier);
     }
 
-    public enum AcademicYearStatus {
-        PENDING, ACTIVE, CLOSED
+    @Override
+    public String toString() {
+
+        return "AcademicYear{" +
+                "academicYearIdentifier='" + academicYearIdentifier + '\'' +
+                ", academicYearCode='" + academicYearCode + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", feeStructureIdentifier='" + feeStructureIdentifier + '\'' +
+                ", lifecycleState=" + lifecycleState +
+                '}';
     }
 }

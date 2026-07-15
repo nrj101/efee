@@ -248,7 +248,12 @@ Therefore:
 * Avoid duplicating knowledge across documents.
 * Every specification change should be committed to Git.
 * Architecture evolves through ADRs.
-* Product evolution should begin with an RFC whenever appropriate.
+* Product evolution that modifies approved business behaviour,software models, architecture, technical specifications,persistence models or workflows SHALL begin with an approved RFC.
+* RFCs capture implementation-driven discoveries before the affected specification documents are updated.
+* Once approved, the impacted specification documents SHALL be updated in a coordinated revision to preserve consistencyacross the specification baseline.
+* Implementation SHALL NOT directly redefine an approved specification.
+* Implementation feedback shall first be captured through an RFC.
+* Only after the RFC has been approved, may the affected specification documents be revised.
 
 ---
 

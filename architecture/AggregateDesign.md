@@ -139,7 +139,7 @@ Detailed Aggregate specifications are maintained in the corresponding Aggregate 
 | Fee Obligation | aggregates/FeeObligation.md |
 | Payment | aggregates/Payment.md |
 | Receipt | aggregates/Receipt.md |
-| Discount Policy | aggregates/DiscountPolicy.md |
+| Discount | aggregates/Discount.md |
 
 The Aggregate specifications collectively form the authoritative Aggregate Design for the Student Fee Receivables Platform.
 
@@ -177,7 +177,7 @@ Only Aggregate Roots are accessed directly through Repositories.
 | Fee Obligation  | Student Receivable                     |
 | Payment         | Money Received                         |
 | Receipt         | Official Financial Acknowledgement     |
-| Discount Policy | Discount Eligibility & Grant Lifecycle |
+| Discount        | Student Discount Entitlement           |
 
 ---
 
@@ -193,11 +193,13 @@ Entities SHALL be created, modified and removed only through their owning Aggreg
 | ------------------ | ---------------- | ---------------------------------------------------------------------------- |
 | Fee Component      | Fee Structure    | Defines an individual charge within the charging policy.                     |
 | Obligation Line    | Fee Obligation   | Represents an individual receivable generated from the charging policy.      |
-| Applied Discount   | Fee Obligation   | Represents the financial application of a granted discount to an obligation. |
+| Applied Discount   | Fee Obligation   | Represents the application of an authorised Discount to an Obligation Line. This Entity preserves the financial effect while the Discount Aggregate preserves the business entitlement. |
 | Payment Allocation | Payment          | Represents the settlement of one or more Fee Obligations using a Payment.    |
-| Discount Grant     | Discount Policy  | Represents a student-specific entitlement issued under a Discount Policy.    |
+| Discount           | Discount         | Represents a student-specific entitlement issued under a Discount.           |
 
 ---
+
+
 
 # Value Objects
 
@@ -218,7 +220,7 @@ Candidate Value Objects include:
 | FeeObligationId  | Fee Obligation identifier.                       |
 | PaymentId        | Payment identifier.                              |
 | ReceiptNumber    | Official receipt number within an Academic Year. |
-| DiscountPolicyId | Discount Policy identifier.                      |
+| DiscountId       | Discount identifier.                      |
 | Percentage       | Percentage-based calculations.                   |
 | DateRange        | Effective validity period.                       |
 | AuditMetadata    | Creation, modification and audit information.    |
@@ -241,7 +243,7 @@ The following repositories are expected within the domain layer:
 * FeeObligationRepository
 * PaymentRepository
 * ReceiptRepository
-* DiscountPolicyRepository
+* DiscountRepository
 
 Supporting Entities SHALL NOT expose independent repositories.
 
@@ -293,8 +295,8 @@ The domain consistently separates institutional policy, operational state and fi
 
 | Policy          | Operational State  | Financial Effect   |
 | --------------- | ------------------ | ------------------ |
-| Fee Component   | Obligation Line    | Outstanding Amount |
-| Discount Policy | Discount Grant     | Applied Discount   |
+| Fee Component   | Obligation Line    | Derived Outstanding Position |
+| Discount        | Discount           | Applied Discount   |
 
 This pattern ensures that institutional policies remain stable while operational decisions and financial outcomes remain independently traceable.
 
@@ -356,8 +358,8 @@ Examples include:
 
 * Payments settle Fee Obligations.
 * Receipts acknowledge accepted Payments.
-* Discount Policies issue Discount Grants.
-* Fee Obligations apply granted Discounts.
+* Discounts authorise financial reductions.
+* Fee Obligations apply authorised Discounts through Applied Discounts.
 
 ---
 
@@ -401,7 +403,7 @@ Examples include:
 
 * Closed Academic Years reject new financial activity.
 * Settled Fee Obligations reject retrospective policy changes.
-* Revoked Discount Policies reject new Discount Grants.
+* Revoked Discount Policies reject new Discounts.
 * Payments remain immutable after successful acceptance.
 
 ---
@@ -414,7 +416,7 @@ Approval governs the state transition of a business operation but does not own b
 
 Current approval-governed operations include:
 
-* Issuing a Discount Grant
+* Issuing a Discount
 * Correcting a Receipt
 * Modifying an active Fee Obligation
 
@@ -426,7 +428,9 @@ Future versions may introduce a generalized approval workflow without altering A
 
 Historical financial facts are immutable.
 
-Business corrections SHALL preserve historical traceability by creating corrective business actions rather than rewriting historical records.
+Current financial position is always reproducible from preserved financial facts.
+
+Corrections introduce new financial facts rather than modifying historical records.
 
 Examples include:
 
@@ -460,6 +464,9 @@ The following principles summarize Aggregate collaboration within the system:
 * Lifecycle governs permitted operations.
 * Historical financial facts remain immutable.
 * Approval governs selected state transitions without becoming a business object.
+* Financial position SHALL be derived from preserved financial facts.
+* Aggregates may persist derived financial state for operational efficiency provided it remains fully reproducible from immutable business facts.
+* Derived state SHALL never become the authoritative business truth.
 
 ---
 
@@ -496,7 +503,7 @@ Examples include:
 | Student Receivable        | Fee Obligation   |
 | Money Received            | Payment          |
 | Financial Acknowledgement | Receipt          |
-| Discount Eligibility      | Discount Policy  |
+| Discount Eligibility      | Discount  |
 
 This ownership model minimizes ambiguity, prevents duplicated state and establishes clear transactional boundaries.
 
@@ -515,7 +522,7 @@ Examples include:
 | Stable Policy   | Operational State |
 | --------------- | ----------------- |
 | Fee Component   | Obligation Line   |
-| Discount Policy | Discount Grant    |
+| Discount        | Applied Discount  |
 
 This separation allows institutional policies to evolve independently while preserving historical business activity.
 
@@ -523,18 +530,19 @@ This separation allows institutional policies to evolve independently while pres
 
 ## Entitlement and Financial Effect
 
-Business entitlement and financial effect are intentionally modelled as separate concepts.
 
-A Discount Grant represents a student's entitlement.
+Business entitlement and financial effect remain separate concepts.
 
-An Applied Discount represents the financial realization of that entitlement within a specific Fee Obligation.
+The Discount Aggregate preserves the student's authorised entitlement.
 
-This distinction enables:
+Applied Discount records the financial application of that entitlement to a specific Obligation Line.
+
+This separation preserves:
 
 * historical auditability;
-* future policy evolution;
-* revocation affecting only future obligations; and
-* independent lifecycle management of business entitlement and financial application.
+* financial explainability;
+* future corrections;
+* independent financial reconciliation.
 
 ---
 

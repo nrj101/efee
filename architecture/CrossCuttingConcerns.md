@@ -102,6 +102,17 @@ Examples include:
 
 Business identifiers are independent from internal identities.
 
+Every business object may therefore expose two independent identifiers:
+
+- a System Identifier used internally by the platform;
+- a Business Reference used by institution users.
+
+System Identifiers SHALL remain immutable throughout the lifetime of the business object.
+
+Business References may follow institution-defined numbering policies but SHALL remain unique within their applicable business scope.
+
+All Aggregate relationships SHALL use System Identifiers rather than Business References.
+
 ---
 
 # 5. Number Generation Strategy
@@ -169,18 +180,22 @@ They form part of the ubiquitous language and are independent of messaging techn
 
 Initial event catalogue:
 
-| Event | Description |
-|--------|-------------|
-| StudentRegistered | A student has been successfully registered. |
-| StudentUpdated | Student information has been modified. |
-| AcademicYearOpened | Academic year becomes operational. |
-| AcademicYearClosed | Academic year has been finalized. |
-| FeeStructurePublished | Fee structure becomes active. |
-| FeeObligationCreated | A receivable has been established. |
-| DiscountGranted | Outstanding amount has been reduced. |
-| PaymentRecorded | Payment has been received. |
-| PaymentAllocated | Payment has been allocated to obligations. |
-| ReceiptIssued | Official receipt has been generated. |
+| Event                       | Description                                                       |
+| --------------------------- | ----------------------------------------------------------------- |
+| StudentRegistered           | A student has been successfully registered.                       |
+| StudentUpdated              | Student information has been modified.                            |
+| AcademicYearOpened          | Academic Year becomes operational.                                |
+| AcademicYearClosed          | Academic Year has been finalized.                                 |
+| FeeStructurePublished       | Fee Structure becomes available for new obligations.              |
+| FeeObligationCreated        | A new Fee Obligation has been established.                        |
+| DiscountApproved            | A financial concession has been approved.                         |
+| DiscountApplied             | An approved Discount has been applied to a Fee Obligation.        |
+| PaymentRecorded             | A Payment has been recorded.                                      |
+| PaymentRealised             | A recorded Payment has been successfully realised.                |
+| PaymentAllocated            | A realised Payment has been allocated to one or more obligations. |
+| FinancialCorrectionRecorded | A corrective financial fact has been recorded.                    |
+| ReceiptIssued               | An official Receipt has been issued.                              |
+
 
 These events currently serve as business documentation.
 
@@ -192,16 +207,19 @@ Future versions may publish selected events through integration mechanisms.
 
 Financial operations shall remain fully traceable.
 
-Where applicable, audit information should capture:
+Where business rules require auditability, the platform SHALL preserve:
 
-- who performed the action
-- when it occurred
-- business reason
-- affected business object
-- previous state (where appropriate)
-- resulting state (where appropriate)
+- who performed the action;
+- when it occurred;
+- why it occurred;
+- the affected business object;
+- the approving authority (where applicable);
+- the original business fact;
+- the corrective business fact (where applicable).
 
-Financial history should favour append-only correction over destructive updates.
+Financial history SHALL favour append-only correction over destructive updates.
+
+Audit information forms part of the permanent business history and shall never be silently discarded.
 
 ---
 
@@ -265,9 +283,26 @@ The following capabilities have been intentionally deferred beyond the MVP:
 
 - Configurable Number Series
 - Financial Transaction Identity
-- Ledger-based accounting model
+- General Ledger integration
 - External event publication
 - Multi-campus numbering
 - Multi-currency support
+- Event publication infrastructure
+- Configurable approval workflows
 
 These capabilities should extend the architecture without requiring changes to existing business concepts.
+
+---
+
+# Version History
+
+| Version | Date | Description |
+|----------|------|-------------|
+| 1.0.0 | 2026-07-08 | Initial Cross-Cutting Architecture document. |
+| 1.1.0 | 2026-07-14 | Clarified identifier strategy, strengthened audit and traceability requirements, expanded business event catalogue, and aligned terminology with the revised financial model. |
+
+---
+
+# Approval
+
+**Status:** Approved
