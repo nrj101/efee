@@ -18,7 +18,7 @@ related_documents:
   - ../../architecture/AggregateDesign.md
   - ../../architecture/aggregates/Discount.md
   - ../../technical-specification/aggregates/Discount.md
-  - ../../persistence-model/aggregates/Discount.md
+  - ../../technical-design/persistence/Discount.md
   - ../../spec/docs/SoftwareDomainModel.md
   - ../../spec/docs/BusinessRules.md
   - ../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md

@@ -284,9 +284,9 @@ Future Stories may extend implementation while preserving this specification.
 
 # Related Documents
 
-- SoftwareDomainModel.md
-- BusinessRules.md
-- DiscountManagement.md
+- Software Domain Model
+- Business Rules
+- Discount Management
 - Discount Aggregate Design
 - RFC-007-Discount-Model-Simplification
 - RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers
@@ -299,7 +299,7 @@ Future Stories may extend implementation while preserving this specification.
 |----------|------|-------------|
 | 1.0.0 | 2026-07-06 | Initial version. |
 | 1.1.0 | 2026-07-13 | Added complete Aggregate contract, approved state, lifecycle, implementation obligations and implementation constraints. |
-| 1.2.0 | 2026-07-15 | Aligned with RFC-003 and RFC-006. Simplified the Discount Aggregate to own concession entitlement only, clarified ownership boundaries, strengthened lifecycle contract, refined implementation obligations and reinforced Aggregate collaboration through the Fee Obligation Aggregate. |
+| 1.2.0 | 2026-07-15 | Aligned with RFC-007 and RFC-006. Simplified the Discount Aggregate to own concession entitlement only, clarified ownership boundaries, strengthened lifecycle contract, refined implementation obligations and reinforced Aggregate collaboration through the Fee Obligation Aggregate. |
 
 ---
 

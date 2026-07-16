@@ -15,7 +15,7 @@ last_updated: 2026-07-13
 
 related_documents:
   - ../../architecture/aggregates/FeeStructure.md
-  - ../../architecture/technical-specification/aggregates/FeeStructure.md
+  - ../../technical-specification/aggregates/FeeStructure.md
   - ../../architecture/SoftwareArchitecture.md
 ---
 ```

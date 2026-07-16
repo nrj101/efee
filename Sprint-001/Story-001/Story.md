@@ -22,7 +22,7 @@ related_documents:
   - ../../architecture/AggregateDesign.md
   - ../../architecture/aggregates/Student.md
   - ../../technical-specification/aggregates/Student.md
-  - ../../technical-specification/persistence-model/aggregates/Student.md
+  - ../../technical-design/persistence/aggregates/Student.md
   - ../../spec/docs/SoftwareDomainModel.md
   - ../../spec/docs/BusinessRules.md
 ---

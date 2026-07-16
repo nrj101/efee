@@ -22,7 +22,7 @@ related_documents:
   - BusinessObjectGraph.md
   - SoftwareDomainModel.md
   - rfc/RFC-001-Financial-Truth-Model.md
-  - rfc/RFC-002-Discount-Domain-Model.md
+  - rfc/RFC-007-Discount-Model-Simplification.md
 ---
 ```
 

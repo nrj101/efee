@@ -16,10 +16,10 @@ next_review: Before Technical Specification v2.0.0
 
 related_documents:
   - ../README.md
-  - ../../architecture/SoftwareArchitecture.md
-  - ../../architecture/AggregateDesign.md
-  - ../../spec/docs/SoftwareDomainModel.md
-  - ../../technical-specification/TECHNICAL_SPECIFICATION_STANDARDS.md
+  - ../architecture/SoftwareArchitecture.md
+  - ../architecture/AggregateDesign.md
+  - ../spec/docs/SoftwareDomainModel.md
+  - ../technical-specification/TECHNICAL_SPECIFICATION_STANDARDS.md
 ---
 ```
 

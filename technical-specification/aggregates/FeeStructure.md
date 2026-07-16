@@ -17,7 +17,7 @@ related_documents:
   - ../../architecture/aggregates/FeeStructure.md
   - ../../spec/docs/BusinessRules.md
   - ../../spec/docs/workflows/FeePolicyManagement.md
-  - ../../persistence/FeeStructure.md
+  - ../../technical-design/persistence/FeeStructure.md
 ---
 ```
 

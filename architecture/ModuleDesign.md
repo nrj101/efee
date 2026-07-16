@@ -278,7 +278,7 @@ None.
 | Version | Date | Description |
 |---------|------------|-------------|
 | 1.0.0 | 2026-07-04 | Initial Module Design. |
-| 1.1.0 | 2026-07-14 | Aligned module responsibilities with Aggregate Design v1.1.0. Renamed the Receivables module to Fee Obligation, simplified the Discount module following RFC-002, clarified Application Service orchestration, standardized dependency rules and visibility principles, and approved the document as the MVP modular architecture baseline. |
+| 1.1.0 | 2026-07-14 | Aligned module responsibilities with Aggregate Design v1.1.0. Renamed the Receivables module to Fee Obligation, simplified the Discount module following RFC-007, clarified Application Service orchestration, standardized dependency rules and visibility principles, and approved the document as the MVP modular architecture baseline. |
 
 ---
 

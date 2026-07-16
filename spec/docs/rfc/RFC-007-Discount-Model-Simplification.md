@@ -23,8 +23,8 @@ related_documents:
   - ../../../architecture/AggregateDesign.md
   - ../../../architecture/aggregates/Discount.md
   - ../../../technical-specification/aggregates/Discount.md
-  - ../../../persistence-model/aggregates/Discount.md
-  - ../../../Sprint-001/Story-004.md
+  - ../../../technical-design/persistence/Discount.md
+  - ../../../Sprint-001/Story-004/Story.md
 ---
 ```
 ---

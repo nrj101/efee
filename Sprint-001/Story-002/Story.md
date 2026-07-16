@@ -22,7 +22,7 @@ related_documents:
   - ../../architecture/AggregateDesign.md
   - ../../architecture/aggregates/AcademicYear.md
   - ../../technical-specification/aggregates/AcademicYear.md
-  - ../../technical-specification/persistence-model/aggregates/AcademicYear.md
+  - ../../technical-design/persistence/aggregates/AcademicYear.md
   - ../../spec/docs/SoftwareDomainModel.md
   - ../../spec/docs/BusinessRules.md
 ---

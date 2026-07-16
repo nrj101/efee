@@ -83,13 +83,13 @@ The updated specification becomes the authoritative source of truth.
 
 | RFC | Title | Status | Summary |
 |-----|-------|--------|---------|
-| RFC-001 | Financial Truth Model | Proposed | Defines the authoritative financial truth model, including derived financial state and persistence of derived values. |
+| RFC-001 | Financial Truth Model | Accepted | Defines the authoritative financial truth model, including derived financial state and persistence of derived values. |
 | RFC-002 | Discount Domain Model | Superseded | Original three-tier Discount model. Superseded by RFC-007 following implementation and architectural review. |
 | RFC-003 | Fee Component Ownership | Accepted | Establishes Fee Structure as the sole owner of Fee Components and defines reference rules for collaborating Aggregates. |
 | RFC-004 | Audit, Correction and Approval Model | Accepted | Defines the platform-wide model for approvals, additive corrections and financial auditability. |
 | RFC-005 | Specification Evolution Process | Accepted | Defines the governance process for evolving approved specification baselines through RFC-driven change management. |
-| RFC-006 | Replace Cross-Aggregate Supporting Entity References with Stable Identifiers | Approved | Prohibits direct ownership or persistence of Supporting Entities across Aggregate boundaries and mandates stable identifier references. |
-| RFC-007 | Simplified Discount Aggregate | Approved | Supersedes RFC-002. Confirms the MVP Discount Aggregate owns only concession entitlement while financial application remains the responsibility of the Fee Obligation Aggregate. |
+| RFC-006 | Replace Cross-Aggregate Supporting Entity References with Stable Identifiers | Accepted | Prohibits direct ownership or persistence of Supporting Entities across Aggregate boundaries and mandates stable identifier references. |
+| RFC-007 | Simplified Discount Aggregate | Accepted | Supersedes RFC-002. Confirms the MVP Discount Aggregate owns only concession entitlement while financial application remains the responsibility of the Fee Obligation Aggregate. |
 
 ---
 

@@ -17,7 +17,7 @@ related_documents:
   - ../AggregateDesign.md
   - ../SoftwareArchitecture.md
   - ../../spec/docs/SoftwareDomainModel.md
-  - ../../../spec/docs/rfc/RFC-002-Discount-Domain-Model.md
+  - ../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
   - ../../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
 ---
 ```
@@ -143,7 +143,7 @@ The authoritative Aggregate Design is collectively defined by **AggregateDesign.
 | Version | Date | Description |
 |----------|------|-------------|
 | 1.0.0 | 2026-07-06 | Initial Aggregate definition. |
-| 1.1.0 | 2026-07-15 | Aligned with RFC-003 and RFC-006. Clarified Aggregate ownership, owned business truth, collaboration boundaries and distinction between concession entitlement and financial application. |
+| 1.1.0 | 2026-07-15 | Aligned with RFC-007 and RFC-006. Clarified Aggregate ownership, owned business truth, collaboration boundaries and distinction between concession entitlement and financial application. |
 
 ---
 

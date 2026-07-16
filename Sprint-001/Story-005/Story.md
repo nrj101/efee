@@ -21,8 +21,8 @@ related_documents:
   - ../Sprint-001.md
   - ../../architecture/AggregateDesign.md
   - ../../architecture/aggregates/FeeObligation.md
-  - ../../architecture/technical-specification/aggregates/FeeObligation.md
-  - ../../architecture/persistence-model/aggregates/FeeObligation.md
+  - ../../technical-specification/aggregates/FeeObligation.md
+  - ../../technical-design/persistence/aggregates/FeeObligation.md
   - ../../spec/docs/SoftwareDomainModel.md
   - ../../spec/docs/BusinessRules.md
   - ../../spec/docs/workflows/FeeObligationManagement.md

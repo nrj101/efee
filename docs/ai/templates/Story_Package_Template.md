@@ -14,7 +14,7 @@ created: 2026-07-05
 last_updated: 2026-07-15
 
 related_documents:
-  - ../constitution/Engineering_Constitution.md
+  - ../constitution/Engineering-Constitution.md
   - ../README.md
 ---
 ```

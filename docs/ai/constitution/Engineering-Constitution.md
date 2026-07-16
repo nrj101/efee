@@ -13,9 +13,9 @@ reviewer: Chief Architect
 created: 2026-07-05
 
 related_documents:
-  - ProductRoadmap.md
-  - ARCHITECTURE_STANDARDS.md
-  - SoftwareArchitecture.md
+  - Product Roadmap
+  - ARCHITECTURE STANDARDS
+  - Software Architecture
 ---
 ```
 

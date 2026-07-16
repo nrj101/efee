@@ -13,8 +13,8 @@ owner: Product Owner
 last_updated: 2026-07-09
 
 related_documents:
-  - ../constitution/Engineering_Constitution.md
-  - ../personas/Developer_Persona.md
+  - ../constitution/Engineering-Constitution.md
+  - ../personas/DeveloperPersona.md
   - ../templates/Story_Package_Template.md
 ---
 ```

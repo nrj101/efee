@@ -18,7 +18,7 @@ related_documents:
   - ../../technical-specification/aggregates/Discount.md
   - ../../architecture/SoftwareArchitecture.md
   - ../../spec/docs/SoftwareDomainModel.md
-  - ../../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
+  - ../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
   - ../../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
 ---
 ```
