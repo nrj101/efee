@@ -6,15 +6,15 @@
 ---
 document_id: GRAPH-001
 title: Business Object Graph
-version: 1.2.0
+version: 1.3.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-07-14
-next_review: Before Specification v1.2.0
+last_updated: 2026-07-16
+next_review: Before Specification v1.3.0
 
 related_documents:
   - DomainGlossary.md
@@ -32,7 +32,7 @@ related_documents:
 
 The Business Object Graph defines the conceptual structure of the E-Fee business domain by identifying its first-class business objects and the enduring conceptual relationships between them.
 
-It provides the authoritative conceptual model of the student fee receivables domain and serves as the foundation for the Software Domain Model, Aggregate Design and subsequent technical specifications.
+It provides the authoritative conceptual model of the Student Fee Receivables domain and serves as the foundation for the Software Domain Model, Aggregate Design and subsequent technical specifications.
 
 ---
 
@@ -44,7 +44,7 @@ This document defines:
 
 - First-class business objects.
 - Enduring conceptual relationships.
-- High-level organization of the student fee receivables domain.
+- High-level organization of the Student Fee Receivables domain.
 
 ---
 
@@ -73,7 +73,7 @@ Operational concepts such as Payment Allocation, Applied Discount, Financial Cor
 The conceptual graph organizes the domain into four logical regions:
 
 - Educational Context
-- Financial Policy
+- Financial Definition
 - Financial Responsibility
 - Financial Activity
 
@@ -107,7 +107,7 @@ A Student may participate in multiple Academic Years and incur Fee Obligations t
 
 ## Academic Year
 
-Represents the operational period during which the institution conducts academic and financial activities.
+Represents the operational period during which an institution conducts academic and financial activities.
 
 An Academic Year provides the business context for Fee Structures and Fee Obligations.
 
@@ -133,23 +133,17 @@ Fee Components belong to a Fee Structure and define the standard categories from
 
 Represents a Student's financial responsibility for an Academic Year.
 
-A Fee Obligation is established from the applicable Fee Structure, itemized by Fee Components, reduced through approved concessions and settled through Payments.
+A Fee Obligation is established from the applicable Fee Structure, itemized by Fee Components, reduced through approved Discounts and settled through Payments.
 
 ---
 
-## Discount Policy
+## Discount
 
-Represents the institution's reusable policy governing financial concessions.
+Represents an approved financial concession granted to a specific Student.
 
-A Discount Policy defines eligibility and calculation rules but does not itself reduce a Student's financial responsibility.
+A Discount preserves the Student's entitlement to a financial concession but does not directly modify a Fee Obligation.
 
----
-
-## Discount Grant
-
-Represents an approved authorization granting a Student entitlement to a financial concession under a Discount Policy.
-
-A Discount Grant establishes eligibility but does not directly modify a Fee Obligation.
+The financial effect of a Discount is realised only when it is applied to a Fee Obligation as an Applied Discount.
 
 ---
 
@@ -209,21 +203,15 @@ Fee Obligations are itemized using Fee Components defined by the governing Fee S
 
 ---
 
-## Discount Policy ↔ Discount Grant
+## Discount ↔ Student
 
-A Discount Policy governs one or more Discount Grants.
-
----
-
-## Discount Grant ↔ Student
-
-A Discount Grant is approved for a specific Student.
+A Discount is approved for a specific Student and records that Student's entitlement to a financial concession.
 
 ---
 
-## Discount Grant ↔ Fee Obligation
+## Discount ↔ Fee Obligation
 
-Approved Discount Grants may contribute to reducing the financial responsibility represented by a Fee Obligation.
+An approved Discount may be applied to a Fee Obligation as an Applied Discount, reducing the Outstanding Balance while preserving the original financial obligation.
 
 ---
 
@@ -249,8 +237,8 @@ Receipts acknowledge accepted Payments.
 - Fee Structures define institutional charging policy.
 - Fee Components belong exclusively to Fee Structures.
 - Fee Obligations represent Student financial responsibility.
-- Discount Policies define institutional concession rules.
-- Discount Grants authorize Student-specific concessions.
+- Discounts preserve approved Student-specific financial concessions.
+- Applied Discounts represent the financial effect of approved Discounts.
 - Receipts represent enduring financial evidence.
 - The Business Object Graph remains independent of implementation technology.
 
@@ -277,7 +265,8 @@ None.
 |---------|------------|-------------|
 | 1.0.0 | 2026-06-29 | Initial approved version. |
 | 1.1.0 | 2026-07-03 | Polished terminology, aligned with Gate 2 consolidation and standardized document structure. |
-| 1.2.0 | 2026-07-14 | Aligned the conceptual model with the reconciled business specification by introducing Discount Policy and Discount Grant, refining conceptual relationships and clarifying the distinction between enduring business objects and operational concepts. |
+| 1.2.0 | 2026-07-14 | Refined the conceptual model and clarified the distinction between enduring business objects and operational concepts. |
+| 1.3.0 | 2026-07-16 | Aligned the conceptual model with RFC-007. Consolidated the previous Discount Policy and Discount Grant concepts into a single Discount business object, clarified the relationship between Discount and Applied Discount, and simplified conceptual relationships to match the approved Software Domain Model and Technical Specifications. |
 
 ---
 
@@ -292,4 +281,4 @@ None.
 
 ## Approval Date
 
-2026-07-14
+2026-07-16

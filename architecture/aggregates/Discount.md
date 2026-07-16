@@ -40,7 +40,7 @@ This document SHALL NOT introduce new business behaviour.
 
 ## Responsibility
 
-The Discount Aggregate owns the authorised financial concession entitlement granted to a Student.
+The Discount Aggregate owns the authorised financial concession entitlement granted to a Student together with the supporting approval information and business justification.
 
 It preserves the business entitlement to a financial concession while maintaining complete historical auditability.
 
@@ -102,7 +102,7 @@ The Fee Obligation Aggregate owns financial responsibility and determines the fi
 
 The Discount Aggregate authorises financial concessions without assuming ownership of financial responsibility.
 
-Collaborations occur only through Aggregate references.
+Collaborations occur only through stable Aggregate identifiers coordinated by the Application Layer.
 
 ---
 
@@ -132,7 +132,7 @@ The Discount Aggregate preserves only the business entitlement to an authorised 
 
 It intentionally excludes the financial application of that entitlement.
 
-Applied Discounts remain part of the Fee Obligation Aggregate because they represent realised financial responsibility rather than concession entitlement.
+Applied Discounts remain owned by the Fee Obligation Aggregate because they represent the realised financial effect of an approved Discount rather than the business entitlement itself.
 
 The authoritative Aggregate Design is collectively defined by **AggregateDesign.md** together with the individual Aggregate specification documents.
 

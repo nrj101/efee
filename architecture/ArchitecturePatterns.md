@@ -195,7 +195,7 @@ Approval governs **when** a state transition may occur, but does not own the bus
 
 ## Current Applications
 
-* Discount Grant
+* Discount
 * Receipt Correction
 * Financial Correction
 * Modification of active Fee Obligations
@@ -224,7 +224,7 @@ This separation preserves clear Aggregate ownership while maintaining complete a
 
 | Business Approval | Financial Effect |
 |-------------------|------------------|
-| Approved Discount | Applied Discount |
+| Discount         | Applied Discount |
 | Accepted Payment | Payment Allocation |
 
 ## Consequences

@@ -6,15 +6,15 @@
 ---
 document_id: GLOSSARY-001
 title: Domain Glossary
-version: 1.2.0
+version: 1.3.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-07-14
-next_review: Before Specification v1.2.0
+last_updated: 2026-07-16
+next_review: Before Specification v1.3.0
 
 related_documents:
   - BusinessWorkflow.md
@@ -56,9 +56,9 @@ Software concepts are introduced separately in the **Software Domain Model**.
 
 # Academic Year
 
-A bounded operational period during which an institution manages student fee receivables.
+A bounded operational period during which an institution manages Student Fee Receivables.
 
-An Academic Year determines the Fee Structure applicable to enrolled students and serves as the primary financial reporting boundary for the institution.
+An Academic Year determines the Fee Structure applicable to enrolled Students and serves as the primary financial reporting boundary for the institution.
 
 Once closed, it becomes read-only for normal business operations.
 
@@ -78,17 +78,17 @@ A Student may become inactive, but historical financial records are never remove
 
 # Fee Structure
 
-A reusable charging policy defining the standard fees applicable to a group of students for a particular Academic Year.
+A reusable charging policy defining the standard fees applicable to a group of Students for a particular Academic Year.
 
 A Fee Structure is composed of one or more Fee Components.
 
-Student-specific financial concessions are intentionally excluded and are handled separately through Discount Policies and Discount Grants.
+Student-specific financial concessions are intentionally excluded and are handled separately through approved Discounts.
 
 ---
 
 # Fee Component
 
-An individual financial category contributing to a student's overall fee obligation.
+An individual financial category contributing to a Student's overall Fee Obligation.
 
 Examples include:
 
@@ -116,12 +116,12 @@ It represents the institution's account receivable from the Student.
 
 The financial position of a Fee Obligation is explained through:
 
-- Original obligation amount
+- Original Obligation Amount
 - Applied Discounts
 - Payment Allocations
 - Outstanding Balance
-- Operational status
-- Financial history
+- Operational Status
+- Financial History
 
 Outstanding Balance is derived from these financial facts and represents the current amount owed by the Student.
 
@@ -148,10 +148,10 @@ Only realised Payments may be allocated to Fee Obligations.
 A Payment records:
 
 - Amount
-- Payment method
+- Payment Method
 - Payer
-- Transaction reference (where applicable)
-- Operational lifecycle
+- Transaction Reference (where applicable)
+- Operational Lifecycle
 
 One realised Payment may settle obligations belonging to one or more Students where institutional policy permits.
 
@@ -177,42 +177,33 @@ Receipt corrections preserve historical information rather than replacing previo
 
 ---
 
-# Discount Policy
+# Discount
 
-A reusable institutional policy defining eligibility criteria and calculation rules for financial concessions.
+An approved financial concession granted to a specific Student.
 
-A Discount Policy does not reduce any Student's financial responsibility by itself.
-
-It provides the basis upon which individual Discount Grants may be approved.
-
----
-
-# Discount Grant
-
-An approved authorization granting a specific Student the entitlement to receive a financial concession under a Discount Policy.
-
-A Discount Grant records:
+A Discount records:
 
 - Student
-- Discount Policy
-- Approved value
-- Reason
-- Approving authority
-- Effective period
+- Approved Value
+- Business Justification
+- Approval Information
+- Effective Period (where applicable)
 
-A Discount Grant represents an entitlement.
+A Discount represents an approved financial entitlement.
 
 It does not directly modify a Fee Obligation.
+
+The financial effect of a Discount is realised only when it is applied to a Fee Obligation.
 
 ---
 
 # Applied Discount
 
-The financial effect created when an approved Discount Grant is applied to a specific Fee Obligation.
+The financial effect created when an approved Discount is applied to a specific Fee Obligation.
 
 Applied Discounts reduce the Outstanding Balance while preserving the original financial obligation.
 
-Historical Applied Discounts remain permanently traceable.
+Applied Discounts are financial facts owned by the Fee Obligation and remain permanently traceable.
 
 ---
 
@@ -261,7 +252,7 @@ Examples include:
 
 - Student Registered
 - Fee Obligation Created
-- Discount Granted
+- Discount Approved
 - Applied Discount Recorded
 - Payment Realised
 - Payment Allocated
@@ -293,10 +284,9 @@ Business State is derived from previously recorded Business Events and changes o
 - Every business concept is defined exactly once.
 - Business terminology is independent of implementation technology.
 - Fee Structures define charging policy.
-- Fee Components belong to Fee Structures.
-- Discount Policies define institutional concession rules.
-- Discount Grants authorize Student-specific concessions.
-- Applied Discounts record the financial effect of approved concessions.
+- Fee Components belong exclusively to Fee Structures.
+- Discounts preserve approved Student-specific financial concessions.
+- Applied Discounts record the financial effect of approved Discounts.
 - Fee Obligations represent Student financial responsibility.
 - Payments represent settlement intent that may require realisation.
 - Payment Allocations explain how realised money settles obligations.
@@ -325,7 +315,8 @@ None.
 |---------|------------|-------------|
 | 1.0.0 | 2026-06-29 | Initial approved version. |
 | 1.1.0 | 2026-07-03 | Updated to reflect the completed Gate 2 conceptual model and software domain terminology separation. |
-| 1.2.0 | 2026-07-14 | Expanded the glossary to incorporate the Financial Truth Model, Discount domain concepts, Final Settlement Obligation and refined business terminology introduced during Specification v1.1.0 design reconciliation. |
+| 1.2.0 | 2026-07-14 | Expanded the glossary to incorporate the Financial Truth Model, Final Settlement Obligation and refined business terminology introduced during Specification v1.1.0 design reconciliation. |
+| 1.3.0 | 2026-07-16 | Aligned the glossary with RFC-007. Consolidated the previous Discount Policy and Discount Grant concepts into a single Discount business concept, clarified the distinction between approved financial entitlement and Applied Discount, and aligned terminology with the approved Software Domain Model, Architecture and Technical Specifications. |
 
 ---
 
@@ -340,4 +331,4 @@ None.
 
 ## Approval Date
 
-2026-07-14
+2026-07-16

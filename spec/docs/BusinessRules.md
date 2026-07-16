@@ -253,7 +253,7 @@ Receipt references shall remain traceable throughout the lifecycle of associated
 
 ### BR-022
 
-Discounts are granted to eligible Students.
+Approved Discounts are granted to eligible Students.
 
 They reduce the student's financial responsibility while preserving the original financial history.
 

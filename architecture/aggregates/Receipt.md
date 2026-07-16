@@ -4,19 +4,20 @@
 ---
 document_id: AGG-RECEIPT-001
 title: Receipt Aggregate
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-06
-last_updated: 2026-07-06
+last_updated: 2026-07-15
 
 related_documents:
   - ../AggregateDesign.md
   - ../SoftwareArchitecture.md
   - ../../spec/docs/SoftwareDomainModel.md
+  - ../../spec/docs/rfc/RFC-001-Financial-Truth-Model.md
 ---
 ```
 
@@ -38,37 +39,38 @@ This document SHALL NOT introduce new business behaviour.
 
 ## Responsibility
 
-Owns the official acknowledgement of accepted Payments.
+Owns the official acknowledgement and lifecycle of accepted Payments.
 
 ---
 
 ## Owned Business Truth
 
-* Receipt lifecycle
 * Receipt identity
-* Financial acknowledgement
+* Receipt lifecycle
+* Receipt evidence
+* Payment acknowledgement
 
 ---
 
 ## Supporting Entities
 
-None
+None.
 
 ---
 
 ## Primary Invariants
 
 * Every Receipt acknowledges exactly one accepted Payment.
-* Receipt history shall remain immutable.
+* Receipt identity remains immutable.
+* Receipt history shall remain permanently preserved.
 * Receipt identifiers shall remain unique.
 
 ---
 
 ## Allowed Operations
 
-* Generate Receipt
-* Reissue Receipt (where permitted)
-* Void Receipt (where permitted by business policy)
+* Issue Receipt
+* Correct Receipt (where permitted by business policy)
 
 ---
 
@@ -89,6 +91,7 @@ None
 * AggregateDesign.md
 * SoftwareArchitecture.md
 * SoftwareDomainModel.md
+* RFC-001 — Financial Truth Model
 
 ---
 
@@ -100,6 +103,30 @@ No architectural decisions, responsibilities or business behaviour have been mod
 
 The authoritative Aggregate Design is collectively defined by **AggregateDesign.md** together with the individual Aggregate specification documents.
 
+The Receipt Aggregate owns the institution's official acknowledgement of an accepted Payment.
+
+Receipt ownership is intentionally separated from Payment ownership. The Payment Aggregate preserves the financial evidence of money received, while the Receipt Aggregate preserves the institution's acknowledgement of that Payment. This separation maintains clear Aggregate ownership and supports complete financial auditability.
+
+---
+
+# Version History
+
+| Version | Date | Description |
+|----------|------------|-------------|
+| 1.0.0 | 2026-07-06 | Initial Aggregate Design. |
+| 1.1.0 | 2026-07-15 | Aligned with RFC-001 Financial Truth Model. Clarified Aggregate ownership, strengthened lifecycle and acknowledgement responsibilities, aligned operations with the approved Receipt Aggregate Technical Specification, and documented the separation between Payment evidence and Receipt acknowledgement. |
+
+---
+
 # Approval
 
 **Status:** Approved
+
+## Approved By
+
+* Product Owner
+* CTO
+
+## Approval Date
+
+2026-07-15

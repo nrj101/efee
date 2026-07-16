@@ -77,7 +77,7 @@ None
 
 * Academic Year
 * Fee Obligation
-* Discount Policy
+* Discount
 
 ---
 

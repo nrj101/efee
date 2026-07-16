@@ -256,22 +256,23 @@ Payment intentionally does not preserve settlement information.
 
 ### Purpose
 
-Represents the operational relationship between a Payment and one or more Obligation Lines.
+Represents the financial application of a realised Payment to one or more Obligation Lines owned by a Fee Obligation.
 
-Payment Allocations are immutable financial facts.
+Payment Allocation is an immutable financial fact owned by the Fee Obligation Aggregate.
 
-Corrections create new Allocation facts rather than modifying existing allocations.
+It references a realised Payment while preserving the Fee Obligation's financial history.
 
 ### Software Preserves
 
-- Payment reference.
-- Obligation Line reference.
-- Allocated amount.
-- Allocation timestamp.
-- Allocation sequence.
-- Allocation reason (where applicable).
+- Payment reference
+- Obligation Line reference
+- Allocated amount
+- Allocation timestamp
+- Allocation reason (where applicable)
 
-This concept exists because allocation information belongs to the relationship rather than either participating concept.
+Payment Allocation exists because the financial settlement of a Fee Obligation belongs to the Fee Obligation Aggregate rather than to the Payment itself.
+
+Corrections preserve historical auditability by introducing new financial facts rather than modifying existing Payment Allocations.
 
 ---
 
@@ -279,19 +280,23 @@ This concept exists because allocation information belongs to the relationship r
 
 ### Purpose
 
-Represents the operational relationship between an approved Discount and one or more Obligation Lines.
+Represents the financial application of an approved Discount to one or more Obligation Lines owned by a Fee Obligation.
+
+Applied Discount is an immutable financial fact owned by the Fee Obligation Aggregate.
 
 ### Software Preserves
 
-- Discount reference.
-- Obligation Line reference.
-- Applied discount amount.
-- Application timestamp.
-- Application reason (where applicable).
+- Discount reference
+- Obligation Line reference
+- Applied discount amount
+- Application timestamp
+- Application reason (where applicable)
 
-This concept exists because the financial effect of a Discount belongs to the relationship between the Discount and the affected Obligation Lines rather than to either participating concept.
+Applied Discount exists because the financial effect of a Discount belongs to the Fee Obligation's financial history rather than to the Discount Aggregate.
 
-Applied Discounts preserve financial derivation while maintaining Aggregate ownership boundaries. Applied Discounts preserve the financial effect of an approved Discount without transferring ownership of the Discount itself.
+The Discount Aggregate preserves only the approved entitlement.
+
+The Fee Obligation Aggregate preserves the financial effect of that entitlement.
 
 ---
 
@@ -316,22 +321,27 @@ Receipt owns acknowledgement—not settlement.
 
 ### Represents
 
-An authorised financial concession granted to a Student.
+An approved financial concession granted to a Student.
 
 ### Software Preserves
 
-- Discount identity.
-- Student reference.
-- Approved concession value.
-- Approval information.
-- Business justification.
-- Grant lifecycle.
+- Discount identity
+- Student reference
+- Approved concession value
+- Approval information
+- Business justification
+- Discount lifecycle
 
-Discount owns the approval of a financial concession.
+The Discount Aggregate owns the approved entitlement to a financial concession.
 
-The financial effect of a Discount is preserved by the Fee Obligation Aggregate through one or more Applied Discounts.
+It intentionally does not own:
 
-Discount intentionally does not own outstanding balances or financial responsibility.
+- Fee Obligations
+- Applied Discounts
+- Outstanding Amount
+- Payment Allocations
+
+The financial effect of a Discount is realised only through Applied Discounts owned by the Fee Obligation Aggregate.
 
 ---
 
@@ -348,11 +358,10 @@ The following principles govern that collaboration.
 
 Examples include:
 
-- Payment Allocations request Fee Obligations to apply settlements. 
-- Collaborating concepts exchange references or immutable financial facts. They SHALL NOT directly modify another concept's owned business state.
-- Approved Discounts are applied to Obligation Lines through Applied Discounts while preserving Fee Obligation ownership.
+- Fee Obligations record Payment Allocations derived from realised Payments.
+- Approved Discounts are applied through Applied Discounts owned by the Fee Obligation Aggregate.
 - Receipts acknowledge accepted Payments.
-- Fee Obligations derive their financial position from the financial facts preserved within their Obligation Lines, including original charges, authorised discounts and realised settlements.
+- Collaborating concepts exchange identifiers or immutable financial facts. They SHALL NOT directly modify another Aggregate's owned state.
 
 ---
 
@@ -365,7 +374,7 @@ The Software Domain Model preserves the following business truths.
 - Financial position shall be derived from:
   - Original Obligation Lines.
   - Applied Discounts.
-  - Applied Settlements.
+  - Payment Allocations.
 - Outstanding Amount shall never become negative.
 - Aggregate financial position shall remain reproducible from preserved financial facts.
 - Aggregate lifecycle shall remain internally consistent.
@@ -388,7 +397,7 @@ Instead, it represents a specialized lifecycle outcome of the Fee Obligation con
 
 - Original Amount is immutable.
 - Applied Discounts shall never exceed the Original Amount.
-- Applied Settlements shall never exceed the remaining payable amount after authorised Discounts.
+- Payment Allocations shall never exceed the remaining payable amount after authorised Discounts.
 - Current outstanding position shall always be derivable from preserved financial facts.
 
 ---
@@ -464,7 +473,7 @@ None.
 |---------|------|-------------|
 | 1.0.0 | 2026-06-29 | Initial approved version. |
 | 1.1.0 | 2026-07-03 | Standardised structure, strengthened translation principles and aligned terminology with the completed Gate 2 specification. |
-| 1.2.0 | 2026-07-14 | Aligned with RFC-001 Financial Truth Model and RFC-003 Discount Model Simplification. Introduced Applied Discount as a software concept, clarified derived financial position, strengthened collaboration principles and standardised financial terminology. |
+| 1.2.0 | 2026-07-14 | Aligned with RFC-001 Financial Truth Model and RFC-007 Discount Model Simplification. Clarified Aggregate ownership of Applied Discounts and Payment Allocations, strengthened collaboration principles, and standardised financial terminology. |
 
 ---
 

@@ -25,7 +25,7 @@ related_documents:
 ---
 ```
 
-Superseded: This RFC has been superseded by RFC-007- Discount Model Simplification for MVP. It is retained for historical traceability and no longer defines the current architectural baseline.
+Superseded: This RFC has been superseded by RFC-007-Discount-Model-Simplification. It is retained for historical traceability and no longer defines the current architectural baseline.
 
 ---
 

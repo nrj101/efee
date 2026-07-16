@@ -194,9 +194,8 @@ Entities SHALL be created, modified and removed only through their owning Aggreg
 | Fee Component      | Fee Structure    | Defines an individual charge within the charging policy.                     |
 | Obligation Line    | Fee Obligation   | Represents an individual receivable generated from the charging policy.      |
 | Applied Discount   | Fee Obligation   | Represents the application of an authorised Discount to an Obligation Line. This Entity preserves the financial effect while the Discount Aggregate preserves the business entitlement. |
-| Payment Allocation | Payment          | Represents the settlement of one or more Fee Obligations using a Payment.    |
 | Discount           | Discount         | Represents a student-specific entitlement issued under a Discount.           |
-
+| Payment Allocation | Fee Obligation   | Represents the application of a realised Payment to one or more Obligation Lines. The Payment Allocation Entity belongs exclusively to the Fee Obligation Aggregate. It references a realised Payment but remains part of the Fee Obligation's financial history.    |
 ---
 
 
@@ -293,10 +292,12 @@ Corrections preserve historical auditability rather than rewriting business hist
 
 The domain consistently separates institutional policy, operational state and financial effect.
 
-| Policy          | Operational State  | Financial Effect   |
-| --------------- | ------------------ | ------------------ |
-| Fee Component   | Obligation Line    | Derived Outstanding Position |
-| Discount        | Discount           | Applied Discount   |
+| Stable Policy | Operational State  | Financial Effect   |
+| ------------- | ------------------ | ------------------ |
+| Fee Component | Obligation Line    | Outstanding Amount |
+| Discount      | Applied Discount   | Outstanding Amount |
+| Payment       | Payment Allocation | Outstanding Amount |
+
 
 This pattern ensures that institutional policies remain stable while operational decisions and financial outcomes remain independently traceable.
 
@@ -356,10 +357,10 @@ Cross-Aggregate interaction SHALL occur through well-defined business operations
 
 Examples include:
 
-* Payments settle Fee Obligations.
-* Receipts acknowledge accepted Payments.
-* Discounts authorise financial reductions.
-* Fee Obligations apply authorised Discounts through Applied Discounts.
+* Payments are realised independently.
+* Fee Obligations record Payment Allocations derived from realised Payments.
+* Discount Aggregates preserve approved discount entitlements.
+* Fee Obligations record Applied Discounts representing the financial effect.
 
 ---
 
@@ -402,8 +403,8 @@ Aggregates SHALL reject operations that violate lifecycle constraints.
 Examples include:
 
 * Closed Academic Years reject new financial activity.
-* Settled Fee Obligations reject retrospective policy changes.
-* Revoked Discount Policies reject new Discounts.
+* Retired Fee Obligations reject further modification.
+* Retired Discounts reject further modification.
 * Payments remain immutable after successful acceptance.
 
 ---
@@ -416,7 +417,7 @@ Approval governs the state transition of a business operation but does not own b
 
 Current approval-governed operations include:
 
-* Issuing a Discount
+* Approving a Discount
 * Correcting a Receipt
 * Modifying an active Fee Obligation
 
@@ -503,7 +504,7 @@ Examples include:
 | Student Receivable        | Fee Obligation   |
 | Money Received            | Payment          |
 | Financial Acknowledgement | Receipt          |
-| Discount Eligibility      | Discount  |
+| Student Discount Entitlement |  Discount    |
 
 This ownership model minimizes ambiguity, prevents duplicated state and establishes clear transactional boundaries.
 
@@ -522,7 +523,7 @@ Examples include:
 | Stable Policy   | Operational State |
 | --------------- | ----------------- |
 | Fee Component   | Obligation Line   |
-| Discount        | Applied Discount  |
+| Discount        | Applied Discount (Note: The Discount Aggregate preserves the approved entitlement, while Applied Discounts record the financial effect within the Fee Obligation Aggregate.)  |
 
 This separation allows institutional policies to evolve independently while preserving historical business activity.
 
@@ -580,7 +581,7 @@ Cross-Aggregate workflows are coordinated by the Application Layer while each Ag
 
 ---
 
-## Architectural Simplicity for Beta
+## Foundation Implementation Constraints
 
 The Beta MVP intentionally prioritizes:
 
@@ -680,3 +681,9 @@ Together with the Product Specification, Architecture Decision Records and suppo
 Implementation is expected to faithfully realize this architecture while remaining independent of any specific programming language, framework or persistence technology.
 
 Architectural modifications affecting Aggregate ownership, consistency boundaries or architectural principles SHALL be introduced only through an approved Architecture Decision Record.
+
+# Version History
+
+| Version | Date | Description |
+|----------|------|-------------|
+1.1.0 | 2026-07-15 | Reconciled Aggregate Design with RFC-001 Financial Truth Model and RFC-007 Discount Model Simplification. Clarified Aggregate ownership of Applied Discounts and Payment Allocations, updated lifecycle terminology, strengthened collaboration rules and aligned the document with the Foundation Implementation baseline.

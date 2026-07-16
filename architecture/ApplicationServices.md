@@ -11,6 +11,7 @@ owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-04
+last_updated: 2026-07-16
 
 related_documents:
   - AggregateDesign.md
@@ -62,7 +63,7 @@ Application Services SHALL NOT calculate business state, modify another Aggregat
 
 # Application Service Catalogue
 
-The following services constitute the Beta MVP application layer.
+The following Application Services define the approved Application Layer architecture. Individual services may be implemented incrementally across future Sprints.
 
 | Service | Primary Responsibility |
 |----------|------------------------|
@@ -70,10 +71,10 @@ The following services constitute the Beta MVP application layer.
 | AcademicYearService | Academic Year lifecycle |
 | FeeStructureService | Charging policy management |
 | FeeObligationService | Student receivables |
-| PaymentService | Payment recording and allocation |
+| PaymentService | Payment lifecycle management |
 | ReceiptService | Receipt issuance and correction |
-| DiscountService | Discount approval and management |
-| ApprovalService | Cross-workflow approval coordination |
+| DiscountService | Student discount management |
+| ApprovalService | Coordination of approval-governed workflows |
 | FinancialCorrectionService | Financial correction workflow coordination |
 | ReportingService | Reporting and query orchestration |
 
@@ -116,3 +117,5 @@ Typical future additions may include:
 - DashboardService
 
 New services SHALL coordinate business workflows without introducing business rules or violating Aggregate ownership boundaries.
+
+Additional Application Services may be introduced without modifying Aggregate ownership or business responsibilities.

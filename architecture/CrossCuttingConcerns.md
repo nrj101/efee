@@ -11,7 +11,7 @@ owner: Solution Architect
 reviewer: Product Owner
 
 created: 2026-07-08
-last_updated: 2026-07-08
+last_updated: 2026-07-15
 
 related_documents:
   - SoftwareArchitecture.md
@@ -69,7 +69,7 @@ Derived values may be persisted for performance but shall always be reproducible
 
 Historical financial information shall never be destroyed.
 
-Corrections replace modification.
+Corrections replace destructive modification.
 
 Cancellation replaces deletion.
 
@@ -83,7 +83,9 @@ Business rules shall be implemented explicitly and remain independent of user in
 
 # 4. Aggregate Identity Strategy
 
-Every aggregate shall possess a system-generated immutable identifier.
+Every Aggregate SHALL have a unique immutable identifier.
+The Foundation Implementation uses business identifiers as Aggregate identities.
+Future implementations may introduce separate internal system identifiers without changing Aggregate semantics or business relationships.
 
 The internal identifier:
 
@@ -189,7 +191,7 @@ Initial event catalogue:
 | FeeStructurePublished       | Fee Structure becomes available for new obligations.              |
 | FeeObligationCreated        | A new Fee Obligation has been established.                        |
 | DiscountApproved            | A financial concession has been approved.                         |
-| DiscountApplied             | An approved Discount has been applied to a Fee Obligation.        |
+| DiscountApplied          | An approved Discount is applied to a Fee Obligation as a financial event.|
 | PaymentRecorded             | A Payment has been recorded.                                      |
 | PaymentRealised             | A recorded Payment has been successfully realised.                |
 | PaymentAllocated            | A realised Payment has been allocated to one or more obligations. |
@@ -247,7 +249,7 @@ Future versions may introduce multi-currency support without affecting the domai
 
 # 10. Transaction Boundaries
 
-Business operations should complete atomically within a single application transaction whenever possible.
+Business operations SHALL complete atomically whenever practical.
 
 Aggregate consistency shall be maintained immediately.
 
@@ -289,6 +291,7 @@ The following capabilities have been intentionally deferred beyond the MVP:
 - Multi-currency support
 - Event publication infrastructure
 - Configurable approval workflows
+- Separate internal Aggregate identifiers
 
 These capabilities should extend the architecture without requiring changes to existing business concepts.
 
@@ -299,7 +302,7 @@ These capabilities should extend the architecture without requiring changes to e
 | Version | Date | Description |
 |----------|------|-------------|
 | 1.0.0 | 2026-07-08 | Initial Cross-Cutting Architecture document. |
-| 1.1.0 | 2026-07-14 | Clarified identifier strategy, strengthened audit and traceability requirements, expanded business event catalogue, and aligned terminology with the revised financial model. |
+| 1.1.0 | 2026-07-15 | Clarified identifier strategy, strengthened audit and traceability requirements, expanded business event catalogue, and aligned terminology with the revised financial model. |
 
 ---
 

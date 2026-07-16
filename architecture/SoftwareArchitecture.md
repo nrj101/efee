@@ -14,7 +14,7 @@ created: 2026-07-04
 last_updated: 2026-07-14
 
 related_documents:
-  - architecture/adr/ADR-001-Domain Architecture Strategy.md
+  - adr/ADR-001-Domain Architecture Strategy.md
   - ArchitecturePatterns.md
   - AggregateDesign.md
   - ApplicationServices.md
@@ -279,7 +279,7 @@ None.
 | Version | Date | Description |
 |----------|------------|-------------|
 | 1.0.0 | 2026-07-04 | Initial Software Architecture. |
-| 1.1.0 | 2026-07-14 | Approved following Specification v1.1.0 reconciliation. Added Architecture Governance, Architectural Building Blocks, strengthened layering principles, aligned terminology with Aggregate Design v1.1.0, Module Design v1.1.0 and Application Services v1.1.0, and established the architecture as the approved MVP implementation baseline. |
+| 1.1.0 | 2026-07-14 | Approved following Specification v1.1.0 reconciliation. Added Architecture Governance, Architectural Building Blocks, strengthened layering principles, aligned terminology with Aggregate Design v1.1.0, Module Design v1.1.0 and Application Services v1.1.0, and established the architecture as the approved Foundation Implementation baseline. |
 
 ---
 

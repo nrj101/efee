@@ -87,8 +87,8 @@ Not yet released
 
 ### Documents Added
 
-- RFC-006 — Replace Cross-Aggregate Supporting Entity References with Stable Identifiers
-- RFC-007 — Discount Model Simplification for MVP
+- RFC-007-Discount-Model-Simplification
+- RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers
 
 ### Documents Updated
 
