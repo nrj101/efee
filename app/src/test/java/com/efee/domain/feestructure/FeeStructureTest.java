@@ -1,5 +1,4 @@
-// /Sprint-001/Story-003/tests/FeeStructureTest.java
-
+package com.efee.domain.feestructure;
 
 import org.junit.jupiter.api.Test;
 
