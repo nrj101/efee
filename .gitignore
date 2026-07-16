@@ -1,4 +1,7 @@
 # Local working files
+# Gradle
+app/.gradle/
+app/build/
 
 # IDE
 .idea/

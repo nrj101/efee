@@ -4,14 +4,14 @@
 ---
 document_id: ATS-STUDENT-001
 title: Student Aggregate Technical Specification
-version: 1.0.0
-status: Draft
+version: 1.2.0
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-06
-last_updated: 2026-07-06
+last_updated: 2026-07-15
 
 related_documents:
   - ../../spec/docs/SoftwareDomainModel.md
@@ -27,69 +27,186 @@ related_documents:
 
 This document defines the implementation-neutral technical specification for the Student Aggregate.
 
-It refines the approved Software Domain Model and Aggregate Design by identifying the implementation obligations of the Student Aggregate without introducing implementation technology.
+It refines the approved Software Domain Model and Aggregate Design by defining the complete Aggregate contract required for implementation while remaining independent of programming language, persistence technology and implementation framework.
 
 ---
 
 # Aggregate Responsibility
 
-The Student Aggregate owns the institution's long-term financial identity of a Student.
+The Student Aggregate owns the long-term financial identity of a Student.
 
-It is responsible for preserving Student identity, maintaining Student information required by the financial domain, and supporting the Student lifecycle.
+It preserves:
 
-The Student Aggregate SHALL NOT assume responsibility for financial information owned by other Aggregates.
+- Student identity
+- Student information required by the financial domain
+- Academic profile
+- Student lifecycle
+
+The Student Aggregate intentionally does **not** own:
+
+- Fee Obligations
+- Outstanding balances
+- Payments
+- Receipts
+- Discounts
+- Academic Year policies
+
+These business truths remain owned by collaborating Aggregates.
 
 ---
 
 # Owned State
 
-The Student Aggregate SHALL preserve:
+The Aggregate owns the following state.
 
-- Stable Student identity.
-- Student information required by the financial domain.
-- References to financial relationships.
-- Student lifecycle state.
+| Field | Type | Required | Mutable | Description |
+|--------|------|----------|----------|-------------|
+| studentIdentifier | String | Yes | No | Internal immutable Student identifier |
+| studentName | String | Yes | Yes | Student name |
+| academicProfile | String | Yes | Yes | Academic profile maintained by the institution |
+| active | Boolean | Yes | Yes | Student lifecycle state |
 
-The Student Aggregate SHALL NOT preserve:
+No additional Aggregate state is approved.
 
-- Outstanding balances.
-- Fee calculations.
-- Payments.
-- Receipts.
-- Fee Obligations.
-- Discounts.
+---
 
-Ownership of these business truths belongs to their respective Aggregates.
+# Aggregate Does Not Own
+
+The Aggregate SHALL NOT own:
+
+- Fee Obligations
+- Payment information
+- Receipt information
+- Discount information
+- Financial calculations
+- Outstanding balances
+
+These business truths remain owned by collaborating Aggregates.
+
+---
+
+# Public API
+
+## Constructor
+
+```
+Student(
+    studentIdentifier,
+    studentName,
+    academicProfile
+)
+```
+
+Creates a new Active Student.
+
+---
+
+## Business Operations
+
+```
+activate()
+```
+
+Transitions the Student to the Active lifecycle state.
+
+---
+
+```
+deactivate()
+```
+
+Transitions the Student to the Inactive lifecycle state.
+
+---
+
+```
+update(
+    studentName,
+    academicProfile
+)
+```
+
+Updates approved Student information while preserving Aggregate invariants.
+
+---
+
+## Accessors
+
+```
+getStudentIdentifier()
+
+getStudentName()
+
+getAcademicProfile()
+
+isActive()
+```
+
+No additional public operations are approved by this specification.
+
+---
+
+# Business Invariants
+
+Implementation SHALL preserve the following invariants.
+
+- Student Identifier is immutable.
+- Student identity shall never transfer.
+- Academic Profile shall always belong to exactly one Student.
+- Every Student has exactly one lifecycle state.
+- Aggregate ownership shall always be preserved.
+
+---
+
+# Ownership Boundaries
+
+Only the Student Aggregate may modify:
+
+- Student information
+- Academic profile
+- Student lifecycle
+
+Collaborating Aggregates SHALL NOT directly modify this Aggregate's owned state.
 
 ---
 
 # Lifecycle
 
-The Student Aggregate participates in the following lifecycle.
+The Aggregate supports the following lifecycle.
 
 ```text
-Registered
-      │
-      ▼
 Active
-      │
-      ▼
+    │
+    ▼
 Inactive
 ```
 
-Historical Student information SHALL remain preserved throughout every lifecycle transition.
+Lifecycle transitions are reversible through the approved business operations.
 
 ---
 
 # Consistency Requirements
 
-The Student Aggregate SHALL preserve:
+Implementation SHALL preserve:
 
-- Stable identity.
-- Historical continuity.
-- Lifecycle integrity.
+- Student identity integrity
+- Academic profile integrity
+- Lifecycle integrity
+- Aggregate ownership
 
-The Student Aggregate SHALL NOT violate ownership boundaries established by the approved Aggregate Design.
+Financial information SHALL remain outside the responsibility of this Aggregate.
+
+---
+
+# Implementation Obligations
+
+| Obligation | Type | Source |
+|------------|------|--------|
+| Preserve Student identity | State | Software Domain Model |
+| Preserve Student information | State | Software Domain Model |
+| Preserve Academic Profile | State | Aggregate Design |
+| Preserve Student lifecycle | Lifecycle | Aggregate Design |
+| Preserve Aggregate ownership | Architecture | Aggregate Design |
 
 ---
 
@@ -101,21 +218,29 @@ The Student Aggregate collaborates with:
 - Fee Obligation
 - Discount
 
-The Student Aggregate collaborates by reference.
+Collaborations occur only through Aggregate references.
 
-It SHALL NOT directly modify business state owned by collaborating Aggregates.
+Ownership of business truth SHALL NOT transfer between Aggregates.
 
 ---
 
 # Implementation Constraints
 
-Implementations SHALL:
+Implementation SHALL:
 
+- validate constructor inputs;
+- validate business operation inputs;
 - preserve Aggregate ownership;
-- preserve historical information;
-- preserve lifecycle integrity;
-- avoid introducing financial calculations;
-- avoid assuming ownership of financial responsibilities.
+- preserve lifecycle integrity; and
+- preserve Student identity.
+
+Implementation SHALL NOT:
+
+- expose public setters;
+- expose undocumented public operations;
+- perform financial calculations;
+- modify collaborating Aggregates; or
+- introduce undocumented Aggregate state.
 
 Implementation technology remains outside the scope of this specification.
 
@@ -125,7 +250,7 @@ Implementation technology remains outside the scope of this specification.
 
 Initially implemented through:
 
-- Sprint-001 / Story-001 — Student Aggregate
+- Sprint-001 / Story-001
 
 Future Stories may extend implementation while preserving this specification.
 
@@ -145,9 +270,11 @@ Future Stories may extend implementation while preserving this specification.
 | Version | Date | Description |
 |----------|------|-------------|
 | 1.0.0 | 2026-07-06 | Initial Aggregate Technical Specification. |
+| 1.1.0 | 2026-07-14 | Expanded into the standard Aggregate Technical Specification template. |
+| 1.2.0 | 2026-07-15 | Reconciled with the approved Software Domain Model and Aggregate Design. Removed unapproved Admission Number and Registered lifecycle, restored Academic Profile, simplified lifecycle to Active/Inactive, and aligned terminology with the implementation baseline. |
 
 ---
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

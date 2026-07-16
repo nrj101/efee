@@ -5,7 +5,7 @@
 document_id: AGG-FEESTRUCTURE-001
 title: Fee Structure Aggregate
 version: 1.0.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
@@ -100,3 +100,7 @@ This document is a structural extraction from **AggregateDesign.md**.
 No architectural decisions, responsibilities or business behaviour have been modified.
 
 The authoritative Aggregate Design is collectively defined by **AggregateDesign.md** together with the individual Aggregate specification documents.
+
+# Approval
+
+**Status:** Approved

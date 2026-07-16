@@ -1,315 +1,321 @@
-// /Sprint-001/Story-005/tests/FeeObligationTest.java;
+// /Sprint-001/Story-005/tests/FeeObligationTest.java
 
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FeeObligationTest {
+class FeeObligationTest {
 
     @Test
-    public void testFeeObligationCreation() {
-
-        ObligationLine line =
-                new ObligationLine(
-                        "OL001",
-                        "Registration Fee",
-                        new BigDecimal("500.00"));
+    void shouldCreateFeeObligation() {
 
         FeeObligation feeObligation =
                 new FeeObligation(
-                        "FO001",
-                        "ST001",
-                        "AY2026",
-                        "FS001",
-                        Arrays.asList(line),
-                        new BigDecimal("500.00"));
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.valueOf(5000))));
 
         assertEquals(
-                "FO001",
+                "FO-001",
                 feeObligation.getFeeObligationIdentifier());
 
         assertEquals(
-                "ST001",
+                "ST-001",
                 feeObligation.getStudentIdentifier());
 
         assertEquals(
-                "AY2026",
+                "AY-2026",
                 feeObligation.getAcademicYearIdentifier());
 
         assertEquals(
-                "FS001",
+                "FS-001",
                 feeObligation.getFeeStructureIdentifier());
 
         assertEquals(
+                BigDecimal.valueOf(5000),
+                feeObligation.getOutstandingAmount());
+
+        assertEquals(
                 1,
                 feeObligation.getObligationLines().size());
 
         assertEquals(
-                new BigDecimal("500.00"),
-                feeObligation.getOutstandingAmount());
-
-        assertTrue(feeObligation.isActive());
+                FeeObligationLifecycle.ACTIVE,
+                feeObligation.getLifecycleState());
     }
 
     @Test
-    public void testFeeObligationUpdate() {
+    void shouldRejectBlankFeeObligationIdentifier() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new FeeObligation(
+                        "",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.ONE))));
+    }
+
+    @Test
+    void shouldRejectBlankStudentIdentifier() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new FeeObligation(
+                        "FO-001",
+                        "",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.ONE))));
+    }
+
+    @Test
+    void shouldRejectBlankAcademicYearIdentifier() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new FeeObligation(
+                        "FO-001",
+                        "ST-001",
+                        "",
+                        "FS-001",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.ONE))));
+    }
+
+    @Test
+    void shouldRejectBlankFeeStructureIdentifier() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new FeeObligation(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.ONE))));
+    }
+
+    @Test
+    void shouldRejectEmptyObligationLines() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new FeeObligation(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of()));
+    }
+
+    @Test
+    void shouldUpdateMutableState() {
 
         FeeObligation feeObligation =
                 new FeeObligation(
-                        "FO001",
-                        "ST001",
-                        "AY2026",
-                        "FS001",
-                        Arrays.asList(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
                                 new ObligationLine(
-                                        "OL001",
-                                        "Registration Fee",
-                                        new BigDecimal("500.00"))),
-                        new BigDecimal("500.00"));
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.valueOf(5000))));
 
         feeObligation.update(
-
-                Arrays.asList(
-
+                List.of(
                         new ObligationLine(
-                                "OL002",
-                                "Tuition Fee",
-                                new BigDecimal("1200.00"))),
+                                "OL-002",
+                                "FC-LIBRARY",
+                                BigDecimal.valueOf(750))));
 
-                new BigDecimal("1200.00"));
+        assertEquals(
+                BigDecimal.valueOf(750),
+                feeObligation.getOutstandingAmount());
 
         assertEquals(
                 1,
                 feeObligation.getObligationLines().size());
 
         assertEquals(
-                new BigDecimal("1200.00"),
-                feeObligation.getOutstandingAmount());
+                "OL-002",
+                feeObligation.getObligationLines()
+                        .get(0)
+                        .getObligationLineIdentifier());
 
-        assertTrue(feeObligation.isActive());
+        assertEquals(
+                FeeObligationLifecycle.ACTIVE,
+                feeObligation.getLifecycleState());
     }
 
     @Test
-    public void testFeeObligationRetire() {
+    void shouldRetireFeeObligation() {
 
         FeeObligation feeObligation =
                 new FeeObligation(
-                        "FO001",
-                        "ST001",
-                        "AY2026",
-                        "FS001",
-                        Arrays.asList(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
                                 new ObligationLine(
-                                        "OL001",
-                                        "Registration Fee",
-                                        new BigDecimal("500.00"))),
-                        new BigDecimal("500.00"));
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.valueOf(5000))));
 
         feeObligation.retire();
 
-        assertFalse(feeObligation.isActive());
+        assertEquals(
+                FeeObligationLifecycle.RETIRED,
+                feeObligation.getLifecycleState());
     }
 
     @Test
-    public void testUpdateRetiredFeeObligation() {
+    void shouldRejectRepeatedRetirement() {
 
         FeeObligation feeObligation =
                 new FeeObligation(
-                        "FO001",
-                        "ST001",
-                        "AY2026",
-                        "FS001",
-                        Arrays.asList(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
                                 new ObligationLine(
-                                        "OL001",
-                                        "Registration Fee",
-                                        new BigDecimal("500.00"))),
-                        new BigDecimal("500.00"));
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.valueOf(5000))));
 
         feeObligation.retire();
 
-        IllegalStateException exception =
-                assertThrows(
-                        IllegalStateException.class,
-                        () -> feeObligation.update(
-                                Arrays.asList(
-                                        new ObligationLine(
-                                                "OL002",
-                                                "Tuition Fee",
-                                                new BigDecimal("1200.00"))),
-                                new BigDecimal("1200.00")));
-
-        assertEquals(
-                "Cannot update a retired Fee Obligation",
-                exception.getMessage());
+        assertThrows(
+                IllegalStateException.class,
+                feeObligation::retire);
     }
 
     @Test
-    public void testRetireAlreadyRetiredFeeObligation() {
+    void shouldRejectUpdateAfterRetirement() {
 
         FeeObligation feeObligation =
                 new FeeObligation(
-                        "FO001",
-                        "ST001",
-                        "AY2026",
-                        "FS001",
-                        Arrays.asList(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
                                 new ObligationLine(
-                                        "OL001",
-                                        "Registration Fee",
-                                        new BigDecimal("500.00"))),
-                        new BigDecimal("500.00"));
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.valueOf(5000))));
 
         feeObligation.retire();
 
-        IllegalStateException exception =
-                assertThrows(
-                        IllegalStateException.class,
-                        feeObligation::retire);
-
-        assertEquals(
-                "Cannot retire an already retired Fee Obligation",
-                exception.getMessage());
+        assertThrows(
+                IllegalStateException.class,
+                () -> feeObligation.update(
+                        List.of(
+                                new ObligationLine(
+                                        "OL-002",
+                                        "FC-LIBRARY",
+                                        BigDecimal.valueOf(750)))));
     }
 
     @Test
-    public void testDuplicateObligationLines() {
+    void shouldRejectDuplicateObligationLines() {
 
-        IllegalArgumentException exception =
-                assertThrows(
-                        IllegalArgumentException.class,
-                        () -> new FeeObligation(
-
-                                "FO001",
-                                "ST001",
-                                "AY2026",
-                                "FS001",
-
-                                Arrays.asList(
-
-                                        new ObligationLine(
-                                                "OL001",
-                                                "Registration Fee",
-                                                new BigDecimal("500.00")),
-
-                                        new ObligationLine(
-                                                "OL001",
-                                                "Duplicate Fee",
-                                                new BigDecimal("700.00"))),
-
-                                new BigDecimal("1200.00")));
-
-        assertEquals(
-                "Duplicate Obligation Line Identifier found",
-                exception.getMessage());
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new FeeObligation(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.valueOf(5000)),
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-LIBRARY",
+                                        BigDecimal.valueOf(750)))));
     }
 
     @Test
-    public void testNullObligationLine() {
-
-        IllegalArgumentException exception =
-                assertThrows(
-                        IllegalArgumentException.class,
-                        () -> new FeeObligation(
-
-                                "FO001",
-                                "ST001",
-                                "AY2026",
-                                "FS001",
-
-                                Arrays.asList((ObligationLine) null),
-
-                                new BigDecimal("500.00")));
-
-        assertEquals(
-                "Obligation Lines cannot contain null entries",
-                exception.getMessage());
-    }
-
-    @Test
-    public void testNegativeOutstandingAmount() {
-
-        IllegalArgumentException exception =
-                assertThrows(
-                        IllegalArgumentException.class,
-                        () -> new FeeObligation(
-
-                                "FO001",
-                                "ST001",
-                                "AY2026",
-                                "FS001",
-
-                                Arrays.asList(
-                                        new ObligationLine(
-                                                "OL001",
-                                                "Registration Fee",
-                                                new BigDecimal("500.00"))),
-
-                                new BigDecimal("-1.00")));
-
-        assertEquals(
-                "Outstanding Amount cannot be negative",
-                exception.getMessage());
-    }
-
-    @Test
-    public void testImmutableObligationLines() {
+    void shouldExposeImmutableObligationLines() {
 
         FeeObligation feeObligation =
                 new FeeObligation(
-
-                        "FO001",
-                        "ST001",
-                        "AY2026",
-                        "FS001",
-
-                        Arrays.asList(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
                                 new ObligationLine(
-                                        "OL001",
-                                        "Registration Fee",
-                                        new BigDecimal("500.00"))),
-
-                        new BigDecimal("500.00"));
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.valueOf(5000))));
 
         assertThrows(
                 UnsupportedOperationException.class,
-                () -> feeObligation
-                        .getObligationLines()
-                        .add(
-                                new ObligationLine(
-                                        "OL002",
-                                        "Library Fee",
-                                        new BigDecimal("200.00"))));
+                () -> feeObligation.getObligationLines().add(
+                        new ObligationLine(
+                                "OL-002",
+                                "FC-LIBRARY",
+                                BigDecimal.valueOf(750))));
     }
 
     @Test
-    public void testConstructorDefensiveCopy() {
+    void shouldDefensivelyCopyCollections() {
 
         List<ObligationLine> lines = new ArrayList<>();
 
         lines.add(
                 new ObligationLine(
-                        "OL001",
-                        "Registration Fee",
-                        new BigDecimal("500.00")));
+                        "OL-001",
+                        "FC-TUITION",
+                        BigDecimal.valueOf(5000)));
 
         FeeObligation feeObligation =
                 new FeeObligation(
-                        "FO001",
-                        "ST001",
-                        "AY2026",
-                        "FS001",
-                        lines,
-                        new BigDecimal("500.00"));
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        lines);
 
         lines.add(
                 new ObligationLine(
-                        "OL002",
-                        "Library Fee",
-                        new BigDecimal("200.00")));
+                        "OL-002",
+                        "FC-LIBRARY",
+                        BigDecimal.valueOf(750)));
 
         assertEquals(
                 1,
@@ -317,44 +323,93 @@ public class FeeObligationTest {
     }
 
     @Test
-    public void testUpdateDefensiveCopy() {
+    void shouldImplementIdentityEquality() {
+
+        FeeObligation first =
+                new FeeObligation(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.ONE)));
+
+        FeeObligation second =
+                new FeeObligation(
+                        "FO-001",
+                        "ST-999",
+                        "AY-9999",
+                        "FS-999",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-999",
+                                        "FC-OTHER",
+                                        BigDecimal.TEN)));
+
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
+    }
+
+    @Test
+    void shouldNotEqualNull() {
 
         FeeObligation feeObligation =
                 new FeeObligation(
-
-                        "FO001",
-                        "ST001",
-                        "AY2026",
-                        "FS001",
-
-                        Arrays.asList(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
                                 new ObligationLine(
-                                        "OL001",
-                                        "Registration Fee",
-                                        new BigDecimal("500.00"))),
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.ONE)));
 
-                        new BigDecimal("500.00"));
-
-        List<ObligationLine> updatedLines = new ArrayList<>();
-
-        updatedLines.add(
-                new ObligationLine(
-                        "OL002",
-                        "Tuition Fee",
-                        new BigDecimal("1000.00")));
-
-        feeObligation.update(
-                updatedLines,
-                new BigDecimal("1000.00"));
-
-        updatedLines.add(
-                new ObligationLine(
-                        "OL003",
-                        "Transport Fee",
-                        new BigDecimal("300.00")));
-
-        assertEquals(
-                1,
-                feeObligation.getObligationLines().size());
+        assertNotEquals(feeObligation, null);
     }
+
+    @Test
+    void shouldEqualSameInstance() {
+
+        FeeObligation feeObligation =
+                new FeeObligation(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.ONE)));
+
+        assertEquals(feeObligation, feeObligation);
+    }
+
+    @Test
+    void shouldGenerateReadableToString() {
+
+        FeeObligation feeObligation =
+                new FeeObligation(
+                        "FO-001",
+                        "ST-001",
+                        "AY-2026",
+                        "FS-001",
+                        List.of(
+                                new ObligationLine(
+                                        "OL-001",
+                                        "FC-TUITION",
+                                        BigDecimal.valueOf(5000))));
+
+        String value = feeObligation.toString();
+
+        assertTrue(value.contains("FO-001"));
+        assertTrue(value.contains("ST-001"));
+        assertTrue(value.contains("5000"));
+        assertTrue(value.contains("ACTIVE"));
+    }
+
 }

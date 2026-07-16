@@ -4,20 +4,22 @@
 ---
 document_id: TECH-STD-001
 title: Technical Specification Standards
-version: 1.0.0
-status: Draft
+version: 1.1.0
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-06
-last_updated: 2026-07-06
+last_updated: 2026-07-14
+next_review: Before Technical Specification v2.0.0
 
 related_documents:
   - ../architecture/ARCHITECTURE_STANDARDS.md
   - ../architecture/AggregateDesign.md
   - ../architecture/SoftwareArchitecture.md
   - ../spec/docs/SoftwareDomainModel.md
+  - ../spec/SPECIFICATION_STANDARDS.md
 ---
 ```
 
@@ -25,15 +27,35 @@ related_documents:
 
 # Purpose
 
-This document defines the standards governing all Technical Specification documents within the Student Fee Receivables Platform.
+This document defines the standards governing all Technical Specification documents within the E-Fee Product & Engineering Specification.
 
 Technical Specifications bridge the gap between the approved Software Architecture and implementation.
 
-Their objective is to provide sufficient implementation-neutral technical detail to enable deterministic implementation while preserving the implementation independence of the Software Architecture.
+Their purpose is to define a complete, implementation-neutral contract for realizing the approved Software Architecture while preserving business correctness, Aggregate ownership and architectural consistency.
+
+Technical Specifications SHALL eliminate implementation ambiguity without introducing implementation technology.
 
 ---
 
-# Relationship with the Engineering Process
+# Scope
+
+These standards apply to every Technical Specification document within the repository, including:
+
+- Aggregate Technical Specifications
+- Aggregate Persistence Models
+- Future Technical Design specifications
+
+They intentionally exclude:
+
+- Product Specification
+- Business Specification
+- Software Architecture
+- Story Packages
+- Source code
+
+---
+
+# Position within the Engineering Lifecycle
 
 Technical Specifications occupy the following position within the engineering lifecycle.
 
@@ -41,10 +63,19 @@ Technical Specifications occupy the following position within the engineering li
 Product Specification
         │
         ▼
+Software Domain Model
+        │
+        ▼
 Software Architecture
         │
         ▼
-Technical Specification
+Aggregate Design
+        │
+        ▼
+Aggregate Technical Specification
+        │
+        ▼
+Aggregate Persistence Model
         │
         ▼
 Story Package
@@ -53,7 +84,29 @@ Story Package
 Implementation
 ```
 
-Each layer builds upon the previous layer without redefining its responsibilities.
+Each stage refines the previous stage without redefining its responsibilities.
+
+---
+
+# Technical Specification Philosophy
+
+Technical Specifications exist to make implementation deterministic while remaining technology independent.
+
+They describe:
+
+- what an implementation must preserve;
+- what an Aggregate owns;
+- what behaviour is permitted;
+- what constraints must remain true.
+
+They intentionally do not prescribe:
+
+- programming language;
+- framework;
+- persistence technology;
+- database schema;
+- API design;
+- infrastructure implementation.
 
 ---
 
@@ -63,111 +116,122 @@ Technical Specifications SHALL:
 
 - preserve the approved Product Specification;
 - preserve the approved Software Architecture;
+- preserve Aggregate ownership;
+- preserve business invariants;
 - eliminate implementation ambiguity;
 - remain implementation-neutral;
 - remain programming-language independent;
 - remain framework independent;
 - describe implementation obligations rather than implementation techniques.
 
-Technical Specifications SHALL NOT redefine business behaviour or architectural ownership.
+Technical Specifications SHALL NOT:
+
+- redefine business behaviour;
+- redefine Aggregate ownership;
+- introduce new business concepts;
+- introduce undocumented state;
+- introduce implementation technology.
 
 ---
 
-# Relationship with Product Specification
+# Relationship with the Product Specification
 
 The Product Specification remains the authoritative definition of business behaviour.
 
 Technical Specifications SHALL NOT:
 
-- introduce new business concepts;
 - modify Business Rules;
-- redefine Business Workflows;
-- extend the Software Domain Model.
+- modify Business Workflows;
+- redefine Business Objects;
+- redefine the Software Domain Model.
 
-Instead, Technical Specifications explain how an approved Software Domain Concept shall be realized by implementation.
+Instead, they define the implementation contract required to faithfully realize the approved business model.
 
 ---
 
-# Relationship with Software Architecture
+# Relationship with the Software Architecture
 
 Software Architecture defines:
 
-- software organization;
 - Aggregate ownership;
 - collaboration boundaries;
-- architectural responsibilities.
+- module responsibilities;
+- architectural policies.
 
-Technical Specifications SHALL NOT redefine those decisions.
+Technical Specifications refine those architectural decisions into implementation obligations.
 
-Instead, they refine the implementation obligations of an individual Aggregate while preserving the approved architecture.
+They SHALL NOT redefine architectural decisions.
 
 ---
 
-# Scope
+# Relationship with Aggregate Persistence Models
 
-Technical Specifications define:
+Aggregate Technical Specifications define:
 
-- Aggregate responsibilities;
 - owned state;
+- business operations;
 - lifecycle;
-- operations;
-- consistency requirements;
-- collaboration contracts;
-- implementation constraints;
-- traceability to Business Rules.
+- invariants;
+- collaboration contracts.
 
-Technical Specifications intentionally exclude:
+Aggregate Persistence Models define:
 
-- programming language constructs;
-- package structures;
-- framework annotations;
-- persistence technology;
-- REST APIs;
-- messaging;
-- database schema;
-- infrastructure;
-- user interface behaviour.
+- the approved persistent representation of that owned state.
+
+Persistence Models SHALL be derived from the corresponding Aggregate Technical Specification.
+
+Neither document may introduce behaviour or ownership not already approved by the Product Specification or Software Architecture.
 
 ---
 
 # Aggregate Ownership
 
-Every Technical Specification SHALL describe exactly one Aggregate.
+Each Aggregate SHALL have exactly one Aggregate Technical Specification.
 
-Each Aggregate owns one Technical Specification.
+Each Aggregate Technical Specification SHALL describe:
 
-Ownership of business truth SHALL remain consistent with the approved Aggregate Design.
+- Aggregate responsibility;
+- owned business truth;
+- owned state;
+- operations;
+- lifecycle;
+- business invariants;
+- collaboration boundaries;
+- implementation obligations.
+
+Ownership SHALL remain consistent with Aggregate Design.
 
 ---
 
 # State Ownership
 
-Technical Specifications SHALL define the state owned by the Aggregate.
+Aggregate Technical Specifications SHALL distinguish between:
 
-State ownership SHALL describe implementation obligations rather than implementation structures.
+- owned state;
+- referenced state;
+- derived state;
+- transient state.
 
-Technical Specifications SHALL distinguish between:
+Only owned state may be modified by the Aggregate.
 
-- state owned by the Aggregate;
-- state referenced from collaborating Aggregates;
-- state derived from owned information.
+Referenced business truth remains owned by collaborating Aggregates.
 
-Technical Specifications SHALL NOT prescribe implementation language constructs such as fields, properties or records.
+Derived state SHALL be reproducible from authoritative business facts.
 
 ---
 
-# Operations
+# Business Operations
 
-Technical Specifications define Aggregate operations.
+Technical Specifications define the complete public contract of an Aggregate.
 
-Each operation SHOULD describe:
+Every approved operation SHOULD describe:
 
 - purpose;
-- triggering condition;
 - preconditions;
 - postconditions;
 - affected owned state;
-- applicable Business Rules.
+- preserved invariants;
+- related Business Rules.
 
 Operations describe business-preserving behaviour rather than implementation algorithms.
 
@@ -175,13 +239,15 @@ Operations describe business-preserving behaviour rather than implementation alg
 
 # Consistency Requirements
 
-Each Technical Specification SHALL identify the consistency requirements that the Aggregate is responsible for preserving.
+Each Technical Specification SHALL explicitly identify the business consistency it preserves.
 
-Consistency requirements SHALL be traceable to:
+Consistency SHALL be traceable to:
 
 - Business Rules;
 - Software Domain Model;
 - Aggregate Design.
+
+Business correctness takes precedence over implementation convenience.
 
 ---
 
@@ -191,38 +257,58 @@ Technical Specifications SHALL identify collaborations with other Aggregates.
 
 Collaborations SHALL describe:
 
-- required interactions;
 - information exchanged;
+- required interactions;
 - ownership boundaries.
 
-Collaborations SHALL NOT redefine Aggregate ownership.
+Collaborations SHALL NOT transfer ownership of business truth.
 
 ---
 
 # Implementation Constraints
 
-Technical Specifications MAY define implementation constraints that are necessary to preserve business correctness.
-
-Implementation Constraints SHALL remain implementation-neutral.
+Technical Specifications MAY define implementation constraints necessary to preserve business correctness.
 
 Examples include:
 
 - immutable identity;
 - lifecycle integrity;
-- ownership boundaries;
-- consistency preservation.
+- Aggregate ownership;
+- invariant preservation;
+- defensive copying;
+- prohibition of public setters.
 
-Implementation Constraints SHALL NOT prescribe implementation technology.
+Implementation Constraints SHALL remain implementation-neutral.
 
 ---
 
 # Story Relationship
 
-Stories implement Technical Specifications incrementally.
+Story Packages implement Technical Specifications incrementally.
 
-Stories SHALL reference the relevant Technical Specifications for every Aggregate they modify.
+Stories SHALL:
 
-Stories SHALL NOT redefine approved Technical Specifications.
+- reference the Aggregate Technical Specification;
+- reference the Aggregate Persistence Model;
+- preserve the approved implementation contract.
+
+Stories SHALL NOT redefine approved specifications.
+
+---
+
+# AI Implementation Guidance
+
+Technical Specifications are intended to support deterministic implementation by both human developers and AI implementation agents.
+
+AI implementation SHALL:
+
+- implement only approved Aggregate behaviour;
+- preserve approved ownership boundaries;
+- preserve approved invariants;
+- preserve lifecycle integrity;
+- stop and request clarification if additional state, behaviour or operations appear necessary.
+
+AI SHALL NOT infer undocumented behaviour.
 
 ---
 
@@ -231,25 +317,40 @@ Stories SHALL NOT redefine approved Technical Specifications.
 Every Technical Specification SHALL maintain traceability to:
 
 - Product Specification;
+- Business Rules;
 - Software Domain Model;
 - Aggregate Design;
-- Business Rules.
+- Software Architecture.
 
-Implementation obligations SHALL be derivable from those authoritative documents.
+Every Persistence Model SHALL remain traceable to its corresponding Aggregate Technical Specification.
+
+---
+
+# Governance
+
+Business evolution SHALL originate through approved RFCs.
+
+Architectural evolution SHALL originate through approved ADRs.
+
+Technical Specifications SHALL evolve only after the corresponding Product Specification or Software Architecture has been approved.
+
+Implementation SHALL NOT modify approved Technical Specifications.
 
 ---
 
 # Future Evolution
 
-Initially, one Technical Specification SHALL exist for each Aggregate.
+Initially, one Aggregate Technical Specification and one Aggregate Persistence Model SHALL exist for every Aggregate.
 
-Future Technical Specification types may be introduced for:
+Future Technical Specifications may be introduced for:
 
 - Domain Services;
-- Integration Contracts;
 - Domain Events;
+- Integration Contracts;
+- Read Models;
+- External Interfaces.
 
-provided they preserve the dependency direction established by this standard.
+Such additions SHALL preserve the dependency direction established by this standard.
 
 ---
 
@@ -257,20 +358,63 @@ provided they preserve the dependency direction established by this standard.
 
 Before approving a Technical Specification, verify:
 
-- Business behaviour has not been modified.
-- Aggregate ownership remains unchanged.
-- Implementation obligations are clearly defined.
+- Business behaviour remains unchanged.
+- Aggregate ownership is preserved.
+- Public operations are completely defined.
+- Business invariants are explicit.
+- Collaboration boundaries remain consistent.
 - No implementation technology has been introduced.
-- Business Rules remain traceable.
-- Collaboration boundaries remain consistent with the approved architecture.
-- Terminology remains consistent with the Product Specification.
+- Traceability is complete.
+- Persistence Models align with the Aggregate Technical Specification.
 
 ---
 
-# Guiding Philosophy
+# Key Decisions
 
-Technical Specifications exist to make implementation deterministic without making it technology-specific.
+| Decision | Status |
+|----------|--------|
+| Technical Specifications define implementation contracts | Accepted |
+| Aggregate ownership shall remain unchanged | Accepted |
+| Persistence Models derive from Aggregate Technical Specifications | Accepted |
+| Technical Specifications remain implementation-neutral | Accepted |
+| AI implementation must preserve approved specifications | Accepted |
+| Technical Specifications evolve only through approved engineering governance | Accepted |
 
-They describe what software must preserve, not how software must be written.
+---
 
-Their purpose is to enable consistent implementation by both human engineers and AI implementation agents while preserving the integrity of the approved Product Specification and Software Architecture.
+# Related Documents
+
+- SoftwareArchitecture.md
+- AggregateDesign.md
+- SoftwareDomainModel.md
+- SPECIFICATION_STANDARDS.md
+
+---
+
+# Open Questions
+
+None.
+
+---
+
+# Version History
+
+| Version | Date | Description |
+|----------|------------|-------------|
+| 1.0.0 | 2026-07-06 | Initial Technical Specification Standards. |
+| 1.1.0 | 2026-07-14 | Aligned with finalized engineering lifecycle, introduced Aggregate Persistence Models, clarified implementation contracts, strengthened governance, added AI implementation guidance, and standardized document structure for Specification v1.1.0. |
+
+---
+
+# Approval
+
+**Status:** Approved
+
+## Approved By
+
+- Product Owner
+- CTO
+
+## Approval Date
+
+2026-07-14

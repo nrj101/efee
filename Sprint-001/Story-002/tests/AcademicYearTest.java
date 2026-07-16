@@ -2,83 +2,255 @@
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AcademicYearTest {
+class AcademicYearTest {
+
     @Test
-    public void testActivate() {
-        AcademicYear year = new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30));
-        year.activate();
-        assertEquals(AcademicYear.AcademicYearStatus.ACTIVE, year.getStatus());
+    void shouldCreateAcademicYear() {
+
+        AcademicYear academicYear = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2027, 6, 30),
+                "FS-001"
+        );
+
+        assertEquals(
+                "AY-2026",
+                academicYear.getAcademicYearIdentifier());
+
+        assertEquals(
+                "2026-2027",
+                academicYear.getAcademicYearCode());
+
+        assertEquals(
+                LocalDate.of(2026, 7, 1),
+                academicYear.getStartDate());
+
+        assertEquals(
+                LocalDate.of(2027, 6, 30),
+                academicYear.getEndDate());
+
+        assertEquals(
+                "FS-001",
+                academicYear.getFeeStructureIdentifier());
+
+        assertEquals(
+                AcademicYearLifecycle.PLANNED,
+                academicYear.getLifecycleState());
     }
 
     @Test
-    public void testClose() {
-        AcademicYear year = new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30));
-        year.activate();
-        year.close();
-        assertEquals(AcademicYear.AcademicYearStatus.CLOSED, year.getStatus());
+    void shouldRejectEmptyAcademicYearIdentifier() {
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new AcademicYear(
+                        "",
+                        "2026-2027",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(1),
+                        "FS-001"));
+
+        assertEquals(
+                "Academic Year Identifier cannot be null or empty",
+                exception.getMessage());
     }
 
     @Test
-    public void testCannotActivateNonPending() {
-        AcademicYear year = new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30));
-        year.activate();
-        assertThrows(IllegalStateException.class, () -> year.activate());
+    void shouldRejectEmptyAcademicYearCode() {
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new AcademicYear(
+                        "AY-2026",
+                        "",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(1),
+                        "FS-001"));
+
+        assertEquals(
+                "Academic Year Code cannot be null or empty",
+                exception.getMessage());
     }
 
     @Test
-    public void testCannotCloseNonActive() {
-        AcademicYear year = new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30));
-        assertThrows(IllegalStateException.class, () -> year.close());
+    void shouldRejectEmptyFeeStructureIdentifier() {
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new AcademicYear(
+                        "AY-2026",
+                        "2026-2027",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(1),
+                        ""));
+
+        assertEquals(
+                "Fee Structure Identifier cannot be null or empty",
+                exception.getMessage());
     }
 
     @Test
-    public void testUpdate() {
-        AcademicYear year = new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30));
-        year.update("2027", LocalDate.of(2027, 7, 1), LocalDate.of(2028, 6, 30));
-        assertEquals("2027", year.getName());
-        assertEquals(LocalDate.of(2027, 7, 1), year.getStartDate());
-        assertEquals(LocalDate.of(2028, 6, 30), year.getEndDate());
+    void shouldRejectInvalidDateRange() {
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new AcademicYear(
+                        "AY-2026",
+                        "2026-2027",
+                        LocalDate.of(2027, 1, 1),
+                        LocalDate.of(2026, 1, 1),
+                        "FS-001"));
+
+        assertEquals(
+                "Start date cannot be after end date",
+                exception.getMessage());
     }
 
     @Test
-    public void testUpdateWithInvalidName() {
-        AcademicYear year = new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30));
-        assertThrows(IllegalArgumentException.class, () -> year.update("", LocalDate.of(2027, 7, 1), LocalDate.of(2028, 6, 30)));
+    void shouldAssignFeeStructure() {
+
+        AcademicYear academicYear = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2027, 6, 30),
+                "FS-001");
+
+        academicYear.assignFeeStructure("FS-002");
+
+        assertEquals(
+                "FS-002",
+                academicYear.getFeeStructureIdentifier());
     }
 
     @Test
-    public void testUpdateWithInvalidDates() {
-        AcademicYear year = new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30));
-        assertThrows(IllegalArgumentException.class, () -> year.update("2027", null, LocalDate.of(2028, 6, 30)));
-        assertThrows(IllegalArgumentException.class, () -> year.update("2027", LocalDate.of(2028, 7, 1), null));
+    void shouldActivateAcademicYear() {
+
+        AcademicYear academicYear = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2027, 6, 30),
+                "FS-001");
+
+        academicYear.activate();
+
+        assertEquals(
+                AcademicYearLifecycle.ACTIVE,
+                academicYear.getLifecycleState());
     }
 
     @Test
-    public void testUpdateWithInvalidDateOrder() {
-        AcademicYear year = new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30));
-        assertThrows(IllegalArgumentException.class, () -> year.update("2027", LocalDate.of(2028, 6, 30), LocalDate.of(2027, 7, 1)));
+    void shouldCloseAcademicYear() {
+
+        AcademicYear academicYear = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2027, 6, 30),
+                "FS-001");
+
+        academicYear.activate();
+        academicYear.close();
+
+        assertEquals(
+                AcademicYearLifecycle.CLOSED,
+                academicYear.getLifecycleState());
     }
 
     @Test
-    public void testConstructorWithInvalidId() {
-        assertThrows(IllegalArgumentException.class, () -> new AcademicYear(null, "2026", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30)));
+    void shouldRejectActivatingNonPlannedAcademicYear() {
+
+        AcademicYear academicYear = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2027, 6, 30),
+                "FS-001");
+
+        academicYear.activate();
+
+        assertThrows(
+                IllegalStateException.class,
+                academicYear::activate);
     }
 
     @Test
-    public void testConstructorWithInvalidName() {
-        assertThrows(IllegalArgumentException.class, () -> new AcademicYear("1", null, LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30)));
-        assertThrows(IllegalArgumentException.class, () -> new AcademicYear("1", "", LocalDate.of(2026, 7, 1), LocalDate.of(2027, 6, 30)));
+    void shouldRejectClosingPlannedAcademicYear() {
+
+        AcademicYear academicYear = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2027, 6, 30),
+                "FS-001");
+
+        assertThrows(
+                IllegalStateException.class,
+                academicYear::close);
     }
 
     @Test
-    public void testConstructorWithInvalidStartDate() {
-        assertThrows(IllegalArgumentException.class, () -> new AcademicYear("1", "2026", null, LocalDate.of(2027, 6, 30)));
+    void shouldRejectAssigningFeeStructureToClosedAcademicYear() {
+
+        AcademicYear academicYear = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2027, 6, 30),
+                "FS-001");
+
+        academicYear.activate();
+        academicYear.close();
+
+        assertThrows(
+                IllegalStateException.class,
+                () -> academicYear.assignFeeStructure("FS-002"));
     }
 
     @Test
-    public void testConstructorWithInvalidEndDate() {
-        assertThrows(IllegalArgumentException.class, () -> new AcademicYear("1", "2026", LocalDate.of(2026, 7, 1), null));
+    void academicYearsWithSameIdentifierShouldBeEqual() {
+
+        AcademicYear first = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2027, 6, 30),
+                "FS-001");
+
+        AcademicYear second = new AcademicYear(
+                "AY-2026",
+                "Different",
+                LocalDate.of(2030, 1, 1),
+                LocalDate.of(2031, 1, 1),
+                "FS-999");
+
+        assertEquals(first, second);
+    }
+
+    @Test
+    void academicYearsWithDifferentIdentifiersShouldNotBeEqual() {
+
+        AcademicYear first = new AcademicYear(
+                "AY-2026",
+                "2026-2027",
+                LocalDate.now(),
+                LocalDate.now().plusDays(1),
+                "FS-001");
+
+        AcademicYear second = new AcademicYear(
+                "AY-2027",
+                "2026-2027",
+                LocalDate.now(),
+                LocalDate.now().plusDays(1),
+                "FS-001");
+
+        assertNotEquals(first, second);
     }
 }

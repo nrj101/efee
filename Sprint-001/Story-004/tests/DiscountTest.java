@@ -2,122 +2,295 @@
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DiscountTest {
 
     @Test
-    void testDiscountConstructor() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
-        assertEquals("D1", discount.getDiscountIdentifier());
-        assertEquals("S1", discount.getStudentIdentifier());
-        assertEquals(components, discount.getApplicableFeeComponents());
-        assertEquals(20.0, discount.getDiscountValue());
+    void shouldCreateDiscount() {
+
+        Discount discount = new Discount(
+                "D-001",
+                "S-001",
+                BigDecimal.valueOf(500),
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                new BusinessJustification(
+                        "Merit Scholarship"));
+
+        assertEquals(
+                "D-001",
+                discount.getDiscountIdentifier());
+
+        assertEquals(
+                "S-001",
+                discount.getStudentIdentifier());
+
+        assertEquals(
+                BigDecimal.valueOf(500),
+                discount.getDiscountValue());
+
+        assertEquals(
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                discount.getApprovalInformation());
+
+        assertEquals(
+                new BusinessJustification(
+                        "Merit Scholarship"),
+                discount.getBusinessJustification());
+
         assertTrue(discount.isActive());
     }
 
     @Test
-    void testUpdateDiscount() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
-        discount.update(Arrays.asList(new FeeComponent("F2", 200.0)), 30.0);
-        assertEquals(Arrays.asList(new FeeComponent("F2", 200.0)), discount.getApplicableFeeComponents());
-        assertEquals(30.0, discount.getDiscountValue());
+    void shouldRejectBlankDiscountIdentifier() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Discount(
+                        "",
+                        "S-001",
+                        BigDecimal.ONE,
+                        new ApprovalInformation(
+                                "Principal",
+                                "APR-001"),
+                        new BusinessJustification(
+                                "Reason")));
+    }
+
+    @Test
+    void shouldRejectBlankStudentIdentifier() {
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Discount(
+                        "D-001",
+                        "",
+                        BigDecimal.ONE,
+                        new ApprovalInformation(
+                                "Principal",
+                                "APR-001"),
+                        new BusinessJustification(
+                                "Reason")));
+    }
+
+    @Test
+    void shouldRejectNullDiscountValue() {
+
+        assertThrows(
+                NullPointerException.class,
+                () -> new Discount(
+                        "D-001",
+                        "S-001",
+                        null,
+                        new ApprovalInformation(
+                                "Principal",
+                                "APR-001"),
+                        new BusinessJustification(
+                                "Reason")));
+    }
+
+    @Test
+    void shouldRejectZeroDiscountValue() {
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Discount(
+                        "D-001",
+                        "S-001",
+                        BigDecimal.ZERO,
+                        new ApprovalInformation(
+                                "Principal",
+                                "APR-001"),
+                        new BusinessJustification(
+                                "Reason")));
+
+        assertEquals(
+                "Discount Value must be greater than zero.",
+                exception.getMessage());
+    }
+
+    @Test
+    void shouldRejectNegativeDiscountValue() {
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Discount(
+                        "D-001",
+                        "S-001",
+                        BigDecimal.valueOf(-1),
+                        new ApprovalInformation(
+                                "Principal",
+                                "APR-001"),
+                        new BusinessJustification(
+                                "Reason")));
+
+        assertEquals(
+                "Discount Value must be greater than zero.",
+                exception.getMessage());
+    }
+
+    @Test
+    void shouldUpdateMutableState() {
+
+        Discount discount = new Discount(
+                "D-001",
+                "S-001",
+                BigDecimal.valueOf(500),
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                new BusinessJustification(
+                        "Merit Scholarship"));
+
+        discount.update(
+                BigDecimal.valueOf(750),
+                new ApprovalInformation(
+                        "Manager",
+                        "APR-002"),
+                new BusinessJustification(
+                        "Financial Assistance"));
+
+        assertEquals(
+                BigDecimal.valueOf(750),
+                discount.getDiscountValue());
+
+        assertEquals(
+                new ApprovalInformation(
+                        "Manager",
+                        "APR-002"),
+                discount.getApprovalInformation());
+
+        assertEquals(
+                new BusinessJustification(
+                        "Financial Assistance"),
+                discount.getBusinessJustification());
+
+        assertTrue(discount.isActive());
+    }
+
+    @Test
+    void shouldRetireDiscount() {
+
+        Discount discount = new Discount(
+                "D-001",
+                "S-001",
+                BigDecimal.valueOf(500),
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                new BusinessJustification(
+                        "Merit Scholarship"));
+
+        discount.retire();
+
         assertFalse(discount.isActive());
     }
 
     @Test
-    void testRetireDiscount() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
+    void shouldRejectRepeatedRetirement() {
+
+        Discount discount = new Discount(
+                "D-001",
+                "S-001",
+                BigDecimal.valueOf(500),
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                new BusinessJustification(
+                        "Merit Scholarship"));
+
         discount.retire();
-        assertFalse(discount.isActive());
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                discount::retire);
+
+        assertEquals(
+                "Discount has already been retired.",
+                exception.getMessage());
     }
 
     @Test
-    void testUpdateRetiredDiscount() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
+    void shouldNotAllowUpdateAfterRetirement() {
+
+        Discount discount = new Discount(
+                "D-001",
+                "S-001",
+                BigDecimal.valueOf(500),
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                new BusinessJustification(
+                        "Merit Scholarship"));
+
         discount.retire();
-        assertThrows(IllegalStateException.class, () -> discount.update(components, 30.0));
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> discount.update(
+                        BigDecimal.valueOf(750),
+                        new ApprovalInformation(
+                                "Manager",
+                                "APR-002"),
+                        new BusinessJustification(
+                                "Financial Assistance")));
+
+        assertEquals(
+                "Discount has already been retired.",
+                exception.getMessage());
     }
 
     @Test
-    void testInvalidDiscountIdentifier() {
-        assertThrows(IllegalArgumentException.class, () -> new Discount("", "S1", Arrays.asList(new FeeComponent("F1", 100.0)), 20.0, true));
+    void shouldImplementIdentityEquality() {
+
+        Discount first = new Discount(
+                "D-001",
+                "S-001",
+                BigDecimal.valueOf(500),
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                new BusinessJustification(
+                        "Merit Scholarship"));
+
+        Discount second = new Discount(
+                "D-001",
+                "S-999",
+                BigDecimal.valueOf(999),
+                new ApprovalInformation(
+                        "Manager",
+                        "APR-999"),
+                new BusinessJustification(
+                        "Different"));
+
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
     }
 
     @Test
-    void testInvalidStudentIdentifier() {
-        assertThrows(IllegalArgumentException.class, () -> new Discount("D1", "", Arrays.asList(new FeeComponent("F1", 100.0)), 20.0, true));
+    void shouldGenerateReadableToString() {
+
+        Discount discount = new Discount(
+                "D-001",
+                "S-001",
+                BigDecimal.valueOf(500),
+                new ApprovalInformation(
+                        "Principal",
+                        "APR-001"),
+                new BusinessJustification(
+                        "Merit Scholarship"));
+
+        String value = discount.toString();
+
+        assertTrue(value.contains("D-001"));
+        assertTrue(value.contains("S-001"));
+        assertTrue(value.contains("500"));
     }
 
-    @Test
-    void testInvalidApplicableFeeComponents() {
-        assertThrows(IllegalArgumentException.class, () -> new Discount("D1", "S1", Arrays.asList(), 20.0, true));
-    }
-
-    @Test
-    void testNegativeDiscountValue() {
-        assertThrows(IllegalArgumentException.class, () -> new Discount("D1", "S1", Arrays.asList(new FeeComponent("F1", 100.0)), -10.0, true));
-    }
-
-    @Test
-    void testRetireAlreadyRetiredDiscount() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
-        discount.retire();
-        assertThrows(IllegalStateException.class, () -> discount.retire());
-    }
-
-    @Test
-    void testDuplicateFeeComponents() {
-        List<FeeComponent> components = Arrays.asList(
-            new FeeComponent("F1", 100.0),
-            new FeeComponent("F1", 100.0)
-        );
-        assertThrows(IllegalArgumentException.class, () -> new Discount("D1", "S1", components, 20.0, true));
-    }
-
-    @Test
-    void testNullFeeComponent() {
-        assertThrows(IllegalArgumentException.class, () -> new Discount("D1", "S1", Arrays.asList(null), 20.0, true));
-    }
-
-    @Test
-    void testImmutableApplicableFeeComponents() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
-        assertThrows(UnsupportedOperationException.class, () -> discount.getApplicableFeeComponents().add(new FeeComponent("F2", 200.0)));
-    }
-
-    @Test
-    void testRepeatedRetirement() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
-        discount.retire();
-        assertThrows(IllegalStateException.class, () -> discount.retire());
-    }
-
-    @Test
-    void testInvalidUpdateAfterRetirement() {
-        List<FeeComponent> components = Arrays.asList(new FeeComponent("F1", 100.0));
-        Discount discount = new Discount("D1", "S1", components, 20.0, true);
-        discount.retire();
-        assertThrows(IllegalStateException.class, () -> discount.update(components, 30.0));
-    }
-
-    @Test
-    void testExternalModificationDoesNotAffectAggregate() {
-        List<FeeComponent> input = new ArrayList<>();
-        input.add(new FeeComponent("F1", 100.0));
-        Discount discount =new Discount("D1", "S1", input, 20.0, true);
-        input.add(new FeeComponent("F2", 200.0));
-        assertEquals(1, discount.getApplicableFeeComponents().size());
-    }
 }

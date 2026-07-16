@@ -5,12 +5,13 @@
 document_id: APP-001
 title: Application Services
 version: 1.0.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-04
+last_updated: 2026-07-16
 
 related_documents:
   - AggregateDesign.md
@@ -44,6 +45,12 @@ Application Services are responsible for:
 
 Application Services SHALL NOT contain business rules.
 
+Application Services SHALL also NOT own business state.
+
+They coordinate business workflows by invoking Aggregate operations while preserving Aggregate ownership boundaries.
+
+Application Services SHALL NOT calculate business state, modify another Aggregate's internal state, or bypass Aggregate invariants.
+
 ---
 
 ## Request Flow
@@ -56,17 +63,20 @@ Application Services SHALL NOT contain business rules.
 
 # Application Service Catalogue
 
-The following services constitute the Beta MVP application layer.
+The following Application Services define the approved Application Layer architecture. Individual services may be implemented incrementally across future Sprints.
 
-| Service              | Primary Responsibility           |
-| -------------------- | -------------------------------- |
-| StudentService       | Student lifecycle management     |
-| AcademicYearService  | Academic Year lifecycle          |
-| FeeStructureService  | Charging policy management       |
-| FeeObligationService | Student receivables              |
-| PaymentService       | Payment recording and allocation |
-| ReceiptService       | Receipt issuance and correction  |
-| DiscountService      | Discount policy and grants       |
+| Service | Primary Responsibility |
+|----------|------------------------|
+| StudentService | Student lifecycle management |
+| AcademicYearService | Academic Year lifecycle |
+| FeeStructureService | Charging policy management |
+| FeeObligationService | Student receivables |
+| PaymentService | Payment lifecycle management |
+| ReceiptService | Receipt issuance and correction |
+| DiscountService | Student discount management |
+| ApprovalService | Coordination of approval-governed workflows |
+| FinancialCorrectionService | Financial correction workflow coordination |
+| ReportingService | Reporting and query orchestration |
 
 ---
 
@@ -97,6 +107,15 @@ Business invariants SHALL remain inside Aggregates.
 
 # Future Evolution
 
-Future services may be introduced through new business capabilities.
+Future services may be introduced as new business capabilities emerge.
 
-Existing services SHALL evolve without violating Aggregate boundaries or introducing business rules into the Application Layer.
+Typical future additions may include:
+
+- NotificationService
+- ImportExportService
+- ReconciliationService
+- DashboardService
+
+New services SHALL coordinate business workflows without introducing business rules or violating Aggregate ownership boundaries.
+
+Additional Application Services may be introduced without modifying Aggregate ownership or business responsibilities.

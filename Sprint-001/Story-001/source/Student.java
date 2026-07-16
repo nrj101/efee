@@ -1,49 +1,46 @@
 // /Sprint-001/Story-001/source/Student.java
 
-
 import java.util.Objects;
 
 public class Student {
-    private final String studentId;
-    private String name;
+
+    private final String studentIdentifier;
+    private String studentName;
     private String academicProfile;
     private boolean active;
 
-    public Student(String studentId, String name, String academicProfile) {
-        if (studentId == null || studentId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Student ID cannot be null or empty");
+    public Student(
+            String studentIdentifier,
+            String studentName,
+            String academicProfile) {
+
+        if (studentIdentifier == null || studentIdentifier.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Student Identifier cannot be null or empty");
         }
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+
+        if (studentName == null || studentName.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Student Name cannot be null or empty");
         }
+
         if (academicProfile == null || academicProfile.trim().isEmpty()) {
-            throw new IllegalArgumentException("Academic profile cannot be null or empty");
+            throw new IllegalArgumentException(
+                    "Academic Profile cannot be null or empty");
         }
-        
-        this.studentId = studentId;
-        this.name = name;
+
+        this.studentIdentifier = studentIdentifier;
+        this.studentName = studentName;
         this.academicProfile = academicProfile;
-        this.active = true; // Aggregate controls initial lifecycle
+        this.active = true;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getStudentIdentifier() {
+        return studentIdentifier;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void updateInformation(String name, String academicProfile) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
-        }
-        if (academicProfile == null || academicProfile.trim().isEmpty()) {
-            throw new IllegalArgumentException("Academic profile cannot be null or empty");
-        }
-        
-        this.name = name;
-        this.academicProfile = academicProfile;
+    public String getStudentName() {
+        return studentName;
     }
 
     public String getAcademicProfile() {
@@ -54,32 +51,59 @@ public class Student {
         return active;
     }
 
+    public void update(
+            String studentName,
+            String academicProfile) {
+
+        if (studentName == null || studentName.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Student Name cannot be null or empty");
+        }
+
+        if (academicProfile == null || academicProfile.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Academic Profile cannot be null or empty");
+        }
+
+        this.studentName = studentName;
+        this.academicProfile = academicProfile;
+    }
+
     public void activate() {
-        this.active = true;
+        active = true;
     }
 
     public void deactivate() {
-        this.active = false;
+        active = false;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return active == student.active && studentId.equals(student.studentId);
+    public boolean equals(Object object) {
+
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof Student other)) {
+            return false;
+        }
+
+        return Objects.equals(
+                studentIdentifier,
+                other.studentIdentifier);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, active);
+        return Objects.hash(studentIdentifier);
     }
 
     @Override
     public String toString() {
+
         return "Student{" +
-                "studentId='" + studentId + '\'' +
-                ", name='" + name + '\'' +
+                "studentIdentifier='" + studentIdentifier + '\'' +
+                ", studentName='" + studentName + '\'' +
                 ", academicProfile='" + academicProfile + '\'' +
                 ", active=" + active +
                 '}';

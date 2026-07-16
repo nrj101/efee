@@ -5,22 +5,24 @@
 story_id: Story-004
 title: Discount Aggregate
 sprint: Sprint-001
-version: 1.0.0
-status: Draft
+version: 1.2.0
+status: Approved
 
 owner: Product Owner
 
 created: 2026-07-13
-last_updated: 2026-07-13
+last_updated: 2026-07-15
 
 related_documents:
-  - ../../Sprint-001.md
-  - ../../../architecture/AggregateDesign.md
-  - ../../../architecture/aggregates/Discount.md
-  - ../../../architecture/technical-specification/aggregates/Discount.md
-  - ../../../architecture/persistence-model/aggregates/Discount.md
-  - ../../../spec/docs/SoftwareDomainModel.md
-  - ../../../spec/docs/BusinessRules.md
+  - ../Sprint-001.md
+  - ../../architecture/AggregateDesign.md
+  - ../../architecture/aggregates/Discount.md
+  - ../../technical-specification/aggregates/Discount.md
+  - ../../technical-design/persistence/Discount.md
+  - ../../spec/docs/SoftwareDomainModel.md
+  - ../../spec/docs/BusinessRules.md
+  - ../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
+  - ../../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
 ---
 ```
 
@@ -30,7 +32,7 @@ related_documents:
 
 Implement the Discount Aggregate defined by the approved Software Architecture.
 
-The implementation establishes ownership of institutional discount eligibility and discount lifecycle while preserving the approved Aggregate boundaries.
+The implementation establishes ownership of an approved financial concession entitlement while preserving the approved Aggregate boundaries.
 
 No additional business behaviour shall be introduced.
 
@@ -38,11 +40,11 @@ No additional business behaviour shall be introduced.
 
 # Business Objective
 
-Introduce the Discount Aggregate responsible for preserving approved institutional discounts that may later be applied to Student Fee Obligations.
+Introduce the Discount Aggregate responsible for preserving approved financial concession entitlements granted to Students.
 
-The implementation establishes the Aggregate ownership boundary only.
+The Aggregate authorises financial concessions only.
 
-Application of Discounts to Fee Obligations is outside the scope of this Story.
+Application of those concessions to Fee Obligations is outside the scope of this Story.
 
 ---
 
@@ -52,20 +54,23 @@ Discount
 
 ---
 
-# Supporting Entities
+# Supporting Value Objects
 
-None
+Implement the following immutable Supporting Value Objects owned exclusively by the Discount Aggregate:
+
+- ApprovalInformation
+- BusinessJustification
+
+These Supporting Value Objects form part of the Aggregate implementation and SHALL NOT be shared with other Aggregates.
 
 ---
 
 # Collaborating Aggregates
 
 - Student
-- Academic Year
-- Fee Structure
 - Fee Obligation
 
-Collaboration SHALL preserve Aggregate ownership.
+Collaborations SHALL preserve Aggregate ownership boundaries.
 
 ---
 
@@ -74,6 +79,7 @@ Collaboration SHALL preserve Aggregate ownership.
 Implement only:
 
 - Discount Aggregate Root
+- Supporting Value Objects
 - Aggregate unit tests
 - Story README
 
@@ -83,20 +89,29 @@ Implement only:
 
 ## Source
 
-```
-Discount.java
+```text
+- /Sprint-001/Story-004/source/Discount.java
+
+- /Sprint-001/Story-004/source/ApprovalInformation.java
+
+- /Sprint-001/Story-004/source/BusinessJustification.java
 ```
 
 ## Tests
 
-```
-DiscountTest.java
+```text
+
+- /Sprint-001/Story-004/tests/ApprovalInformationTest.java
+
+- /Sprint-001/Story-004/tests/BusinessJustificationTest.java
+
+- /Sprint-001/Story-004/tests/DiscountTest.java
 ```
 
 ## Documentation
 
-```
-README.md
+```text
+- /Sprint-001/Story-004/README.md
 ```
 
 No additional implementation artifacts are approved.
@@ -105,10 +120,18 @@ No additional implementation artifacts are approved.
 
 # Output Locations
 
-```
+```text
 /Sprint-001/Story-004/source/Discount.java
 
+/Sprint-001/Story-004/source/ApprovalInformation.java
+
+/Sprint-001/Story-004/source/BusinessJustification.java
+
 /Sprint-001/Story-004/tests/DiscountTest.java
+
+/Sprint-001/Story-004/tests/ApprovalInformationTest.java
+
+/Sprint-001/Story-004/tests/BusinessJustificationTest.java
 
 /Sprint-001/Story-004/README.md
 ```
@@ -119,10 +142,10 @@ No additional implementation artifacts are approved.
 
 Implementation depends upon:
 
-- Sprint-001 implementation decisions
+- Sprint-001.md
 - Discount Aggregate Design
-- Discount ATS
-- Discount Persistence Model
+- Discount Aggregate Technical Specification
+- Discount Aggregate Persistence Model
 
 Implementation SHALL NOT depend upon implementation details of previous Stories.
 
@@ -132,24 +155,27 @@ Implementation SHALL NOT depend upon implementation details of previous Stories.
 
 Implementation SHALL:
 
-- preserve Aggregate ownership
-- preserve approved Aggregate state
-- preserve approved lifecycle
-- preserve approved invariants
-- preserve approved public operations
-- generate only approved output files
-- include unit tests
-- include Story README
+- preserve approved Aggregate ownership;
+- preserve approved Aggregate state;
+- preserve approved lifecycle;
+- preserve approved business invariants;
+- preserve approved public operations;
+- implement the approved Supporting Value Objects;
+- generate only approved output files;
+- include unit tests for the Aggregate Root and all approved Supporting Value Objects.
 
 Implementation SHALL NOT:
 
-- introduce repositories
-- introduce services
-- introduce persistence
-- introduce REST APIs
-- introduce framework annotations
-- introduce additional Aggregate collaborators
-- introduce undocumented behaviour
+- calculate or apply financial effects;
+- modify collaborating Aggregates;
+- introduce Supporting Entities;
+- introduce additional Supporting Value Objects;
+- introduce repositories;
+- introduce services;
+- introduce persistence;
+- introduce REST APIs;
+- introduce framework annotations;
+- introduce undocumented behaviour.
 
 ---
 
@@ -157,10 +183,13 @@ Implementation SHALL NOT:
 
 This Story intentionally excludes:
 
-- Fee Obligation updates
-- Payment interaction
-- Receipt interaction
-- persistence
-- REST APIs
-- database mapping
-- infrastructure
+- Fee Obligation updates;
+- Applied Discounts;
+- Payment interaction;
+- Receipt interaction;
+- persistence;
+- REST APIs;
+- infrastructure;
+- database mapping.
+
+Supporting Value Objects introduced by this Story SHALL remain owned exclusively by the Discount Aggregate and SHALL NOT evolve into shared domain concepts without an approved architectural decision.

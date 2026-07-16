@@ -1,152 +1,132 @@
 # Next Session
 
-**Project:** Student Fee Receivables Platform (E-Fee)
+```yaml
+---
+document_id: NEXT-SESSION
+title: Next Engineering Session
+version: 1.1.0
 
-**Last Updated:** 2026-07-08
+created: 2026-07-15
+---
+```
 
 ---
 
 # Session Objective
 
-Begin implementation-focused development using the approved engineering baseline.
+Complete the implementation validation of Sprint-001 and freeze the Specification v1.1.0 engineering baseline.
 
-Framework evolution should now be driven only by implementation evidence.
-
----
-
-# Current State
-
-Completed:
-
-- Product Specification
-- Software Domain Model
-- Software Architecture
-- Aggregate Architecture
-- Technical Specification v1.0.0
-- AI Engineering Framework integration
-- ATS review and freeze
-- Story-001 validation
-
-The engineering baseline is now considered stable.
+This session marks the transition from engineering preparation to a stable implementation baseline.
 
 ---
 
-# Primary Goal
+# Primary Tasks
 
-Shift from framework engineering to product engineering.
+## 1. Repository-wide Implementation Review
 
-Future framework improvements should be evidence-driven rather than speculative.
+Review every Story implementation.
 
----
+Verify:
 
-# Priority Tasks
-
-## 1. Create Implementation Decision Policy
-
-Create a new AI Engineering Framework artifact describing expected AI behaviour when implementation details are intentionally unspecified.
-
-Topics should include:
-
-- implementation inference boundaries;
-- prohibited assumptions;
-- clarification requirements;
-- deterministic implementation behaviour;
-- implementation stopping conditions.
-
-This document belongs to the AI Engineering Framework rather than the Product Specification.
+- compilation;
+- consistency;
+- architectural compliance;
+- implementation completeness.
 
 ---
 
-## 2. Add Context Manifest to Story Package
+## 2. Execute Complete Validation
 
-Introduce a lightweight Context Manifest describing the engineering documents required for each Story Package.
+Validate every Story.
 
-Initially the manifest serves as a human-readable checklist.
+Confirm:
 
-Future tooling may consume the same manifest for automated context assembly.
-
----
-
-## 3. Revalidate Story-001
-
-Execute Story-001 once more using:
-
-- frozen Technical Specification;
-- updated AI framework guidance;
-- Context Manifest (if completed).
-
-Compare implementation against previous validation runs.
-
-Record any remaining unsupported implementation assumptions.
+- implementation matches Story Package;
+- implementation matches Technical Specification;
+- implementation matches Persistence Model;
+- implementation matches Aggregate Design.
 
 ---
 
-## 4. Continue Sprint-001
+## 3. Resolve Remaining Implementation Issues
 
-If Story-001 produces satisfactory implementation quality:
+Correct any defects identified during validation.
 
-Proceed with:
+Examples include:
 
-- Story-002 (Academic Year)
+- compilation issues;
+- inconsistent implementations;
+- architectural violations;
+- Story Package inconsistencies.
 
-Continue validating implementation behaviour incrementally.
-
----
-
-# Validation Focus
-
-During implementation observe:
-
-- inferred domain fields;
-- inferred relationships;
-- inferred methods;
-- inferred validation logic;
-- inferred lifecycle behaviour;
-- inferred implementation technology.
-
-Every observed inference should be traceable to:
-
-- Product Specification;
-- Software Architecture;
-- Aggregate Architecture;
-- Technical Specification;
-- Story Package; or
-- AI Engineering Framework.
-
-If no source exists, classify the behaviour as an implementation assumption.
+Implementation changes should remain within the approved engineering baseline.
 
 ---
 
-# Framework Evolution Policy
+## 4. Final Sprint Review
 
-Framework improvements should satisfy the following criteria:
+Review Sprint-001 as a whole.
 
-- supported by implementation evidence;
-- solve a recurring implementation problem;
-- avoid expanding architectural documentation unnecessarily;
-- preserve implementation neutrality.
+Confirm:
 
----
-
-# Long-Term Direction
-
-After several successful implementation stories:
-
-- freeze AI Engineering Framework v1.1;
-- automate Story context assembly;
-- investigate MCP-based engineering assistance;
-- evaluate local RAG or knowledge graph integration if justified by implementation experience.
-
-These activities remain secondary to successful MVP delivery.
+- all Stories complete;
+- tests complete;
+- documentation complete;
+- engineering standards consistently applied.
 
 ---
 
-# Success Criteria
+## 5. Freeze Specification v1.1.0
 
-The next milestone will be achieved when:
+Once validation is complete:
 
-- Story-001 implementation contains no unsupported implementation assumptions;
-- AI implementation behaviour becomes repeatable;
-- Story-002 validates the engineering process without framework changes.
+- freeze engineering documents;
+- freeze Story Packages;
+- freeze reference implementations.
 
-At that point, implementation should proceed primarily as iterative product development rather than framework development.
+No further documentation changes should be made unless defects are discovered.
+
+---
+
+## 6. Create Release
+
+Create:
+
+- Git Tag
+- GitHub Release
+
+Suggested version:
+
+```
+v1.1.0
+```
+
+Release title:
+
+```
+Specification v1.1.0 — Engineering Baseline
+```
+
+---
+
+# Expected Outcome
+
+At the end of the session:
+
+- Sprint-001 becomes the canonical reference Sprint.
+- Specification v1.1.0 becomes the approved engineering baseline.
+- Future development begins from a stable and validated foundation.
+- Sprint-002 planning can begin without further modification of the engineering framework.
+
+---
+
+# Notes
+
+Future improvements should be introduced through:
+
+- implementation evidence;
+- Sprint retrospectives;
+- RFCs;
+- ADRs.
+
+The engineering framework itself should now remain stable until meaningful implementation experience justifies further evolution.

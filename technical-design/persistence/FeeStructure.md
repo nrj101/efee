@@ -5,7 +5,7 @@
 document_id: TD-FEESTRUCTURE-001
 title: Fee Structure Aggregate Persistence Model
 version: 2.0.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -15,7 +15,7 @@ last_updated: 2026-07-13
 
 related_documents:
   - ../../architecture/aggregates/FeeStructure.md
-  - ../../architecture/technical-specification/aggregates/FeeStructure.md
+  - ../../technical-specification/aggregates/FeeStructure.md
   - ../../architecture/SoftwareArchitecture.md
 ---
 ```
@@ -228,4 +228,4 @@ Implementation SHALL faithfully realize both documents without introducing undoc
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

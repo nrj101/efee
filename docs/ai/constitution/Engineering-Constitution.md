@@ -5,7 +5,7 @@
 document_id: AI-CON-001
 title: AI Engineering Constitution
 version: 1.0.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -13,9 +13,9 @@ reviewer: Chief Architect
 created: 2026-07-05
 
 related_documents:
-  - ProductRoadmap.md
-  - ARCHITECTURE_STANDARDS.md
-  - SoftwareArchitecture.md
+  - Product Roadmap
+  - ARCHITECTURE STANDARDS
+  - Software Architecture
 ---
 ```
 
@@ -615,7 +615,7 @@ This Constitution is expected to evolve independently from project implementatio
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved
 
 ## Approval Authority
 

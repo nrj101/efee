@@ -1,144 +1,142 @@
-# Implementation Guide
+# Story-005 Implementation Guide
+
+```yaml
+---
+story_id: Story-005
+aggregate: Fee Obligation
+version: 1.1.0
+status: Approved
+---
+```
 
 ---
 
-# Objective
+# Purpose
 
-Implement the Fee Obligation Aggregate exactly as defined by the approved documentation.
+This document defines the implementation obligations for Story-005.
 
-The implementation SHALL preserve business behaviour without introducing additional functionality.
+It supplements the Story Package by describing the expected implementation behaviour.
 
----
-
-# Implementation Inputs
-
-The implementation SHALL use the following documents.
-
-- Story.md
-- Fee Obligation Aggregate Design
-- Fee Obligation Aggregate Technical Specification
-- Fee Obligation Aggregate Persistence Model
-- Business Rules
-- Fee Obligation Management Workflow
-- Engineering Constitution
+It SHALL NOT introduce new business behaviour.
 
 ---
 
-# Aggregate Contract
+# Implementation Sequence
 
-Implement only the approved public API defined in the Aggregate Technical Specification.
+Implementation SHALL follow the approved engineering workflow defined by Sprint-001.
 
-This includes:
+## Step 1
 
-Constructor
+Review the approved engineering artifacts referenced by **Story.md**.
 
-```
-FeeObligation(...)
-```
+If contradictions exist, STOP and request clarification.
 
-Business Operations
+---
 
-```
-update(...)
+## Step 2
 
-retire()
-```
+Identify the approved:
 
-Accessors
+- Aggregate state;
+- business operations;
+- lifecycle;
+- business invariants;
+- Supporting Value Objects;
+- output files.
 
-```
-getFeeObligationIdentifier()
+---
 
-getStudentIdentifier()
+## Step 3
 
-getAcademicYearIdentifier()
+Implement only the approved Aggregate Root and Supporting Value Object.
 
-getFeeStructureIdentifier()
+Implementation SHALL remain within the approved Write Scope.
 
-getObligationLines()
+---
 
-getOutstandingAmount()
+## Step 4
 
-isActive()
-```
+Implement unit tests.
 
-No additional public methods shall be introduced.
+Tests SHALL verify:
+
+- Aggregate construction;
+- constructor validation;
+- approved business operations;
+- lifecycle behaviour;
+- business invariant preservation;
+- invalid operations;
+- Supporting Value Object behaviour.
+
+---
+
+## Step 5
+
+Generate the Story README describing the implemented Aggregate.
 
 ---
 
 # Implementation Rules
 
-The implementation SHALL:
+Implementation SHALL:
 
-- validate all constructor arguments;
-- validate all business operation arguments;
 - preserve Aggregate ownership;
-- preserve lifecycle integrity;
-- preserve business invariants;
-- preserve identifier immutability;
-- reject duplicate Obligation Lines;
-- reject null Obligation Lines;
-- reject invalid lifecycle transitions;
-- reject modification after retirement;
-- return immutable collections;
-- defensively copy externally supplied collections.
+- preserve approved Aggregate state;
+- preserve approved lifecycle;
+- preserve approved business invariants;
+- preserve approved collaboration boundaries.
 
-The implementation SHALL NOT:
+Implementation SHALL NOT:
 
-- expose public setters;
-- expose mutable Aggregate collections;
-- introduce additional state;
-- introduce helper classes;
-- introduce persistence concerns;
-- introduce framework dependencies;
-- introduce undocumented behaviour.
+- introduce undocumented state;
+- introduce undocumented operations;
+- introduce undocumented collaborators;
+- introduce additional Supporting Value Objects;
+- introduce Supporting Entities;
+- introduce repositories;
+- introduce services;
+- introduce persistence;
+- introduce framework-specific behaviour.
+
+If implementation requires undocumented information, STOP and request clarification.
 
 ---
 
-# Unit Testing
+# Output Validation
 
-Tests SHALL verify:
+Before implementation is complete, verify:
 
-- successful Aggregate creation;
+- only approved files have been generated;
+- Aggregate invariants are preserved;
+- mutable state is encapsulated;
+- defensive copying has been applied where required;
+- immutable collections are exposed where appropriate;
+- unit tests have been implemented;
+- Story README has been generated.
+
+---
+
+# Review Checklist
+
+Reviewer shall verify:
+
+- Story compliance;
+- Aggregate ownership;
+- lifecycle correctness;
+- invariant preservation;
+- encapsulation;
 - constructor validation;
-- successful update;
-- update validation;
-- retirement;
-- repeated retirement rejection;
-- update after retirement rejection;
-- duplicate Obligation Line rejection;
-- null Obligation Line rejection;
-- immutable collection behaviour;
-- defensive copy behaviour.
-
-Each public operation SHALL have corresponding unit tests.
+- Supporting Value Object implementation;
+- unit test completeness;
+- implementation consistency with the approved architecture.
 
 ---
 
-# Story Documentation
+# Completion Criteria
 
-README.md SHALL contain:
+Implementation is complete only when:
 
-- Story purpose;
-- Aggregate responsibility;
-- implemented files;
-- supported operations;
-- Aggregate invariants;
-- implementation notes;
-- testing summary.
-
----
-
-# Output Files
-
-Only the following files shall be generated.
-
-```
-/Sprint-001/Story-005/source/FeeObligation.java
-
-/Sprint-001/Story-005/tests/FeeObligationTest.java
-
-/Sprint-001/Story-005/README.md
-```
-
-Generation of any additional source artifact requires clarification before implementation.
+- every approved output file has been generated;
+- all Story acceptance criteria have been satisfied;
+- no additional implementation artifacts exist; and
+- implementation faithfully realizes the approved Aggregate Design, Technical Specification and Persistence Model.

@@ -4,16 +4,17 @@
 ---
 document_id: AI-TPL-001
 title: Story Package Template
-version: 0.1.0
-status: Draft
+version: 1.1.0
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
 
 created: 2026-07-05
+last_updated: 2026-07-15
 
 related_documents:
-  - ../constitution/Engineering_Constitution.md
+  - ../constitution/Engineering-Constitution.md
   - ../README.md
 ---
 ```
@@ -26,7 +27,7 @@ This document defines the standard structure for Story Packages used throughout 
 
 A Story Package provides the complete engineering context required for implementation.
 
-The objective is to minimize ambiguity, improve implementation consistency and eliminate unnecessary AI assumptions.
+Its objective is to minimize ambiguity, improve implementation consistency and establish an explicit implementation contract between Product Engineering and AI Engineering.
 
 ---
 
@@ -36,9 +37,9 @@ Every Story SHALL be self-contained.
 
 A Developer should be able to implement the Story using only:
 
-* the approved Story Package;
-* approved project documentation;
-* existing project source code.
+- the approved Story Package;
+- approved project documentation; and
+- existing project source code.
 
 Stories SHALL NOT rely upon undocumented assumptions.
 
@@ -55,15 +56,19 @@ Business Objective
 
 Scope
 
+Implementation Scope
+
+Engineering Contract
+
+Write Scope
+
+Output Locations
+
+Dependencies
+
 Acceptance Criteria
 
-Clarifications
-
-Non-Goals
-
-Implementation Notes
-
-Required Outputs
+Out of Scope
 
 Completion Checklist
 ```
@@ -76,20 +81,25 @@ Sections that are not applicable may be omitted.
 
 Every Story SHALL define:
 
-* Story Identifier
-* Title
-* Status
-* Priority
-* Owner
-* Dependencies (where applicable)
+- Story Identifier
+- Title
+- Status
+- Owner
+- Related Documents
+
+Stories MAY additionally define:
+
+- Sprint
+- Dependencies
+- Priority
 
 Example:
 
 ```yaml
-story_id: S-003
-title: Implement Account Aggregate
+story_id: Story-003
+title: Fee Structure Aggregate
 status: Approved
-priority: High
+owner: Product Owner
 ```
 
 ---
@@ -98,73 +108,33 @@ priority: High
 
 Describe why the Story exists from a business perspective.
 
-This section SHOULD describe business intent rather than implementation details.
+This section SHALL describe business intent rather than implementation details.
 
 ---
 
 # Scope
 
-Clearly define what the Story includes.
+Clearly define the approved implementation boundary.
 
 Only functionality within this scope is approved for implementation.
 
 ---
 
-# Acceptance Criteria
+# Implementation Scope
 
-Acceptance Criteria define the observable behavior required for Story completion.
-
-Acceptance Criteria SHALL be:
-
-* testable;
-* measurable;
-* implementation-independent.
-
----
-
-# Clarifications
-
-Clarifications remove ambiguity that might otherwise lead to implementation assumptions.
+Implementation Scope defines the software artifacts that SHALL be produced by the Story.
 
 Examples include:
 
-* permitted edge cases;
-* default behavior;
-* implementation constraints;
-* approved data types.
+- Aggregate Root
+- Supporting Domain Types
+- Domain Service
+- Unit Tests
+- Story README
 
-Clarifications SHALL override developer assumptions.
+Implementation Scope authorizes **what** shall be implemented.
 
----
-
-# Non-Goals
-
-Explicitly identify functionality that is outside the scope of the Story.
-
-Examples include:
-
-* persistence;
-* authentication;
-* logging;
-* optimization;
-* future extensibility.
-
-Non-Goals help prevent speculative implementation.
-
----
-
-# Implementation Notes
-
-Implementation Notes provide optional engineering guidance.
-
-Examples include:
-
-* relevant Aggregates;
-* related modules;
-* architectural considerations;
-* reference implementation.
-
-Implementation Notes SHALL NOT redefine business requirements.
+Write Scope authorizes **where** implementation may occur.
 
 ---
 
@@ -180,23 +150,29 @@ If implementation requires modification of any artifact outside this contract, i
 
 ## Write Scope
 
-The Developer MAY modify or create ONLY the following artifacts.
+The Developer MAY modify or create ONLY the following approved artifacts.
 
 ### Source
 
-- source/<FileName>.java
+```text
+source/<FileName>.java
+```
 
 ### Tests
 
-- tests/<FileName>Test.java
+```text
+tests/<FileName>Test.java
+```
 
 ### Documentation
 
-- README.md (only if explicitly listed)
+```text
+README.md
+```
 
-The Write Scope SHALL be treated as an explicit authorization.
+Only artifacts explicitly listed by the Story are approved.
 
-Artifacts not listed above SHALL NOT be modified or created.
+Artifacts not listed SHALL NOT be modified or created.
 
 ---
 
@@ -206,10 +182,81 @@ The Developer SHALL:
 
 - modify only approved artifacts;
 - create only approved artifacts;
-- preserve all other project artifacts;
+- preserve all other project artifacts; and
 - request clarification before modifying any artifact outside the approved Write Scope.
 
-The Developer SHALL NOT infer permission from project structure or implementation convenience.
+The Developer SHALL NOT infer implementation permission from project structure or implementation convenience.
+
+---
+
+# Output Locations
+
+The Story SHALL define the approved output locations for every implementation artifact.
+
+Only those locations are approved for implementation.
+
+---
+
+# Dependencies
+
+The Story SHALL identify the approved engineering artifacts required for implementation.
+
+Implementation SHALL depend only upon approved engineering documentation.
+
+Implementation SHALL NOT depend upon implementation details produced by previous Stories unless explicitly approved.
+
+---
+
+# Acceptance Criteria
+
+Acceptance Criteria define the observable behaviour required for Story completion.
+
+Acceptance Criteria SHALL be:
+
+- testable;
+- measurable; and
+- implementation-independent.
+
+---
+
+# Out of Scope
+
+Explicitly identify functionality that is intentionally excluded from the Story.
+
+Out-of-scope functionality SHALL NOT be implemented.
+
+Examples include:
+
+- persistence;
+- infrastructure;
+- REST APIs;
+- authentication;
+- optimization; and
+- future extensibility.
+
+---
+
+# Supporting Domain Types
+
+Where applicable, a Story MAY approve Supporting Domain Types owned exclusively by an Aggregate.
+
+Supporting Domain Types:
+
+- remain owned by the implementing Aggregate;
+- SHALL NOT be shared across Aggregate boundaries; and
+- SHALL NOT evolve into independent business concepts without approved architectural governance.
+
+Supporting Domain Types may be implemented as Value Objects, Supporting Entities or other approved domain constructs.
+
+---
+
+# Story README
+
+When approved by the Story, the implementation SHALL generate a README describing the completed implementation.
+
+The README documents the implementation outcome.
+
+It SHALL NOT restate or redefine approved specifications or architectural documents.
 
 ---
 
@@ -217,14 +264,14 @@ The Developer SHALL NOT infer permission from project structure or implementatio
 
 Before marking the Story complete, verify:
 
-- All Acceptance Criteria are satisfied.
-- Business Rules have been preserved.
-- Approved Architecture has been preserved.
-- Implementation remains within Story scope.
-- Only artifacts listed in the Engineering Contract have been modified or created.
-- No undocumented assumptions have been introduced.
-- Requested tests have been generated.
-- No unrelated functionality has been introduced.
+- all Acceptance Criteria have been satisfied;
+- Business Rules have been preserved;
+- approved Architecture has been preserved;
+- implementation remains within Story scope;
+- only approved artifacts have been modified or created;
+- no undocumented assumptions have been introduced;
+- required tests have been generated; and
+- no unrelated functionality has been introduced.
 
 ---
 
@@ -232,11 +279,12 @@ Before marking the Story complete, verify:
 
 Story Packages SHOULD:
 
-* minimize ambiguity;
-* maximize clarity;
-* remain implementation-independent;
-* define observable behavior;
-* discourage speculative implementation.
+- minimize ambiguity;
+- maximize implementation clarity;
+- remain implementation-independent;
+- define observable behaviour;
+- establish explicit implementation authorization; and
+- discourage speculative implementation.
 
 ---
 
@@ -244,18 +292,19 @@ Story Packages SHOULD:
 
 Poor Story Packages often:
 
-* omit Acceptance Criteria;
-* omit Clarifications;
-* mix business rules with implementation;
-* define future requirements;
-* rely upon tribal knowledge;
-* assume undocumented behavior.
+- omit implementation boundaries;
+- omit Acceptance Criteria;
+- rely upon undocumented assumptions;
+- redefine business rules;
+- redefine architecture;
+- introduce future requirements; or
+- depend upon tribal knowledge.
 
 These practices SHOULD be avoided.
 
 ---
 
-# Example Story Flow
+# Story Flow
 
 ```text
 Product Specification
@@ -264,10 +313,10 @@ Product Specification
 Software Architecture
         │
         ▼
-Approved Story Package
+Technical Specification
         │
         ▼
-Developer
+Approved Story Package
         │
         ▼
 Implementation
@@ -279,6 +328,34 @@ The Story Package serves as the approved engineering contract between Product En
 
 # Evolution
 
-The Story Package Template is expected to evolve through practical engineering experience.
+This template evolves through practical engineering experience.
 
-New sections should be introduced only when they demonstrably improve implementation quality or reduce engineering ambiguity.
+New sections SHALL be introduced only when implementation evidence demonstrates that they reduce ambiguity or improve implementation quality.
+
+Sprint-001 established the initial reference structure for Story Packages.
+
+Future revisions should preserve simplicity while incorporating validated engineering improvements.
+
+---
+
+# Version History
+
+| Version | Date | Description |
+|----------|------|-------------|
+| 0.1.0 | 2026-07-05 | Initial Story Package template. |
+| 1.1.0 | 2026-07-15 | Refined using lessons learned from Sprint-001. Introduced Implementation Scope, Output Locations, Dependencies, Supporting Domain Types and Story README guidance while preserving the template's technology-independent and Story-type-independent design. |
+
+---
+
+# Approval
+
+**Status:** Approved
+
+## Approved By
+
+- Product Owner
+- Chief Architect
+
+## Approval Date
+
+2026-07-15

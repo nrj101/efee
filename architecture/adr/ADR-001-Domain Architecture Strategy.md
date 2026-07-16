@@ -4,25 +4,27 @@
 ---
 document_id: ADR-001
 title: Domain Architecture Strategy
-version: 1.0.0
+version: 1.1.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-04
-last_updated: 2026-07-04
-next_review: Before first implementation sprint
+last_updated: 2026-07-14
+next_review: Before Architecture v2.0.0
 
 supersedes: None
 superseded_by: None
 
 related_documents:
-  - SoftwareDomainModel.md
-  - BusinessObjectGraph.md
-  - BusinessRules.md
-  - BusinessWorkflow.md
-  - ProjectRoadmap.md
+  - ../SoftwareArchitecture.md
+  - ../AggregateDesign.md
+  - ../../spec/docs/SoftwareDomainModel.md
+  - ../../spec/docs/BusinessObjectGraph.md
+  - ../../spec/docs/BusinessRules.md
+  - ../../spec/docs/BusinessWorkflow.md
+  - ../../spec/docs/ProjectRoadmap.md
 ---
 ```
 
@@ -32,17 +34,28 @@ related_documents:
 
 **Approved**
 
+Validated through Specification v1.1.0 and the successful completion of Sprint-001.
+
 ---
 
 # Context
 
-The business specification (Specification v1.0.0) defines the business domain independently of any software implementation.
+The approved Product Specification defines the business domain independently of software implementation.
 
-The implementation phase requires a consistent architectural strategy that translates the approved business model into software without redefining business concepts or introducing unintended behaviour.
+The Software Architecture must faithfully realize that business model without redefining business concepts or introducing unintended behaviour.
 
-This ADR establishes the architectural principles governing all subsequent software design decisions.
+This ADR establishes the architectural strategy governing every subsequent software design decision.
 
-It serves as the architectural foundation for aggregate design, application services, repositories, implementation and future architectural evolution.
+It provides the foundation for:
+
+- Aggregate Design
+- Module Design
+- Application Services
+- Technical Specifications
+- Persistence Models
+- Future architectural evolution
+
+All subsequent architecture documents inherit the principles defined by this ADR.
 
 ---
 
@@ -64,34 +77,33 @@ Software exists to preserve the approved business model.
 
 The domain model is the centre of the application.
 
-Infrastructure, frameworks, persistence and user interfaces exist to support the domain rather than define it.
+Infrastructure, frameworks, persistence and user interfaces exist solely to support the domain rather than define it.
 
 ---
 
 ## 3. Single Ownership of Business Truth
 
-Each business truth SHALL have exactly one owning Software Domain Concept.
+Every business truth SHALL have exactly one owner.
 
 Ownership SHALL NOT be shared.
 
-Business processes emerge through collaboration between concepts rather than shared mutable state.
+Business behaviour emerges through collaboration between Aggregates rather than shared mutable state.
 
 ---
 
 ## 4. Stable Policies and Operational State SHALL Be Separated
 
-Institution policies evolve independently from operational financial activity.
+Institutional policy evolves independently from operational financial activity.
 
 Whenever appropriate, software SHALL distinguish between:
 
-* Stable business policy
-* Operational financial state
+- Stable business policy
+- Operational financial state
 
 Examples include:
 
-Fee Component → Obligation Line
-
-Discount Policy → Discount Grant → Applied Discount
+- Fee Component → Obligation Line
+- Discount → Applied Discount
 
 This separation improves maintainability while preserving business correctness.
 
@@ -105,8 +117,8 @@ Mistakes SHALL be represented through explicit correction business operations ra
 
 Examples include:
 
-* Receipt Corrections
-* Allocation Corrections
+- Receipt Corrections
+- Financial Corrections
 
 This preserves complete financial auditability.
 
@@ -120,17 +132,20 @@ Software SHALL reject operations that violate the lifecycle rules of the owning 
 
 Examples include:
 
-* Closed Academic Years reject new financial activity.
-* Settled Fee Obligations reject retrospective policy changes.
-* Historical Payments remain immutable after successful receipt.
+- Closed Academic Years reject new financial activity.
+- Closed Fee Obligations reject further modification.
+- Realised Payments remain immutable.
+- Historical Receipts remain traceable.
 
 ---
 
-## 7. Derived Business State Is Preferred
+## 7. Business Events Produce Business State
 
-Business state SHALL be derived from authoritative business facts wherever practical.
+Business Events represent immutable facts.
 
-Persisted derived values may be introduced only when justified by measurable operational requirements.
+Business State is derived from those facts.
+
+Persisted derived values may exist for operational efficiency provided they remain reproducible from authoritative business history.
 
 Derived state SHALL never become the primary source of business truth.
 
@@ -146,11 +161,11 @@ Each Aggregate SHALL protect the business invariants it owns.
 
 ## 9. Modular Monolith
 
-The Beta implementation SHALL adopt a Modular Monolith architecture.
+The MVP SHALL adopt a Modular Monolith architecture.
 
-Modules SHALL communicate through explicit interfaces.
+Modules SHALL communicate through explicit business interfaces coordinated by Application Services.
 
-Distributed architecture, microservices and asynchronous messaging are intentionally deferred until justified by demonstrated business requirements.
+Distributed architecture, asynchronous messaging and independently deployable services are intentionally deferred until justified by demonstrated business requirements.
 
 ---
 
@@ -164,25 +179,29 @@ Framework technologies are implementation concerns and SHALL NOT influence the b
 
 ## 11. Evolution Through Governance
 
-Business evolution SHALL occur through RFCs.
+Business evolution SHALL begin through approved RFCs.
 
-Architectural evolution SHALL occur through ADRs.
+Architectural evolution SHALL occur through approved ADRs.
 
-Implementation SHALL faithfully realise approved specifications and architecture without introducing unauthorised changes.
+Implementation SHALL faithfully realize the approved Product Specification and Software Architecture.
+
+Implementation SHALL NOT redefine approved business or architectural decisions.
 
 ---
 
 # Consequences
 
-The architectural strategy results in the following characteristics:
+The architectural strategy produces:
 
-* Clear ownership of business responsibilities.
-* Stable aggregate boundaries.
-* Strong financial auditability.
-* Predictable architectural evolution.
-* Framework-independent business model.
-* Simplified future migration towards enterprise SaaS capabilities.
-* Reduced AI implementation drift through explicit architectural governance.
+- Clear ownership of business responsibilities.
+- Stable Aggregate boundaries.
+- Strong financial auditability.
+- Predictable architectural evolution.
+- Framework-independent business logic.
+- Simplified future migration toward enterprise SaaS capabilities.
+- Reduced AI implementation drift through explicit engineering governance.
+
+The successful completion of Sprint-001 validated these principles through real implementation.
 
 ---
 
@@ -190,7 +209,7 @@ The architectural strategy results in the following characteristics:
 
 ## CRUD-Oriented Architecture
 
-Rejected.
+**Rejected**
 
 Reason:
 
@@ -200,39 +219,41 @@ Business ownership and financial consistency become difficult to preserve.
 
 ## Microservices
 
-Rejected for Beta.
+**Rejected for MVP**
 
 Reason:
 
-The additional operational complexity provides no measurable business value for a single-school deployment.
+The additional operational complexity provides no measurable business value for the initial deployment.
 
-The Modular Monolith preserves future migration paths while minimising implementation complexity.
+The Modular Monolith preserves future migration paths while minimizing implementation complexity.
 
 ---
 
 ## Event Sourcing
 
-Deferred.
+**Deferred**
 
 Reason:
 
-Append-only financial history can be achieved through explicit correction business operations without introducing event sourcing complexity during the Beta phase.
+Append-only financial history can be achieved through explicit correction business operations without introducing the complexity of Event Sourcing during the MVP.
 
-Future architectural evolution may revisit this decision through a separate ADR.
+Future architectural evolution may revisit this decision through a dedicated ADR.
 
 ---
 
 # Future Considerations
 
-This ADR intentionally leaves the following decisions to subsequent architecture documents:
+Future ADRs may define:
 
-* Aggregate boundaries
-* Aggregate Roots
-* Domain Events
-* Application Services
-* Module Dependencies
-* Concurrency strategy
-* Infrastructure implementation
+- Aggregate evolution
+- Domain Events
+- Integration architecture
+- Reporting architecture
+- Concurrency strategy
+- Infrastructure architecture
+- Deployment architecture
+
+while preserving the principles established by this ADR.
 
 ---
 
@@ -242,15 +263,24 @@ Subsequent ADRs SHALL build upon the principles established by this document unl
 
 ---
 
+# Version History
+
+| Version | Date | Description |
+|----------|------------|-------------|
+| 1.0.0 | 2026-07-04 | Initial architectural strategy. |
+| 1.1.0 | 2026-07-14 | Validated following Specification v1.1.0 reconciliation and Sprint-001. Added Business Events produce Business State principle, strengthened governance model, aligned terminology with the finalized Aggregate Design and Software Architecture, and recorded implementation validation of the architectural strategy. |
+
+---
+
 # Approval
 
 **Status:** Approved
 
-**Approved By**
+## Approved By
 
-* Product Owner
-* CTO
+- Product Owner
+- CTO
 
-**Approval Date**
+## Approval Date
 
-2026-07-04
+2026-07-14

@@ -136,13 +136,39 @@ A Fee Obligation shall be itemized by one or more Fee Components.
 
 ### BR-011
 
-Outstanding Balance is derived from:
+Outstanding Balance represents the Student's current financial position.
 
-* Original amount
+It is derived from the Fee Obligation's authoritative financial facts, including:
+
+* Original Obligation Amount
 * Approved Discounts
-* Settled Payments
+* Realised Payment Allocations
+* Approved Financial Corrections
 
-It shall not be treated as an independently managed business fact.
+The system shall persist the current Outstanding Balance after every successful financial adjustment.
+
+The persisted Outstanding Balance shall always be reproducible from the underlying financial facts.
+
+Outstanding Balance shall not be treated as an independently managed business fact.
+
+> **Traceability:** Refined by RFC-001 — Financial Truth Model.
+
+#### BR-011A
+
+Financial facts constitute the authoritative record of a Student's financial responsibility.
+
+These facts include:
+
+* Obligation Lines
+* Applied Discounts
+* Payment Allocations
+* Financial Corrections
+
+Outstanding Balance represents the current financial position derived from those financial facts.
+
+Financial facts shall remain authoritative throughout the lifecycle of the Fee Obligation.
+
+> **Traceability:** Introduced by RFC-001 — Financial Truth Model.
 
 ---
 
@@ -184,7 +210,7 @@ provided all allocations reconcile to the realised Payment amount.
 
 ### BR-016
 
-The sum of all Payment Allocations shall exactly equal the realised Payment amount.
+The sum of all realised Payment Allocations shall exactly equal the realised Payment amount.
 
 ---
 
@@ -227,7 +253,7 @@ Receipt references shall remain traceable throughout the lifecycle of associated
 
 ### BR-022
 
-Discounts are granted to eligible Students.
+Approved Discounts are granted to eligible Students.
 
 They reduce the student's financial responsibility while preserving the original financial history.
 
@@ -249,7 +275,7 @@ Every Discount shall record:
 
 Historical financial information shall never be silently modified.
 
-Corrections shall preserve the original business history whenever practical.
+Corrections shall preserve the original financial facts and business history whenever practical.
 
 ---
 
@@ -321,9 +347,13 @@ Every significant financial change shall identify:
 
 ### BR-033
 
-Business Events record facts.
+Business Events record immutable business facts.
 
-Business State is derived from those facts.
+Current Business State represents the financial position derived from those facts.
+
+Derived Business State may be persisted for operational efficiency, provided it remains reproducible from the underlying business facts.
+
+> **Traceability:** Refined by RFC-001 — Financial Truth Model.
 
 ---
 
@@ -350,7 +380,7 @@ The system should preserve explainability before optimisation.
 * Business rules are implementation-independent.
 * Fee Structures define charging policy.
 * Fee Obligations represent student financial responsibility.
-* Outstanding Balance is derived.
+* Outstanding Balance represents the persisted financial position derived from authoritative financial facts.
 * Payments represent settlement attempts that may require realisation.
 * Payment Allocations explain how realised money settles obligations.
 * Receipts acknowledge accepted Payments.
@@ -382,6 +412,8 @@ None.
 | ------- | ---------- | --------------------------------------------------------------------------------------------------------- |
 | 1.0.0   | 2026-06-29 | Initial approved version                                                                                  |
 | 1.1.0   | 2026-07-03 | Updated to reflect the completed Gate 2 business model, payment lifecycle and refined business invariants |
+| 1.2.0   | 2026-07-14 | Refined Financial Truth Model through RFC-001. Clarified authoritative financial facts, persisted financial position and reconciliation principles. |
+
 
 ---
 

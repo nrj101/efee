@@ -4,8 +4,8 @@
 ---
 story_id: Story-004
 aggregate: Discount
-version: 1.0.0
-status: Draft
+version: 1.1.0
+status: Approved
 ---
 ```
 
@@ -23,17 +23,11 @@ It SHALL NOT introduce new business behaviour.
 
 # Implementation Sequence
 
-Implementation SHALL follow this sequence.
+Implementation SHALL follow the approved engineering workflow defined by Sprint-001.
 
 ## Step 1
 
-Review:
-
-- Story.md
-- Sprint-001.md
-- Discount Aggregate Design
-- Discount ATS
-- Discount Persistence Model
+Review the approved engineering artifacts referenced by **Story.md**.
 
 If contradictions exist, STOP and request clarification.
 
@@ -41,21 +35,19 @@ If contradictions exist, STOP and request clarification.
 
 ## Step 2
 
-Identify:
+Identify the approved:
 
-- Aggregate Root
-- Supporting Entities
-- Approved Aggregate State
-- Approved Business Operations
-- Approved Lifecycle
-- Approved Business Invariants
-- Approved Output Files
+- Aggregate state;
+- business operations;
+- lifecycle;
+- business invariants;
+- output files.
 
 ---
 
 ## Step 3
 
-Implement only the approved Aggregate.
+Implement only the approved Aggregate Root.
 
 Implementation SHALL remain within the approved Write Scope.
 
@@ -67,24 +59,18 @@ Implement unit tests.
 
 Tests SHALL verify:
 
-- Aggregate construction
-- constructor validation
-- approved business operations
-- lifecycle behaviour
-- business invariant preservation
-- invalid operations
+- Aggregate construction;
+- constructor validation;
+- approved business operations;
+- lifecycle behaviour;
+- business invariant preservation;
+- invalid operations.
 
 ---
 
 ## Step 5
 
-Generate README.md describing:
-
-- Story purpose
-- Aggregate responsibility
-- implemented files
-- supported operations
-- implementation notes
+Generate the Story README describing the implemented Aggregate.
 
 ---
 
@@ -92,23 +78,22 @@ Generate README.md describing:
 
 Implementation SHALL:
 
-- preserve Aggregate ownership
-- preserve approved Aggregate state
-- preserve lifecycle
-- preserve invariants
-- preserve mutability constraints
-- preserve collaboration boundaries
+- preserve Aggregate ownership;
+- preserve approved state;
+- preserve approved lifecycle;
+- preserve approved business invariants;
+- preserve approved collaboration boundaries.
 
 Implementation SHALL NOT:
 
-- invent state
-- invent lifecycle
-- invent public operations
-- invent collaborators
-- invent repositories
-- invent services
-- invent package hierarchies
-- invent persistence
+- introduce undocumented state;
+- introduce undocumented operations;
+- introduce undocumented collaborators;
+- introduce Supporting Entities;
+- introduce repositories;
+- introduce services;
+- introduce persistence;
+- introduce framework-specific behaviour.
 
 If implementation requires undocumented information, STOP and request clarification.
 
@@ -118,35 +103,26 @@ If implementation requires undocumented information, STOP and request clarificat
 
 Before implementation is complete, verify:
 
-✓ only approved files created
-
-✓ Story directory preserved
-
-✓ Aggregate invariants enforced
-
-✓ mutable state encapsulated
-
-✓ collections protected
-
-✓ unit tests implemented
-
-✓ README generated
+- only approved files have been generated;
+- Aggregate invariants are preserved;
+- mutable state is encapsulated;
+- unit tests have been implemented;
+- Story README has been generated.
 
 ---
 
 # Review Checklist
 
-Reviewer should verify:
+Reviewer shall verify:
 
-- Story compliance
-- Write Scope compliance
-- Aggregate ownership
-- lifecycle correctness
-- invariant preservation
-- encapsulation
-- constructor validation
-- unit test completeness
-- documentation quality
+- Story compliance;
+- Aggregate ownership;
+- lifecycle correctness;
+- invariant preservation;
+- encapsulation;
+- constructor validation;
+- unit test completeness;
+- implementation consistency with the approved architecture.
 
 ---
 
@@ -154,7 +130,7 @@ Reviewer should verify:
 
 Implementation is complete only when:
 
-- every approved output file has been generated
-- all acceptance criteria have been satisfied
-- no additional implementation artifacts exist
-- implementation remains faithful to the approved architecture
+- every approved output file has been generated;
+- all Story acceptance criteria have been satisfied;
+- no additional implementation artifacts exist; and
+- implementation faithfully realizes the approved Aggregate Design, Technical Specification and Persistence Model.

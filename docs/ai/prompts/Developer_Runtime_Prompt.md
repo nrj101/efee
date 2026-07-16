@@ -6,15 +6,15 @@ document_id: AI-PRM-001
 title: Developer Runtime Prompt
 version: 0.3.0
 
-status: Draft
+status: Approved
 
 owner: Product Owner
 
 last_updated: 2026-07-09
 
 related_documents:
-  - ../constitution/Engineering_Constitution.md
-  - ../personas/Developer_Persona.md
+  - ../constitution/Engineering-Constitution.md
+  - ../personas/DeveloperPersona.md
   - ../templates/Story_Package_Template.md
 ---
 ```

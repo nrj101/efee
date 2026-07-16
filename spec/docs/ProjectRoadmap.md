@@ -6,15 +6,15 @@
 ---
 document_id: ROADMAP-001
 title: Project Roadmap
-version: 1.1.0
+version: 1.4.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-07-03
-next_review: At the completion of every Gate
+last_updated: 2026-07-16
+next_review: At the completion of every Engineering Gate
 
 related_documents:
   - ProductVision.md
@@ -31,9 +31,9 @@ This document provides a high-level view of the E-Fee project roadmap.
 
 It answers three fundamental questions:
 
-* Where are we?
-* What have we completed?
-* What comes next?
+- Where are we?
+- What have we completed?
+- What comes next?
 
 Unlike the Product Vision or Business Rules, this document evolves throughout the lifetime of the project and reflects the current state of product development.
 
@@ -43,12 +43,13 @@ Unlike the Product Vision or Business Rules, this document evolves throughout th
 
 This document describes:
 
-* Project progression.
-* Engineering gates.
-* Major milestones.
-* Current project status.
+- Project progression
+- Engineering Gates
+- Major milestones
+- Current engineering status
+- Future development direction
 
-It does **not** define product requirements or implementation details.
+It does **not** define business requirements, software architecture or implementation details.
 
 ---
 
@@ -68,7 +69,7 @@ It does **not** define product requirements or implementation details.
 
 ## Mission
 
-Build an affordable, secure and audit-friendly SaaS platform that enables educational institutions to confidently manage every fee obligation from creation to final settlement.
+Build an affordable, secure and audit-friendly SaaS platform that enables educational institutions to confidently manage every fee obligation from creation through final settlement while preserving complete financial integrity and auditability.
 
 ---
 
@@ -76,25 +77,36 @@ Build an affordable, secure and audit-friendly SaaS platform that enables educat
 
 ## Current Gate
 
-🟡 **Gate 5 — MVP Implementation**
+🟡 **Gate 5 — MVP Engineering**
 
 ---
 
 ## Current Milestone
 
-Sprint-001 Implementation Validation
+**Sprint-001 Golden Reference Baseline Established**
 
 ---
 
 ## Engineering Baseline
 
-The following engineering artifacts are now approved and frozen for MVP implementation:
+The following engineering artifacts now form the approved implementation baseline for continued MVP development.
 
-- Product Specification v1.0.0
-- Software Architecture v1.0.0
-- Technical Specification v1.0.0
+- Product Specification v1.2.0
+- Software Architecture v1.2.0
+- Technical Specification v1.2.0
+- Sprint-001 Reference Implementation
+- Production Application (`app/`)
+- AI Engineering Framework v1.0
 
-Implementation will proceed incrementally through Story Packages while preserving these approved engineering baselines.
+Sprint-001 has successfully validated:
+
+- Story Package driven implementation;
+- AI-assisted software development workflow;
+- Production integration process;
+- automated build and test validation;
+- engineering governance through RFCs and ADRs.
+
+Future implementation SHALL extend this engineering baseline rather than redefine it.
 
 ---
 
@@ -108,10 +120,10 @@ Understand the business problem and establish a clear product direction.
 
 ### Deliverables
 
-* Problem Statement
-* Product Vision
-* MVP Scope
-* User Personas
+- Problem Statement
+- Product Vision
+- MVP Scope
+- User Personas
 
 ### Exit Criteria
 
@@ -131,16 +143,16 @@ Develop a complete, implementation-independent specification of the business and
 
 ### Deliverables
 
-* Domain Glossary
-* Business Rules
-* Business Workflow
-* Business Object Graph
-* Software Domain Model
-* Modelling Decision Log
+- Domain Glossary
+- Business Rules
+- Business Workflow
+- Business Object Graph
+- Software Domain Model
+- Modelling Decision Log
 
 ### Exit Criteria
 
-A stable specification that completely describes the business domain and software domain without depending on implementation technology.
+A stable specification describing the complete business and software domain independent of implementation technology.
 
 ### Status
 
@@ -152,21 +164,20 @@ A stable specification that completely describes the business domain and softwar
 
 ### Objective
 
-Design the software architecture that faithfully implements the Software Domain Model.
+Design the software architecture that faithfully realizes the approved Software Domain Model.
 
 ### Deliverables
 
-* Aggregate Boundaries
-* Aggregate Roots
-* Domain Operations
-* Domain Services
-* Domain Events
-* Architectural Views
-* Initial ADRs
+- Aggregate Design
+- Architecture Patterns
+- Application Services
+- Cross Cutting Concerns
+- Architecture Standards
+- Architecture Decision Records
 
 ### Exit Criteria
 
-A complete implementation-independent architecture suitable for realization in any modern technology stack.
+A complete implementation-independent software architecture suitable for realization in any modern technology stack.
 
 ### Status
 
@@ -178,19 +189,19 @@ A complete implementation-independent architecture suitable for realization in a
 
 ### Objective
 
-Translate the approved Software Architecture into implementation-neutral Aggregate Technical Specifications.
+Translate the approved Software Architecture into implementation-neutral technical specifications.
 
 ### Deliverables
 
-* Technical Specification Standards
-* Aggregate Technical Specifications
-* Aggregate Implementation Obligations
-* Collaboration Contracts
-* Story Traceability
+- Technical Specification Standards
+- Aggregate Technical Specifications
+- Persistence Models
+- Collaboration Contracts
+- Story Traceability
 
 ### Exit Criteria
 
-Implementation-neutral Technical Specifications exist for every Aggregate while preserving the approved Product Specification and Software Architecture.
+Complete implementation-neutral technical specifications exist for every Aggregate while preserving the approved Product Specification and Software Architecture.
 
 ### Status
 
@@ -198,22 +209,35 @@ Implementation-neutral Technical Specifications exist for every Aggregate while 
 
 ---
 
-## 🟡 Gate 5 — MVP Implementation
+## 🟡 Gate 5 — MVP Engineering
 
 ### Objective
 
-Incrementally implement the approved Product Specification using Story Packages and the AI Engineering Framework.
+Incrementally implement the approved engineering specification while validating the AI Engineering Framework through real software development.
 
 ### Deliverables
 
-* Aggregate implementations
-* Automated tests
-* Incremental Sprint deliveries
-* Continuous implementation validation
+- Story Package implementations
+- Reference Sprint implementations
+- Production application
+- Automated unit tests
+- Engineering validation
+- Continuous implementation verification
 
 ### Exit Criteria
 
-Feature-complete MVP ready for deployment to the partner school.
+- MVP business capabilities implemented.
+- Every Sprint preserves the approved engineering baseline.
+- Story Packages consistently produce deterministic implementations.
+- Production integration remains reproducible.
+- Automated testing validates all implemented business invariants.
+- AI Engineering Framework consistently produces reviewable implementations.
+
+### Current Progress
+
+✅ Sprint-001 Complete
+
+Remaining Sprint Packages continue under the approved engineering baseline.
 
 ### Status
 
@@ -225,18 +249,19 @@ Feature-complete MVP ready for deployment to the partner school.
 
 ### Objective
 
-Deploy E-Fee to the partner school and validate business assumptions.
+Deploy E-Fee to the partner institution and validate business assumptions under real operational conditions.
 
 ### Deliverables
 
-* Beta Deployment
-* User Feedback
-* Bug Fixes
-* Product Improvements
+- Beta deployment
+- User validation
+- Bug fixes
+- Product improvements
+- Operational feedback
 
 ### Exit Criteria
 
-The partner school successfully manages day-to-day fee receivables using E-Fee.
+The partner institution successfully manages day-to-day fee receivables using E-Fee.
 
 ### Status
 
@@ -252,16 +277,16 @@ Prepare E-Fee for adoption by additional educational institutions.
 
 ### Deliverables
 
-* Product Hardening
-* Documentation
-* Customer Onboarding
-* Pricing Strategy
-* Licensing
-* Operational Support
+- Product hardening
+- Documentation
+- Customer onboarding
+- Pricing strategy
+- Licensing
+- Operational support
 
 ### Exit Criteria
 
-The platform is ready for commercial rollout.
+The platform is operationally and commercially ready for broader rollout.
 
 ### Status
 
@@ -271,25 +296,37 @@ The platform is ready for commercial rollout.
 
 # Current Progress
 
-| Area                     | Status |
-| ------------------------ | ------ |
-| Product Foundation       | ✅      |
-| Business Specification   | ✅      |
-| Software Domain Model    | ✅      |
-| Repository Consolidation | ✅      |
-| Software Architecture    | ✅      |
-| Technical Design         | ✅      |
-| MVP Implementation       | 🟡      |
-| Beta Validation          | ⬜      |
-| Commercial Readiness     | ⬜      |
+| Area | Status |
+|------|--------|
+| Product Foundation | ✅ |
+| Business Specification | ✅ |
+| Software Domain Model | ✅ |
+| Software Architecture | ✅ |
+| Technical Specification | ✅ |
+| Sprint-001 Reference Implementation | ✅ |
+| Production Application | ✅ |
+| Automated Build & Test | ✅ |
+| AI Engineering Framework Validation | ✅ |
+| MVP Engineering | 🟡 |
+| Beta Validation | ⬜ |
+| Commercial Readiness | ⬜ |
 
 ---
 
 # Current Focus
 
-The immediate objective is to validate the AI Engineering Framework through real implementation while incrementally delivering the MVP.
+Sprint-001 has established the project's engineering baseline through the successful completion of the first reference implementation and production integration.
 
-Future engineering improvements should be driven by implementation evidence rather than speculative framework enhancements.
+The immediate focus is to continue MVP implementation through Sprint-002 and subsequent Sprint Packages while preserving:
+
+- the approved Product Specification;
+- the approved Software Architecture;
+- the approved Technical Specification;
+- the validated AI Engineering Framework;
+- the production integration workflow;
+- automated build and testing.
+
+Future implementation SHALL extend the approved engineering baseline rather than redefine it.
 
 ---
 
@@ -297,29 +334,36 @@ Future engineering improvements should be driven by implementation evidence rath
 
 Gate 5 will be considered successful when:
 
-* Aggregate implementations preserve the approved Product Specification.
-* Story Packages consistently produce deterministic implementations.
-* Unsupported implementation assumptions are minimized.
-* Sprint-001 validates the AI Engineering Framework under real implementation conditions.
+- all MVP business capabilities have been implemented;
+- every Sprint preserves the approved engineering specification;
+- Story Packages consistently produce deterministic, reviewable implementations;
+- production integration remains repeatable;
+- automated testing validates all implemented business invariants;
+- the AI Engineering Framework consistently demonstrates repeatable engineering quality across multiple implementation Sprints.
 
 ---
 
 # Key Decisions
 
-* Business understanding precedes software modelling.
-* Software modelling precedes architecture.
-* Architecture precedes implementation.
-* Every gate has explicit deliverables and exit criteria.
-* The specification serves as the permanent source of truth throughout the project lifecycle.
+- Business understanding precedes software modelling.
+- Software modelling precedes architecture.
+- Architecture precedes technical specification.
+- Technical specification precedes implementation.
+- Every Engineering Gate has explicit deliverables and exit criteria.
+- The Product Specification remains the permanent source of business truth.
+- Sprint Packages produce immutable reference implementations.
+- Production code is integrated from approved Story Packages.
+- Sprint-001 establishes the canonical engineering baseline for future implementation.
+- Future implementation SHALL extend rather than redefine the approved engineering baseline.
 
 ---
 
 # Related Documents
 
-* ProductVision.md
-* ProblemStatement.md
-* MVPScope.md
-* SoftwareDomainModel.md
+- ProductVision.md
+- ProblemStatement.md
+- MVPScope.md
+- SoftwareDomainModel.md
 
 ---
 
@@ -331,12 +375,13 @@ None.
 
 # Version History
 
-| Version | Date       | Description                                                                                                                        |
-| ------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| 1.0.0   | 2026-06-29 | Initial roadmap                                                                                                                    |
-| 1.1.0   | 2026-07-03 | Updated to reflect completed Gate 2, introduction of Software Domain Modelling as a distinct gate and revised engineering roadmap. |
-| 1.2.0   | 2026-07-08 | Updated to reflect completion of Software Architecture and Technical Specification, and transition to MVP implementation.          |
-
+| Version | Date | Description |
+|---------|------------|-------------|
+| 1.0.0 | 2026-06-29 | Initial roadmap. |
+| 1.1.0 | 2026-07-03 | Updated to reflect completion of Gate 2, introduction of Software Domain Modelling as a distinct Engineering Gate and revised project roadmap. |
+| 1.2.0 | 2026-07-08 | Updated to reflect completion of Software Architecture and Technical Specification and transition to MVP Engineering. |
+| 1.3.0 | 2026-07-14 | Updated following the freeze of Specification v1.1.0. Sprint-001 established as the reference implementation and AI Engineering Framework validation baseline for continued MVP development. |
+| 1.4.0 | 2026-07-16 | Updated following completion of Sprint-001 reference implementation, production integration, Gradle build validation and establishment of the Golden engineering baseline for continued MVP development. |
 
 ---
 
@@ -346,9 +391,9 @@ None.
 
 ## Approved By
 
-* Product Owner
-* CTO
+- Product Owner
+- CTO
 
 ## Approval Date
 
-2026-07-03
+2026-07-16

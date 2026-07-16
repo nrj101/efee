@@ -5,7 +5,7 @@
 document_id: ATS-FEESTRUCTURE-001
 title: Fee Structure Aggregate Technical Specification
 version: 3.0.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: CTO
@@ -17,7 +17,7 @@ related_documents:
   - ../../architecture/aggregates/FeeStructure.md
   - ../../spec/docs/BusinessRules.md
   - ../../spec/docs/workflows/FeePolicyManagement.md
-  - ../../persistence/FeeStructure.md
+  - ../../technical-design/persistence/FeeStructure.md
 ---
 ```
 
@@ -38,7 +38,7 @@ This specification intentionally remains programming-language independent.
 The Fee Structure Aggregate owns:
 
 - Fee Structure identity
-- institutional charging policy
+- Institutional charging policy
 - Fee Component composition
 - Fee Structure lifecycle
 
@@ -78,6 +78,10 @@ Only the following Supporting Entity state is approved.
 | Fee Component Identifier | Fee Component Identifier | No |
 | Fee Component Name | Fee Component Name | Yes |
 | Fee Amount | Monetary Value | Yes |
+
+Fee Components are Supporting Entities owned exclusively by the Fee Structure Aggregate.
+
+Supporting Entities SHALL NOT be shared across Aggregates.
 
 No additional Supporting Entity state shall be introduced.
 
@@ -202,6 +206,7 @@ The implementation shall preserve:
 
 - Fee Structure identity remains immutable.
 - A Fee Structure contains one or more Fee Components.
+- Fee Component identifiers are unique within a Fee Structure.
 - Every Fee Component belongs to exactly one Fee Structure.
 - Historical Fee Structures remain immutable once used.
 - Aggregate ownership remains preserved.
@@ -212,8 +217,10 @@ The implementation shall preserve:
 
 Approved lifecycle states:
 
-- Active
-- Retired
+Active
+    │
+    ▼
+Retired
 
 ---
 
@@ -307,6 +314,8 @@ Implementation shall not introduce:
 - framework annotations
 - infrastructure concerns
 
+Implementation SHALL NOT expose mutable internal collections.
+
 ---
 
 # Story Traceability
@@ -332,10 +341,10 @@ Initially implemented through:
 |----------|------|-------------|
 | 1.0.0 | 2026-07-06 | Initial specification. |
 | 2.0.0 | 2026-07-13 | Introduced implementation contract. |
-| 3.0.0 | 2026-07-13 | Added explicit Aggregate interface, Supporting Entity interface, constructor contract, operation contracts, preconditions and postconditions. |
+| 3.1.0 | 2026-07-13 | Added explicit Aggregate interface, Supporting Entity interface, constructor contract, operation contracts, preconditions and postconditions. |
 
 ---
 
 # Approval
 
-**Status:** Draft
+**Status:** Approved

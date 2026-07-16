@@ -1,238 +1,220 @@
-# E-Fee Status Report
+# E-Fee — Student Fee Receivables Platform
 
-**Project:** Student Fee Receivables Platform (E-Fee)
+## Overview
 
-**Specification Baseline:** v1.0.0 (Approved)
+**E-Fee** is a SaaS platform designed to help educational institutions manage the complete lifecycle of student fee receivables—from the creation of financial obligations through final settlement—while preserving complete financial auditability.
 
-**Architecture Baseline:** v1.0.0 (Approved)
-
-**Technical Specification:** v1.0.0 (Approved)
-
-**AI Engineering Framework:** v1.1 (In Validation)
-
-**Last Updated:** 2026-07-08
+The project follows a **specification-first engineering approach** in which product understanding, business modelling, software architecture and implementation evolve through distinct engineering phases. Each phase produces independently reviewable engineering artifacts that collectively serve as the authoritative foundation for implementation.
 
 ---
 
-# Executive Summary
+# Repository Organization
 
-The Aggregate Technical Specification (ATS) review has been completed for all Aggregate Roots.
+The repository is organized into the following major areas.
 
-The Technical Specification package has been validated against the approved Product Specification, Software Architecture, Aggregate Design and Business Workflows.
+## `/spec`
 
-The review confirmed that the ATS layer successfully bridges Software Architecture and implementation without introducing implementation technology or modifying business behaviour.
+Authoritative Product Specification.
 
-Only minor consistency refinements were required during review. No architectural redesigns or business changes were identified.
+Contains the implementation-independent description of the business domain, including:
 
-The engineering baseline is now considered stable enough to shift the primary focus from framework engineering to product implementation.
+- Product Vision
+- Problem Statement
+- MVP Scope
+- Domain Glossary
+- Business Rules
+- Business Workflows
+- Business Object Graph
+- Software Domain Model
+- RFCs
 
----
-
-# Current Engineering Status
-
-## Gate 1 — Product Foundation
-
-Status: ✅ Complete
-
----
-
-## Gate 2 — Business & Software Domain Modelling
-
-Status: ✅ Complete
-
-Business Specification remains unchanged.
-
-No business behaviour was modified during ATS validation.
+These documents define **what** the platform must accomplish and remain the permanent source of truth throughout the product lifecycle.
 
 ---
 
-## Gate 3 — Software Architecture
+## `/architecture`
 
-Status: ✅ Complete
+Implementation-independent Software Architecture.
 
-Completed work includes:
+Contains:
 
-- Aggregate Design modularization
-- Business Workflow modularization
-- Architecture package refinement
-- Aggregate Architecture review
+- Software Architecture
+- Aggregate Design
+- Aggregate Specifications
+- Module Design
+- Architecture Patterns
+- Cross-Cutting Concerns
+- Architectural Decision Records (ADRs)
+- Architecture diagrams
 
-Architecture remains implementation-independent.
-
----
-
-## Gate 4 — Technical Specification
-
-Status: ✅ Complete
-
-Aggregate Technical Specifications have been reviewed and approved for:
-
-- Student
-- Academic Year
-- Fee Structure
-- Discount
-- Fee Obligation
-- Payment
-- Receipt
-
-Review methodology emphasized:
-
-- traceability;
-- implementation neutrality;
-- ownership consistency;
-- Aggregate collaboration consistency;
-- implementation obligations.
-
-The review resulted only in minor editorial refinements, including:
-
-- removal of unsupported collaborating Aggregates;
-- removal of Supporting Entities from Collaboration Contracts;
-- terminology standardization.
-
-No business behaviour or architectural ownership was modified.
-
-Technical Specification v1.0.0 is now considered frozen.
+These documents define **how the software is organized** while remaining independent of programming languages, frameworks and infrastructure.
 
 ---
 
-# AI Engineering Framework Integration
+## `/technical-specification`
 
-Integrated components:
+Implementation-neutral Technical Design.
+
+Contains:
+
+- Technical Specification Standards
+- Aggregate Technical Specifications
+- Aggregate Persistence Models
+
+These documents bridge the gap between Software Architecture and implementation by defining implementation obligations while remaining technology independent.
+
+---
+
+## `/docs/ai`
+
+AI Engineering Framework.
+
+The project adopts **AI Engineering Framework v1.1.0**, providing a disciplined and repeatable approach to AI-assisted software engineering.
+
+The framework includes:
 
 - Engineering Constitution
-- Developer Persona
-- Developer Runtime Prompt
-- Developer Execution Workflow
-- Canonical Examples
-- Story Package
-- Aggregate Architecture
-- Technical Specification package
+- Developer Personas
+- Runtime Prompts
+- Story Package Template
+- Canonical Engineering Examples
 
-The framework continues to be validated using implementation stories.
+The framework governs **how implementation is performed** but does not define product behaviour or software architecture.
 
 ---
 
-# Story Validation
+## `/Sprint-*`
 
-## Story-001
+Reference implementation Sprints.
 
-Validation completed using:
+Each Sprint contains one or more Story Packages.
 
-- Product Specification
-- Aggregate Architecture
-- Technical Specification
-- AI Engineering Framework
+A Story Package represents the complete implementation contract for an individual engineering Story and typically contains:
 
-### Positive Outcomes
+- Story
+- Implementation Guide
+- Source
+- Tests
+- README
 
-- Aggregate identification correct.
-- Output locations resolved.
-- Story scope respected.
-- ATS significantly reduced implementation ambiguity.
-- Aggregate ownership consistently preserved.
+Completed Sprints also include Sprint planning and Sprint retrospective artifacts, providing a complete engineering record from planning through implementation review.
 
-### Remaining Observations
+---
 
-The local LLM continues to infer implementation details not explicitly specified.
+## `/project`
+
+Project management artifacts.
 
 Examples include:
 
-- additional domain fields;
-- helper methods;
-- constructors;
-- validation logic;
-- implementation-specific conventions.
+- Status Reports
+- Next Session planning
+- Release planning
+- Project coordination documents
 
-These behaviours originate from AI execution rather than architectural ambiguity.
-
----
-
-# Key Engineering Discovery
-
-The Technical Specification layer has reached sufficient maturity.
-
-Further improvements to implementation quality are now expected to come primarily from improvements to AI execution guidance rather than additional specification detail.
-
-Future framework evolution should therefore focus on deterministic implementation behaviour rather than expanding architectural documentation.
+These artifacts support project execution but are not part of the approved engineering baseline.
 
 ---
 
-# Repository Status
+## `/app`
 
-Current engineering organization:
+Production application source code.
 
-Product Specification
+Approved implementations progressively migrate from Story Packages into the production application.
 
-↓
+The `/app` directory represents the deployable software rather than the engineering workspaces used during implementation.
 
-Business Workflows
+---
 
-↓
+# Engineering Lifecycle
 
+Development progresses through distinct engineering phases.
+
+```text
+Product Understanding
+        │
+        ▼
+Business Specification
+        │
+        ▼
+Software Domain Modelling
+        │
+        ▼
 Software Architecture
-
-↓
-
-Aggregate Architecture
-
-↓
-
+        │
+        ▼
 Technical Specification
+        │
+        ▼
+Persistence Model
+        │
+        ▼
+Sprint Planning
+        │
+        ▼
+Story Packages
+        │
+        ▼
+AI-Assisted Implementation
+        │
+        ▼
+Implementation Review
+        │
+        ▼
+Sprint Retrospective
+```
 
-↓
-
-Sprint
-
-↓
-
-Story Package
-
-↓
-
-Implementation
-
-The engineering structure is considered stable.
+Each phase builds upon the previous one while preserving approved engineering artifacts.
 
 ---
 
-# Risks
+# AI-Assisted Development
 
-Medium
+Implementation is performed using the approved AI Engineering Framework.
 
-Current local LLM performance still degrades when large context sets are attached.
+The framework enforces:
 
-Repository modularization has reduced this issue substantially, but efficient context selection remains important until future tooling improvements are introduced.
+- specification-first development;
+- architecture preservation;
+- explicit business rule compliance;
+- controlled implementation scope;
+- deterministic engineering behaviour; and
+- continuous engineering governance.
+
+Implementation begins from an approved Story Package rather than directly from the Product Specification.
 
 ---
 
-# Overall Assessment
+# Current Project Status
 
-Business Engineering
+Specification **v1.1.0** establishes the approved engineering baseline for the MVP.
 
-████████████████████ 100%
+Sprint-001 serves as the reference implementation Sprint, validating both the engineering artifacts and the AI Engineering Framework through real implementation.
 
-Software Architecture
+Future development builds incrementally upon this approved baseline.
 
-████████████████████ 100%
+The repository intentionally separates:
 
-Technical Specification
+- Product Specification
+- Software Architecture
+- Technical Specification
+- AI Engineering Framework
+- Story Packages
+- Production Implementation
 
-████████████████████ 100%
+This separation allows business knowledge, architecture, engineering process and implementation to evolve independently while remaining consistent.
 
-AI Engineering Framework
+---
 
-███████████████████░ 95%
+# Guiding Principles
 
-Implementation Validation
+The project follows the following core principles:
 
-██████████████░░░░░░ 70%
-
-Implementation Progress
-
-████░░░░░░░░░░░░░░░░ 20%
-
-Overall Project Status
-
-🟢 Engineering baseline complete.
-
-Primary focus now shifts to iterative product implementation and AI framework validation through real engineering work.
+- Business understanding precedes implementation.
+- Product Specification is the authoritative source of business truth.
+- Software Architecture preserves business correctness.
+- Technical Specifications eliminate implementation ambiguity.
+- Every implementation originates from an approved Story Package.
+- AI engineers operate under a common Engineering Constitution.
+- Architectural evolution occurs only through approved governance.
+- Implementation must never contradict approved specifications or architecture.

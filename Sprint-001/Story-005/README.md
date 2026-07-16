@@ -1,161 +1,122 @@
-# Fee Obligation Implementation
+# Fee Obligation Aggregate
 
-This Story implements the **Fee Obligation Aggregate** as defined by the approved Software Domain Model, Aggregate Technical Specification and Persistence Model.
+## Purpose
 
----
+This Story implements the **Fee Obligation Aggregate** defined by the approved Product Specification, Software Architecture and Aggregate Technical Specification.
 
-## Overview
+The implementation establishes the ownership boundary responsible for maintaining a Student's financial responsibility for an Academic Year.
 
-The implementation includes:
-
-- `FeeObligation.java` — Fee Obligation Aggregate Root
-- `FeeObligationTest.java` — Unit tests for the Aggregate
-
-The implementation assumes the existence of collaborating domain types such as:
-
-- `ObligationLine`
-- `BigDecimal`
-
-These collaborators are referenced by the Aggregate but are not implemented as part of this Story.
+This implementation intentionally realizes only the subset of Aggregate behavior approved by **Story-005**.
 
 ---
 
-## Aggregate Responsibility
+## Responsibilities
 
-The Fee Obligation Aggregate owns a Student's financial responsibility for a specific Academic Year.
-
-The Aggregate preserves:
+The Fee Obligation Aggregate owns:
 
 - Fee Obligation identity
 - Student reference
 - Academic Year reference
 - Fee Structure reference
-- Obligation Line collection
-- Outstanding Amount
+- Obligation Lines
+- Derived Outstanding Amount
 - Aggregate lifecycle
 
-The Aggregate intentionally does **not** own:
+The Fee Obligation Aggregate does not own:
 
 - Student identity
 - Academic Year definition
 - Fee Structure policy
-- Payment information
-- Discount information
+- Discount entitlements
+- Payment allocations
+- Receipts
 
 ---
 
-## Implementation Details
+## Public Operations
 
-### Fee Obligation Aggregate
+The Aggregate exposes the following public operations:
 
-The Aggregate Root provides the following business operations:
-
-- Create a Fee Obligation
+- Create Fee Obligation
 - Update Obligation Lines
-- Update Outstanding Amount
-- Retire a Fee Obligation
-
-### Aggregate State
-
-The Aggregate preserves:
-
-- Immutable identifiers
-- Mutable Obligation Line collection
-- Mutable Outstanding Amount
-- Lifecycle state (Active / Retired)
+- Retire Fee Obligation
 
 ---
 
-## Business Rules
+## Supporting Types
 
-The implementation enforces the following business invariants.
+The implementation includes:
 
-### Validation
+### Supporting Value Object
 
-A Fee Obligation:
+- `ObligationLine`
 
-- must have a Fee Obligation Identifier
-- must reference a Student
-- must reference an Academic Year
-- must reference a Fee Structure
-- must contain at least one Obligation Line
-- cannot contain null Obligation Lines
-- cannot contain duplicate Obligation Line Identifiers
-- cannot have a negative Outstanding Amount
+`ObligationLine` represents an individual financial responsibility owned exclusively by the Fee Obligation Aggregate.
 
 ### Lifecycle
 
-A retired Fee Obligation:
+- `FeeObligationLifecycle`
 
-- cannot be updated
-- cannot be retired again
+The Aggregate lifecycle is represented using the approved lifecycle states:
 
-Historical information is preserved.
+- `ACTIVE`
+- `RETIRED`
 
----
-
-## Defensive Programming
-
-The implementation preserves Aggregate ownership through defensive programming.
-
-Specifically:
-
-- constructor performs defensive copying
-- update performs defensive copying
-- internal collections are never exposed directly
-- callers receive immutable collection views
+Lifecycle transitions are irreversible.
 
 ---
 
-## Testing
+## Business Invariants
 
-Unit tests verify:
+The implementation preserves the following invariants:
 
-- Aggregate creation
-- Constructor validation
-- Successful update
-- Update validation
-- Duplicate Obligation Line detection
-- Null Obligation Line validation
-- Outstanding Amount validation
-- Retirement
-- Double retirement prevention
-- Update after retirement
-- Immutable collection behaviour
-- Defensive copying
+- Fee Obligation identifier is immutable.
+- Student identifier is immutable.
+- Academic Year identifier is immutable.
+- Fee Structure identifier is immutable.
+- A Fee Obligation contains at least one Obligation Line.
+- Obligation Line identifiers are unique.
+- Obligation Lines cannot contain null values.
+- Outstanding Amount is derived from the owned Obligation Lines.
+- Outstanding Amount shall never become negative.
+- Aggregate ownership is preserved.
 
 ---
 
-## Supported Operations
+## Story Scope
 
-The Aggregate exposes the following operations.
+This implementation includes only the behavior approved by **Story-005**.
 
-```text
-FeeObligation(...)
-update(...)
-retire()
+The following approved operations remain intentionally unimplemented in this Story:
 
-getFeeObligationIdentifier()
-getStudentIdentifier()
-getAcademicYearIdentifier()
-getFeeStructureIdentifier()
-getObligationLines()
-getOutstandingAmount()
-isActive()
-```
+- Apply Discount
+- Allocate Payment
+
+Although the Aggregate Technical Specification defines Outstanding Amount as being derived from all owned financial facts, this Story currently derives Outstanding Amount from Obligation Lines only. Discount application and Payment Allocation will be introduced in subsequent Stories without changing Aggregate ownership.
+
+No persistence, repositories, REST APIs, framework dependencies or infrastructure concerns are included.
 
 ---
 
-## Notes
+## Implementation Notes
 
-The implementation intentionally remains technology independent.
+This implementation intentionally remains:
 
-It does **not** introduce:
+- implementation-neutral;
+- framework-independent;
+- focused on Aggregate behavior;
+- faithful to the approved Story Package.
 
-- persistence annotations
-- framework dependencies
-- database mappings
-- REST endpoints
-- messaging infrastructure
+Additional implementation characteristics include:
 
-Implementation follows the approved Story Package, Aggregate Technical Specification, Persistence Model and Engineering Constitution.
+- `ObligationLine` is implemented as an immutable Supporting Value Object.
+- `FeeObligationLifecycle` implements the approved Aggregate lifecycle.
+- Cross-Aggregate collaboration occurs only through stable identifiers.
+- Monetary values are represented using `BigDecimal`.
+- Outstanding Amount is derived from the currently implemented financial facts (Obligation Lines).
+- Defensive copying protects owned collections.
+- Public collection accessors expose immutable views.
+- Aggregate equality is based solely on `feeObligationIdentifier`.
+- Lifecycle transitions are managed exclusively through the approved `retire()` operation.
+
+No undocumented business behavior has been introduced.

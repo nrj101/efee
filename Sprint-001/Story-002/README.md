@@ -1,17 +1,86 @@
-# Academic Year Aggregate Implementation
+# Academic Year Aggregate
 
-This directory contains the implementation of the Academic Year Aggregate as defined in the Story Package.
+## Purpose
 
-## Key Features
+This Story implements the **Academic Year Aggregate** defined by the approved Product Specification, Software Architecture, Aggregate Technical Specification and Story-002.
 
-- Represents an academic year with start and end dates
-- Maintains lifecycle status (Pending, Active, Closed)
-- Provides activation and closure operations
-- Preserves business rules and ownership boundaries
+The implementation establishes the Aggregate ownership boundary responsible for maintaining Academic Year identity, operational period, applicable Fee Structure reference and lifecycle.
+
+---
+
+## Responsibilities
+
+The Academic Year Aggregate owns:
+
+- Academic Year identity
+- Operational period
+- Applicable Fee Structure reference
+- Academic Year lifecycle
+
+The Academic Year Aggregate does not own:
+
+- Students
+- Fee Structure definition
+- Fee Obligations
+- Payments
+- Receipts
+- Discounts
+
+---
+
+## Implemented State
+
+The Aggregate implements the following approved state:
+
+- Academic Year Identifier
+- Academic Year Code
+- Operational Period
+- Applicable Fee Structure Identifier
+- Academic Year Lifecycle
+
+---
+
+## Public Operations
+
+The Aggregate exposes the following public operations:
+
+- Create Academic Year
+- Assign Fee Structure
+- Activate Academic Year
+- Close Academic Year
+
+---
+
+## Business Invariants
+
+The implementation preserves the following invariants:
+
+- Academic Year Identifier is immutable.
+- Academic Year Code is immutable.
+- Operational Period is immutable after creation.
+- Only one Fee Structure reference is associated at a time.
+- Lifecycle transitions preserve Aggregate consistency.
+- Aggregate ownership is preserved.
+
+---
+
+## Story Scope
+
+This implementation includes only the behaviour approved by **Story-002**.
+
+No persistence, repositories, REST APIs, framework dependencies or infrastructure concerns are included.
+
+---
 
 ## Implementation Notes
 
-- The implementation follows the approved Software Architecture
-- The Aggregate Root is implemented as a Java class with appropriate state management
-- All operations preserve the approved business rules
-- The implementation is designed to work with the collaborating aggregates as defined in the domain model
+This implementation intentionally remains:
+
+- implementation-neutral;
+- framework-independent;
+- focused on Aggregate behaviour; and
+- faithful to the approved Story Package.
+
+The implementation reflects the reconciled Specification v1.1 baseline established during Sprint-001 engineering validation.
+
+No undocumented business behaviour has been introduced.

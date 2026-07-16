@@ -1,8 +1,16 @@
-// /Sprint-001/Story-005/source/FeeObligation.java;
+// /Sprint-001/Story-005/source/FeeObligation.java
 
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
-
+/**
+ * Aggregate Root representing a Student's financial responsibility
+ * for an Academic Year.
+ */
 public class FeeObligation {
 
     private final String feeObligationIdentifier;
@@ -12,44 +20,38 @@ public class FeeObligation {
 
     private final List<ObligationLine> obligationLines;
 
+    /**
+     * Derived Aggregate state.
+     *
+     * This value is always derived from the Aggregate's owned
+     * financial facts (Obligation Lines).
+     */
     private BigDecimal outstandingAmount;
 
-    private boolean active;
+    private FeeObligationLifecycle lifecycleState;
 
     public FeeObligation(
             String feeObligationIdentifier,
             String studentIdentifier,
             String academicYearIdentifier,
             String feeStructureIdentifier,
-            List<ObligationLine> obligationLines,
-            BigDecimal outstandingAmount) {
+            List<ObligationLine> obligationLines) {
 
-        if (feeObligationIdentifier == null || feeObligationIdentifier.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Fee Obligation Identifier is required");
-        }
+        validateIdentifier(
+                feeObligationIdentifier,
+                "Fee Obligation Identifier");
 
-        if (studentIdentifier == null || studentIdentifier.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Student Identifier is required");
-        }
+        validateIdentifier(
+                studentIdentifier,
+                "Student Identifier");
 
-        if (academicYearIdentifier == null || academicYearIdentifier.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Academic Year Identifier is required");
-        }
+        validateIdentifier(
+                academicYearIdentifier,
+                "Academic Year Identifier");
 
-        if (feeStructureIdentifier == null || feeStructureIdentifier.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Fee Structure Identifier is required");
-        }
-
-        if (outstandingAmount == null
-                || outstandingAmount.compareTo(BigDecimal.ZERO) < 0) {
-
-            throw new IllegalArgumentException(
-                    "Outstanding Amount cannot be negative");
-        }
+        validateIdentifier(
+                feeStructureIdentifier,
+                "Fee Structure Identifier");
 
         validateObligationLines(obligationLines);
 
@@ -57,72 +59,32 @@ public class FeeObligation {
         this.studentIdentifier = studentIdentifier;
         this.academicYearIdentifier = academicYearIdentifier;
         this.feeStructureIdentifier = feeStructureIdentifier;
+
         this.obligationLines = new ArrayList<>(obligationLines);
-        this.outstandingAmount = outstandingAmount;
-        this.active = true;
+
+        this.outstandingAmount = calculateOutstandingAmount();
+
+        this.lifecycleState = FeeObligationLifecycle.ACTIVE;
     }
 
     public void update(
-            List<ObligationLine> obligationLines,
-            BigDecimal outstandingAmount) {
+            List<ObligationLine> obligationLines) {
 
-        if (!active) {
-            throw new IllegalStateException(
-                    "Cannot update a retired Fee Obligation");
-        }
-
-        if (outstandingAmount == null
-                || outstandingAmount.compareTo(BigDecimal.ZERO) < 0) {
-
-            throw new IllegalArgumentException(
-                    "Outstanding Amount cannot be negative");
-        }
+        ensureActive();
 
         validateObligationLines(obligationLines);
 
-        List<ObligationLine> updatedLines =
-                new ArrayList<>(obligationLines);
-
         this.obligationLines.clear();
-        this.obligationLines.addAll(updatedLines);
+        this.obligationLines.addAll(new ArrayList<>(obligationLines));
 
-        this.outstandingAmount = outstandingAmount;
+        this.outstandingAmount = calculateOutstandingAmount();
     }
 
     public void retire() {
 
-        if (!active) {
-            throw new IllegalStateException(
-                    "Cannot retire an already retired Fee Obligation");
-        }
+        ensureActive();
 
-        active = false;
-    }
-
-    private void validateObligationLines(
-            List<ObligationLine> obligationLines) {
-
-        if (obligationLines == null || obligationLines.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Obligation Lines are required");
-        }
-
-        Set<String> obligationLineIdentifiers = new HashSet<>();
-
-        for (ObligationLine obligationLine : obligationLines) {
-
-            if (obligationLine == null) {
-                throw new IllegalArgumentException(
-                        "Obligation Lines cannot contain null entries");
-            }
-
-            if (!obligationLineIdentifiers.add(
-                    obligationLine.getObligationLineIdentifier())) {
-
-                throw new IllegalArgumentException(
-                        "Duplicate Obligation Line Identifier found");
-            }
-        }
+        this.lifecycleState = FeeObligationLifecycle.RETIRED;
     }
 
     public String getFeeObligationIdentifier() {
@@ -142,14 +104,117 @@ public class FeeObligation {
     }
 
     public List<ObligationLine> getObligationLines() {
-        return Collections.unmodifiableList(obligationLines);
+        return List.copyOf(obligationLines);
     }
 
     public BigDecimal getOutstandingAmount() {
         return outstandingAmount;
     }
 
-    public boolean isActive() {
-        return active;
+    public FeeObligationLifecycle getLifecycleState() {
+        return lifecycleState;
     }
+
+    private BigDecimal calculateOutstandingAmount() {
+
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (ObligationLine obligationLine : obligationLines) {
+            total = total.add(obligationLine.getAmount());
+        }
+
+        return total;
+    }
+
+    private void ensureActive() {
+
+        if (lifecycleState == FeeObligationLifecycle.RETIRED) {
+
+            throw new IllegalStateException(
+                    "Fee Obligation has already been retired.");
+        }
+    }
+
+    private void validateIdentifier(
+            String identifier,
+            String fieldName) {
+
+        if (identifier == null || identifier.isBlank()) {
+
+            throw new IllegalArgumentException(
+                    fieldName + " cannot be null or blank.");
+        }
+    }
+
+    private void validateObligationLines(
+            List<ObligationLine> obligationLines) {
+
+        if (obligationLines == null) {
+
+            throw new IllegalArgumentException(
+                    "Obligation Lines cannot be null.");
+        }
+
+        if (obligationLines.isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "At least one Obligation Line is required.");
+        }
+
+        Set<String> identifiers = new HashSet<>();
+
+        for (ObligationLine obligationLine : obligationLines) {
+
+            if (obligationLine == null) {
+
+                throw new IllegalArgumentException(
+                        "Obligation Line cannot be null.");
+            }
+
+            if (!identifiers.add(
+                    obligationLine.getObligationLineIdentifier())) {
+
+                throw new IllegalArgumentException(
+                        "Duplicate Obligation Line Identifier: "
+                                + obligationLine.getObligationLineIdentifier());
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object object) {
+
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof FeeObligation other)) {
+            return false;
+        }
+
+        return Objects.equals(
+                feeObligationIdentifier,
+                other.feeObligationIdentifier);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(feeObligationIdentifier);
+    }
+
+    @Override
+    public String toString() {
+
+        return "FeeObligation{" +
+                "feeObligationIdentifier='" + feeObligationIdentifier + '\'' +
+                ", studentIdentifier='" + studentIdentifier + '\'' +
+                ", academicYearIdentifier='" + academicYearIdentifier + '\'' +
+                ", feeStructureIdentifier='" + feeStructureIdentifier + '\'' +
+                ", obligationLines=" + obligationLines +
+                ", outstandingAmount=" + outstandingAmount +
+                ", lifecycleState=" + lifecycleState +
+                '}';
+    }
+
 }

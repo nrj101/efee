@@ -2,108 +2,140 @@
 
 ## Overview
 
-**E-Fee** is a SaaS platform designed to help educational institutions manage the complete lifecycle of student fee receivables—from the creation of financial obligations through final settlement—while preserving complete financial auditability.
+**E-Fee** is a SaaS platform designed to help educational institutions manage the complete lifecycle of student fee receivables—from the creation of financial obligations through final settlement—while preserving complete financial integrity and auditability.
 
-The project follows a specification-first engineering approach. Product understanding, business modelling, software architecture and implementation are developed as distinct engineering phases, allowing each stage to remain independently reviewable and reusable.
+The project follows a **Specification-First Engineering** approach in which business understanding, software architecture, technical specification and implementation evolve through well-defined engineering phases.
+
+Each phase produces independently reviewable engineering artifacts that collectively provide complete traceability from business requirements to executable software.
 
 ---
 
 # Repository Organization
 
-The repository is organized into several major areas.
+The repository is organized into the following major areas.
 
 ## `/spec`
 
-Authoritative product specification.
+Authoritative Product Specification.
 
 Contains the implementation-independent description of the business domain, including:
 
-* Product Vision
-* Problem Statement
-* MVP Scope
-* Business Rules
-* Business Workflow
-* Domain Glossary
-* Software Domain Model
-* Business Object Graph
+- Product Vision
+- Problem Statement
+- MVP Scope
+- Domain Glossary
+- Business Rules
+- Business Workflows
+- Business Object Graph
+- Software Domain Model
+- Requests for Change (RFCs)
+- Project Roadmap
 
-These documents define **what** the system must accomplish.
-
-They remain the permanent source of truth throughout the project lifecycle.
+These documents define **what** the platform must accomplish and remain the permanent source of business truth throughout the product lifecycle.
 
 ---
 
 ## `/architecture`
 
-Implementation-independent software architecture.
+Implementation-independent Software Architecture.
 
 Contains:
 
-* Software Architecture
-* Aggregate Design
-* Aggregate-specific Architecture
-* Architecture Patterns
-* Module Design
-* Architectural Decision Records (ADRs)
-* Architecture diagrams
+- Software Architecture
+- Aggregate Design
+- Architecture Patterns
+- Application Services
+- Module Design
+- Cross-Cutting Concerns
+- Architecture Standards
+- Architecture Decision Records (ADRs)
+- Architecture diagrams
 
-These documents define **how the software should be organized** while remaining independent of any programming language or framework.
+These documents define **how the software is organized** while remaining independent of programming languages, frameworks and infrastructure.
 
 ---
 
 ## `/technical-specification`
 
-Implementation-neutral technical specifications.
+Implementation-neutral Technical Specifications.
 
-Contains one Technical Specification for each Aggregate.
+Contains:
 
-Each document defines:
+- Technical Specification Standards
+- Aggregate Technical Specifications
 
-* Aggregate responsibilities
-* Owned state
-* Lifecycle model
-* Consistency requirements
-* Collaboration contracts
-* Implementation obligations
-* Story traceability
+These documents translate the approved Software Architecture into precise implementation contracts while remaining technology independent.
 
-These documents bridge the gap between Software Architecture and implementation while remaining independent of programming languages and frameworks.
+---
 
---- 
+## `/technical-design`
 
-## `/docs/ai`
+Technical design supporting implementation.
 
-AI Engineering Framework adopted by this project.
+Currently contains:
 
-This repository adopts **AI Engineering Framework v1.0**, which provides a disciplined and repeatable methodology for AI-assisted software development.
+- Aggregate Persistence Models
 
-The framework includes:
-
-* Engineering Constitution
-* AI Personas
-* Runtime Prompts
-* Story Package Templates
-* Canonical Engineering Examples
-
-The framework governs **how AI engineers perform implementation**, but does not define product behaviour or software architecture.
+These documents describe implementation-oriented technical concerns that complement the Technical Specifications while remaining independent of any specific persistence technology.
 
 ---
 
 ## `/Sprint-*`
 
-Implementation workspaces.
+Reference Implementation Sprints.
 
 Each Sprint contains one or more Story Packages.
 
-A Story Package represents the complete implementation contract for a single engineering story and typically contains:
+A Story Package represents the complete implementation contract for an individual engineering Story and typically contains:
 
-* Story
-* Implementation Guide
-* README
-* Source artifacts
-* Test artifacts
+- Story
+- Implementation Guide
+- Reference Source Code
+- Reference Unit Tests
+- Story README
 
-Story Packages are intentionally self-contained to support repeatable AI-assisted implementation.
+Completed Sprints also include Sprint planning and Sprint retrospective artifacts, providing a complete engineering record from planning through implementation review.
+
+Reference implementations remain immutable once approved.
+
+---
+
+## `/app`
+
+Production Application.
+
+The `app` module contains the executable production implementation of the Student Fee Receivables Platform.
+
+Approved reference implementations are integrated into this module after implementation review and architectural validation.
+
+The module includes:
+
+- Gradle build configuration
+- Production source code
+- Production unit tests
+- Standard Java package structure
+- Application resources
+
+This module represents the deployable software that will ultimately be promoted through Development, QA, UAT and Production environments.
+
+---
+
+## `/docs/ai`
+
+AI Engineering Framework.
+
+The project adopts a disciplined AI-assisted engineering workflow providing repeatable implementation through approved Story Packages.
+
+The framework includes:
+
+- Engineering Constitution
+- Developer Personas
+- Runtime Prompts
+- Story Package Template
+- Canonical Engineering Examples
+- AI Engineering Workflows
+
+The framework governs **how implementation is performed** but does not define business behaviour or software architecture.
 
 ---
 
@@ -113,20 +145,13 @@ Project management artifacts.
 
 Examples include:
 
-* Status Reports
-* Next Session planning
-* Implementation planning
-* Other project coordination documents
+- Status Reports
+- Next Session planning
+- Engineering feedback
+- AI Framework evaluation
+- Project coordination documents
 
-These artifacts support project execution but are not part of the product specification.
-
----
-
-## `/app`
-
-Application source code.
-
-Production implementation will gradually emerge here as approved Story Packages are implemented.
+These artifacts support project execution but are not part of the approved engineering baseline.
 
 ---
 
@@ -150,64 +175,104 @@ Software Architecture
 Technical Specification
         │
         ▼
-Sprint Planning
+Story Planning
         │
         ▼
 Story Packages
         │
         ▼
-AI-Assisted Implementation
+AI-Assisted Reference Implementation
         │
         ▼
-Verification & Review
+Implementation Review
+        │
+        ▼
+Production Integration
+        │
+        ▼
+Build & Test Validation
+        │
+        ▼
+Executable Application
 ```
 
-Each phase builds upon the previous one while preserving the approved engineering artifacts.
+Each phase builds upon the previous one while preserving approved engineering artifacts.
 
 ---
 
 # AI-Assisted Development
 
-Implementation is performed using the adopted AI Engineering Framework.
+Implementation is performed using the approved AI Engineering Framework.
 
 The framework enforces:
 
-* specification-first development;
-* architecture preservation;
-* explicit business rule compliance;
-* controlled implementation scope;
-* repeatable engineering behaviour.
+- specification-first development;
+- architecture preservation;
+- explicit business rule compliance;
+- controlled implementation scope;
+- deterministic engineering behaviour;
+- implementation traceability; and
+- continuous engineering governance.
 
-Implementation always begins from an approved Story Package rather than directly from the product specification.
+Implementation always begins from an approved Story Package rather than directly from the Product Specification.
+
+Approved Story implementations become immutable reference implementations before being integrated into the production application.
 
 ---
 
 # Current Project Status
 
-The Product Specification, Software Architecture and Technical Specification together constitute the approved engineering baseline for MVP implementation.
+The repository has established the first complete engineering baseline for the Student Fee Receivables Platform.
 
-Current development focuses on incrementally implementing Story Packages while validating the AI Engineering Framework through real engineering work.
+Current baseline includes:
 
-The repository intentionally separates:
+- Product Specification
+- Software Architecture
+- Technical Specification
+- Reference Implementation (Sprint-001)
+- Production Application
+- AI Engineering Framework
 
-* Product Specification
-* Software Architecture
-* Technical Specification
-* AI Engineering Framework
-* Story Packages
-* Implementation artifacts
+Sprint-001 successfully validated:
 
-This separation allows the product, architecture, implementation guidance and engineering process to evolve independently while remaining consistent.
+- Specification-First Engineering
+- Story Package workflow
+- AI-assisted implementation
+- Production integration
+- Automated build and testing
+- Engineering governance through RFCs and ADRs
+
+Future implementation builds incrementally upon this approved engineering baseline.
 
 ---
 
 # Guiding Principles
 
-The project follows several core principles:
+The project follows the following core principles:
 
-* Business understanding precedes implementation.
-* Software architecture preserves business correctness.
-* Every implementation originates from an approved Story Package.
-* AI engineers operate under a common Engineering Constitution.
-* Implementation must never contradict approved specifications or architecture.
-* Product documentation remains the authoritative source of truth throughout the project lifecycle.
+- Business understanding precedes implementation.
+- Product Specification is the authoritative source of business truth.
+- Software Architecture preserves business correctness.
+- Technical Specifications eliminate implementation ambiguity.
+- Every implementation originates from an approved Story Package.
+- Reference implementations remain immutable after approval.
+- Production code is integrated only from approved reference implementations.
+- AI engineers operate under a common Engineering Constitution.
+- Architectural evolution occurs only through approved governance.
+- Implementation must never contradict approved specifications or architecture.
+
+---
+
+# Repository Philosophy
+
+The repository intentionally separates:
+
+- Product Specification
+- Software Architecture
+- Technical Specification
+- Reference Implementations
+- Production Application
+- AI Engineering Framework
+- Project Management
+
+This separation enables business knowledge, architecture, engineering process and executable software to evolve independently while preserving complete traceability between every engineering artifact.
