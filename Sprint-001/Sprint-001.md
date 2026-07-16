@@ -4,14 +4,14 @@
 ---
 document_id: SPRINT-001
 title: Sprint-001
-version: 1.1.0
+version: 1.2.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-07-06
-last_updated: 2026-07-15
+last_updated: 2026-07-16
 next_review: Sprint Completion
 
 related_documents:
@@ -75,6 +75,37 @@ Sprint-001 excludes:
 - Database optimization
 - Production deployment
 - Beta validation
+
+---
+
+# Foundation Implementation Scope
+
+Sprint-001 establishes the **reference implementation baseline** for the platform rather than the complete implementation of the approved Product Specification.
+
+The approved Product Specification, Software Architecture and Aggregate Technical Specifications define the complete long-term product behaviour.
+
+Sprint-001 intentionally implements only the subset of that behaviour required to:
+
+- validate the engineering process;
+- validate the AI Engineering Framework;
+- validate the Story Package workflow;
+- establish canonical Aggregate implementations; and
+- create a stable engineering foundation for future Sprints.
+
+Accordingly:
+
+- Aggregate Technical Specifications remain the authoritative definition of the complete Aggregate contract.
+- Story Packages define the implementation scope for this Sprint.
+- Operations intentionally deferred by Sprint-001 remain approved parts of the architecture and SHALL be implemented by future Stories without redefining Aggregate ownership or business responsibilities.
+
+Examples of intentionally deferred behaviour include:
+
+- Fee Obligation — Apply Discount
+- Fee Obligation — Allocate Payment
+- Payment lifecycle
+- Receipt generation
+
+Deferred functionality is considered planned implementation work rather than omitted architecture.
 
 ---
 
@@ -142,6 +173,8 @@ The following implementation decisions were validated during Sprint-001 and shal
 - Every implementation artifact shall remain independent of implementation artifacts produced by previous Stories.
 - Story Packages define implementation scope; implementation shall not generate additional production artifacts without explicit approval.
 - Story implementation READMEs document the completed implementation and shall not restate or redefine approved specifications.
+- Production code is integrated into the `app/` module only after successful implementation review and validation.
+- Sprint-001 establishes the reference implementation baseline; future Sprints SHALL extend the implementation without redefining the approved engineering baseline.
 
 These decisions complement the approved engineering standards and capture implementation guidance validated during Sprint-001.
 
@@ -155,7 +188,8 @@ Sprint-001 is successful when:
 - every Story satisfies its acceptance criteria;
 - all automated tests pass;
 - implementations preserve approved Aggregate ownership;
-- no undocumented business behaviour has been introduced.
+- no undocumented business behaviour has been introduced;
+- the production application successfully builds from the integrated implementation.
 
 ---
 
@@ -166,6 +200,8 @@ Sprint-001 is complete when:
 - all Stories are complete;
 - Story implementations have been reviewed;
 - implementation conforms to the approved specifications;
+- production code has been integrated into the `app/` module;
+- the integrated production application successfully builds and passes all automated tests;
 - Sprint-001 serves as the reference implementation for future Sprints.
 
 ---
@@ -188,7 +224,9 @@ Sprint-001 produces:
 
 - implemented Story Packages;
 - reference Aggregate implementations;
+- production-ready integrated domain model;
 - automated unit tests;
+- validated Gradle build;
 - reference engineering patterns;
 - Sprint Retrospective.
 
@@ -212,6 +250,7 @@ Sprint-001 produces:
 |----------|------|-------------|
 | 1.0.0 | 2026-07-06 | Initial Sprint Plan. |
 | 1.1.0 | 2026-07-15 | Refocused Sprint-001 as the reference implementation Sprint. Simplified planning content, delegated implementation guidance to Story Packages and engineering governance documents, captured validated implementation decisions, and aligned with Specification v1.1.0. |
+| 1.2.0 | 2026-07-16 | Introduced the Foundation Implementation Scope, clarified the relationship between the complete Aggregate contracts and the intentionally implemented Sprint scope, formalized production integration into the `app/` module, and updated completion criteria to include integrated build validation. |
 
 ---
 
@@ -226,4 +265,4 @@ Sprint-001 produces:
 
 ## Approval Date
 
-2026-07-15
+2026-07-16

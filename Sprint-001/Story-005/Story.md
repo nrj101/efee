@@ -22,7 +22,7 @@ related_documents:
   - ../../architecture/AggregateDesign.md
   - ../../architecture/aggregates/FeeObligation.md
   - ../../technical-specification/aggregates/FeeObligation.md
-  - ../../technical-design/persistence/aggregates/FeeObligation.md
+  - ../../technical-design/persistence/FeeObligation.md
   - ../../spec/docs/SoftwareDomainModel.md
   - ../../spec/docs/BusinessRules.md
   - ../../spec/docs/workflows/FeeObligationManagement.md

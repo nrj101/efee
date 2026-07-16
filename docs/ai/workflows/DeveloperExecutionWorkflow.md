@@ -1,7 +1,7 @@
 Context Files (Attachments):
 
 @README.md @Engineering-Constitution.md @DeveloperPersona.md @Developer_Runtime_Prompt.md 
-@CanonicalExamples.md @SoftwareArchitecture.md @AggregateDesign.md @ProductSpecification.md 
+@CanonicalExamples.md @SoftwareArchitecture.md @AggregateDesign.md  
 @BusinessRules.md @SoftwareDomainModel.md @BusinessWorkflow.md @BusinessObjectGraph.md 
 @DomainGlossary.md @Sprint-001.md @Story.md @ImplementationGuide.md
 
