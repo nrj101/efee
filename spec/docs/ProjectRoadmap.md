@@ -6,14 +6,14 @@
 ---
 document_id: ROADMAP-001
 title: Project Roadmap
-version: 1.3.0
+version: 1.4.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
 created: 2026-06-29
-last_updated: 2026-07-14
+last_updated: 2026-07-16
 next_review: At the completion of every Engineering Gate
 
 related_documents:
@@ -83,21 +83,30 @@ Build an affordable, secure and audit-friendly SaaS platform that enables educat
 
 ## Current Milestone
 
-**Specification v1.1.0 Frozen**
+**Sprint-001 Golden Reference Baseline Established**
 
 ---
 
 ## Engineering Baseline
 
-The following engineering artifacts now form the approved implementation baseline for the MVP.
+The following engineering artifacts now form the approved implementation baseline for continued MVP development.
 
-- Product Specification v1.1.0
-- Software Architecture v1.1.0
-- Technical Specification v1.1.0
+- Product Specification v1.2.0
+- Software Architecture v1.2.0
+- Technical Specification v1.2.0
+- Sprint-001 Reference Implementation
+- Production Application (`app/`)
+- AI Engineering Framework v1.0
 
-Sprint-001 has been completed and serves as the reference implementation demonstrating the approved engineering standards, Story Package structure, implementation quality and AI-assisted development workflow.
+Sprint-001 has successfully validated:
 
-Future implementation shall preserve this engineering baseline.
+- Story Package driven implementation;
+- AI-assisted software development workflow;
+- Production integration process;
+- automated build and test validation;
+- engineering governance through RFCs and ADRs.
+
+Future implementation SHALL extend this engineering baseline rather than redefine it.
 
 ---
 
@@ -164,7 +173,7 @@ Design the software architecture that faithfully realizes the approved Software 
 - Application Services
 - Cross Cutting Concerns
 - Architecture Standards
-- Initial ADRs
+- Architecture Decision Records
 
 ### Exit Criteria
 
@@ -209,17 +218,26 @@ Incrementally implement the approved engineering specification while validating 
 ### Deliverables
 
 - Story Package implementations
-- Reference Sprint implementation
+- Reference Sprint implementations
+- Production application
 - Automated unit tests
 - Engineering validation
 - Continuous implementation verification
 
 ### Exit Criteria
 
-- MVP implementation progresses through approved Sprint Packages.
-- Sprint-001 successfully validates the engineering standards.
-- The AI Engineering Framework consistently produces deterministic implementations.
-- The engineering baseline is suitable for continued MVP development.
+- MVP business capabilities implemented.
+- Every Sprint preserves the approved engineering baseline.
+- Story Packages consistently produce deterministic implementations.
+- Production integration remains reproducible.
+- Automated testing validates all implemented business invariants.
+- AI Engineering Framework consistently produces reviewable implementations.
+
+### Current Progress
+
+✅ Sprint-001 Complete
+
+Remaining Sprint Packages continue under the approved engineering baseline.
 
 ### Status
 
@@ -286,6 +304,8 @@ The platform is operationally and commercially ready for broader rollout.
 | Software Architecture | ✅ |
 | Technical Specification | ✅ |
 | Sprint-001 Reference Implementation | ✅ |
+| Production Application | ✅ |
+| Automated Build & Test | ✅ |
 | AI Engineering Framework Validation | ✅ |
 | MVP Engineering | 🟡 |
 | Beta Validation | ⬜ |
@@ -295,11 +315,18 @@ The platform is operationally and commercially ready for broader rollout.
 
 # Current Focus
 
-With the completion of Specification v1.1.0 and Sprint-001, the project has established a stable engineering baseline for continued development.
+Sprint-001 has established the project's engineering baseline through the successful completion of the first reference implementation and production integration.
 
-The immediate focus is to continue MVP implementation through subsequent Sprint Packages while preserving the approved business specification, software architecture, technical specification and engineering standards demonstrated by Sprint-001.
+The immediate focus is to continue MVP implementation through Sprint-002 and subsequent Sprint Packages while preserving:
 
-Every future Sprint should extend the platform without redefining the approved engineering baseline.
+- the approved Product Specification;
+- the approved Software Architecture;
+- the approved Technical Specification;
+- the validated AI Engineering Framework;
+- the production integration workflow;
+- automated build and testing.
+
+Future implementation SHALL extend the approved engineering baseline rather than redefine it.
 
 ---
 
@@ -307,11 +334,12 @@ Every future Sprint should extend the platform without redefining the approved e
 
 Gate 5 will be considered successful when:
 
-- The MVP business capabilities have been fully implemented.
-- Every Sprint preserves the approved engineering specification.
-- Story Packages consistently produce deterministic, reviewable implementations.
-- Automated testing validates all implemented business invariants.
-- The AI Engineering Framework demonstrates repeatable engineering quality across multiple Sprints.
+- all MVP business capabilities have been implemented;
+- every Sprint preserves the approved engineering specification;
+- Story Packages consistently produce deterministic, reviewable implementations;
+- production integration remains repeatable;
+- automated testing validates all implemented business invariants;
+- the AI Engineering Framework consistently demonstrates repeatable engineering quality across multiple implementation Sprints.
 
 ---
 
@@ -323,8 +351,10 @@ Gate 5 will be considered successful when:
 - Technical specification precedes implementation.
 - Every Engineering Gate has explicit deliverables and exit criteria.
 - The Product Specification remains the permanent source of business truth.
-- Sprint-001 serves as the reference implementation for future development.
-- Future implementation shall extend rather than redefine the approved engineering baseline.
+- Sprint Packages produce immutable reference implementations.
+- Production code is integrated from approved Story Packages.
+- Sprint-001 establishes the canonical engineering baseline for future implementation.
+- Future implementation SHALL extend rather than redefine the approved engineering baseline.
 
 ---
 
@@ -351,6 +381,7 @@ None.
 | 1.1.0 | 2026-07-03 | Updated to reflect completion of Gate 2, introduction of Software Domain Modelling as a distinct Engineering Gate and revised project roadmap. |
 | 1.2.0 | 2026-07-08 | Updated to reflect completion of Software Architecture and Technical Specification and transition to MVP Engineering. |
 | 1.3.0 | 2026-07-14 | Updated following the freeze of Specification v1.1.0. Sprint-001 established as the reference implementation and AI Engineering Framework validation baseline for continued MVP development. |
+| 1.4.0 | 2026-07-16 | Updated following completion of Sprint-001 reference implementation, production integration, Gradle build validation and establishment of the Golden engineering baseline for continued MVP development. |
 
 ---
 
@@ -365,4 +396,4 @@ None.
 
 ## Approval Date
 
-2026-07-14
+2026-07-16

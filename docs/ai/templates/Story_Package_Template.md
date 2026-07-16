@@ -98,7 +98,7 @@ Example:
 ```yaml
 story_id: Story-003
 title: Fee Structure Aggregate
-status: Draft
+status: Approved
 owner: Product Owner
 ```
 
