@@ -14,15 +14,15 @@ created: 2026-07-13
 last_updated: 2026-07-15
 
 related_documents:
-  - ../../Sprint-001.md
-  - ../../../architecture/AggregateDesign.md
-  - ../../../architecture/aggregates/Discount.md
-  - ../../../architecture/technical-specification/aggregates/Discount.md
-  - ../../../architecture/persistence-model/aggregates/Discount.md
-  - ../../../spec/docs/SoftwareDomainModel.md
-  - ../../../spec/docs/BusinessRules.md
-  - ../../../spec/docs/rfc/RFC-002-Discount-Domain-Model.md
-  - ../../../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
+  - ../Sprint-001.md
+  - ../../architecture/AggregateDesign.md
+  - ../../architecture/aggregates/Discount.md
+  - ../../technical-specification/aggregates/Discount.md
+  - ../../persistence-model/aggregates/Discount.md
+  - ../../spec/docs/SoftwareDomainModel.md
+  - ../../spec/docs/BusinessRules.md
+  - ../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
+  - ../../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
 ---
 ```
 

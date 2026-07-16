@@ -18,7 +18,7 @@ related_documents:
   - ../../technical-specification/aggregates/Discount.md
   - ../../architecture/SoftwareArchitecture.md
   - ../../spec/docs/SoftwareDomainModel.md
-  - ../../../spec/docs/rfc/RFC-002-Discount-Domain-Model.md
+  - ../../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
   - ../../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
 ---
 ```
@@ -220,7 +220,7 @@ Application of that entitlement remains the responsibility of the Fee Obligation
 |----------|------|-------------|
 | 1.0.0 | 2026-07-10 | Initial Persistence Model. |
 | 1.1.0 | 2026-07-13 | Aligned persistent state with Discount ATS. Added Persistent Representation Rules and clarified persistence contract. |
-| 1.2.0 | 2026-07-15 | Aligned with RFC-003 and RFC-006. Clarified persistent ownership boundaries, reinforced that only concession entitlement is persisted, explicitly prohibited persistence of collaborating Aggregate state, and improved persistence contract wording. |
+| 1.2.0 | 2026-07-15 | Aligned with RFC-007 and RFC-006. Clarified persistent ownership boundaries, reinforced that only concession entitlement is persisted, explicitly prohibited persistence of collaborating Aggregate state, and improved persistence contract wording. |
 
 ---
 

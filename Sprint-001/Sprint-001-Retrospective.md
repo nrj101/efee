@@ -16,8 +16,8 @@ last_updated: 2026-07-15
 related_documents:
   - Sprint-001.md
   - ../spec/docs/ProjectRoadmap.md
-  - ../spec/docs/rfc/RFC-006 – Replace Cross-Aggregate Supporting Entity References with Stable Identifiers.md
-  - ../spec/docs/rfc/RFC-007 – Simplified Discount Aggregate.md
+  - ../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
+  - ../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
 ---
 ```
 
@@ -245,10 +245,10 @@ The combination of implementation, specification reconciliation and RFC-driven g
 # Related Documents
 
 - Sprint-001.md
-- ProjectRoadmap.md
-- Technical Specification Standards
-- RFC-006 – Replace Cross-Aggregate Supporting Entity References with Stable Identifiers
-- RFC-007 – Simplified Discount Aggregate
+- ../spec/docs/ProjectRoadmap.md
+- ../technical-specification/TECHNICAL_SPECIFICATION_STANDARDS.md
+- ../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
+- ../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
 
 ---
 

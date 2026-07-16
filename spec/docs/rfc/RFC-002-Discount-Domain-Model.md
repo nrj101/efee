@@ -25,7 +25,7 @@ related_documents:
 ---
 ```
 
-Superseded: This RFC has been superseded by RFC-007 — Discount Model Simplification for MVP. It is retained for historical traceability and no longer defines the current architectural baseline.
+Superseded: This RFC has been superseded by RFC-007- Discount Model Simplification for MVP. It is retained for historical traceability and no longer defines the current architectural baseline.
 
 ---
 
@@ -185,6 +185,6 @@ It combines policy, approval and financial effect into a single concept, making 
 
 # Status
 
-**Accepted**
+**Superseded**
 
-This RFC forms part of Specification v1.1.0.
+This RFC has been superseded by RFC-007 as part of Specification v1.1.0.

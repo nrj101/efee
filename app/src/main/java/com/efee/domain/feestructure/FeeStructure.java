@@ -1,4 +1,7 @@
-// /Sprint-001/Story-003/source/FeeStructure.java
+/*
+ * Reference Implementation:
+ * Sprint-001 / Story-003
+ */
 
 package com.efee.domain.feestructure;
 

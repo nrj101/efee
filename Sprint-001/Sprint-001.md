@@ -196,8 +196,8 @@ Sprint-001 produces:
 
 # Related Documents
 
-- ProjectRoadmap.md
-- Technical Specification Standards
+- ../spec/docs/ProjectRoadmap.md
+- ../technical-specification/TECHNICAL_SPECIFICATION_STANDARDS.md
 - Story-001/Story.md
 - Story-002/Story.md
 - Story-003/Story.md

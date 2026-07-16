@@ -1,3 +1,8 @@
+/*
+ * Reference Implementation:
+ * Sprint-001 / Story-003
+ */
+
 package com.efee.domain.feestructure;
 
 import org.junit.jupiter.api.Test;

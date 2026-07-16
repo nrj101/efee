@@ -17,7 +17,7 @@ last_updated: 2026-07-14
 
 related_documents:
   - ../../CHANGELOG.md
-  - ../SPECIFICATION_STANDARDS.md
+  - ../../SPECIFICATION_STANDARDS.md
   - ../SpecificationFeedback-v1.0.0.md
 ---
 ```

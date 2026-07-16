@@ -20,20 +20,13 @@ superseded_by: None
 
 related_documents:
   - ../SoftwareDomainModel.md
-  - ../../architecture/AggregateDesign.md
-  - ../../architecture/aggregates/Discount.md
-  - ../../architecture/technical-specification/aggregates/Discount.md
-  - ../../architecture/persistence-model/aggregates/Discount.md
-  - ../../Sprint-001/Story-004.md
+  - ../../../architecture/AggregateDesign.md
+  - ../../../architecture/aggregates/Discount.md
+  - ../../../technical-specification/aggregates/Discount.md
+  - ../../../persistence-model/aggregates/Discount.md
+  - ../../../Sprint-001/Story-004.md
 ---
 ```
-
----
-
-# Status
-
-**Approved**
-
 ---
 
 # Purpose

@@ -18,15 +18,15 @@ created: 2026-07-13
 last_updated: 2026-07-15
 
 related_documents:
-  - ../../Sprint-001.md
-  - ../../../architecture/AggregateDesign.md
-  - ../../../architecture/aggregates/FeeObligation.md
-  - ../../../architecture/technical-specification/aggregates/FeeObligation.md
-  - ../../../architecture/persistence-model/aggregates/FeeObligation.md
-  - ../../../spec/docs/SoftwareDomainModel.md
-  - ../../../spec/docs/BusinessRules.md
-  - ../../../spec/docs/workflows/FeeObligationManagement.md
-  - ../../../spec/docs/rfc/RFC-001-Financial-Truth-Model.md
+  - ../Sprint-001.md
+  - ../../architecture/AggregateDesign.md
+  - ../../architecture/aggregates/FeeObligation.md
+  - ../../architecture/technical-specification/aggregates/FeeObligation.md
+  - ../../architecture/persistence-model/aggregates/FeeObligation.md
+  - ../../spec/docs/SoftwareDomainModel.md
+  - ../../spec/docs/BusinessRules.md
+  - ../../spec/docs/workflows/FeeObligationManagement.md
+  - ../../spec/docs/rfc/RFC-001-Financial-Truth-Model.md
 ---
 ```
 

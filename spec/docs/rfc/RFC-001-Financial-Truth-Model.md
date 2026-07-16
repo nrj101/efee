@@ -1,8 +1,8 @@
-# RFC-002 — Financial Truth Model
+# RFC-001 — Financial Truth Model
 
 ```yaml
 ---
-document_id: RFC-002
+document_id: RFC-001
 title: Financial Truth Model
 version: 1.0.0
 status: Accepted
@@ -19,7 +19,7 @@ related_documents:
   - ../BusinessRules.md
   - ../SoftwareDomainModel.md
   - ../../../architecture/AggregateDesign.md
-  - ../../../architecture/technical-specification/aggregates/FeeObligation.md
+  - ../../../technical-specification/aggregates/FeeObligation.md
   - ../../../technical-design/persistence/FeeObligation.md
 ---
 ```

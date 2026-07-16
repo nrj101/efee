@@ -1,3 +1,7 @@
+/*
+ * Reference Implementation:
+ * Sprint-001 / Story-002
+ */
 
 package com.efee.domain.academicyear;
 

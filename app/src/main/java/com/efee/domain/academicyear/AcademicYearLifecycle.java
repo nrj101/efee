@@ -1,4 +1,7 @@
-// /Sprint-001/Story-002/source/AcademicYearLifecycle.java
+/*
+ * Reference Implementation:
+ * Sprint-001 / Story-002
+ */
 
 
 /**

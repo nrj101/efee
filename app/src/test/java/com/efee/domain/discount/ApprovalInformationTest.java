@@ -1,3 +1,8 @@
+/*
+ * Reference Implementation:
+ * Sprint-001 / Story-004
+ */
+
 package com.efee.domain.discount;
 
 import org.junit.jupiter.api.Test;

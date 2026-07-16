@@ -117,8 +117,8 @@ Collaborations occur only through Aggregate references.
 - AggregateDesign.md
 - SoftwareArchitecture.md
 - SoftwareDomainModel.md
-- RFC-003 – Discount Model Simplification
-- RFC-006 – Replace Cross-Aggregate Supporting Entity References with Stable Identifiers
+- RFC-007-Discount-Model-Simplification
+- RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers
 
 ---
 

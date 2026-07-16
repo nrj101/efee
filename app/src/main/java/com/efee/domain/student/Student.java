@@ -1,4 +1,7 @@
-// /Sprint-001/Story-001/source/Student.java
+/*
+ * Reference Implementation:
+ * Sprint-001 / Story-001
+ */
 
 package com.efee.domain.student;
 import java.util.Objects;

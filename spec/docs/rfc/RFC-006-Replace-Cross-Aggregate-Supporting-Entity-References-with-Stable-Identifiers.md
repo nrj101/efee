@@ -7,7 +7,7 @@
 document_id: RFC-006
 title: Replace Cross-Aggregate Supporting Entity References with Stable Identifiers
 version: 1.0.0
-status: Approved
+status: Accepted
 
 owner: Product Owner
 reviewer: Chief Architect
@@ -20,18 +20,13 @@ superseded_by: None
 
 related_documents:
   - ../SoftwareDomainModel.md
-  - ../../architecture/AggregateDesign.md
-  - ../../architecture/SoftwareArchitecture.md
-  - ../../architecture/technical-specification/aggregates/Discount.md
-  - ../../architecture/persistence/Discount.md
+  - ../../../architecture/AggregateDesign.md
+  - ../../../architecture/SoftwareArchitecture.md
+  - ../../../architecture/aggregates/Discount.md
+  - ../../../technical-specification/aggregates/Discount.md
+  - ../../../technical-design/persistence/Discount.md
 ---
 ```
-
----
-
-# Status
-
-**Approved**
 
 ---
 

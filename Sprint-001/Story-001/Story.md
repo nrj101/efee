@@ -18,13 +18,13 @@ created: 2026-07-13
 last_updated: 2026-07-15
 
 related_documents:
-  - ../../Sprint-001.md
-  - ../../../architecture/AggregateDesign.md
-  - ../../../architecture/aggregates/Student.md
-  - ../../../technical-specification/aggregates/Student.md
-  - ../../../technical-specification/persistence-model/aggregates/Student.md
-  - ../../../spec/docs/SoftwareDomainModel.md
-  - ../../../spec/docs/BusinessRules.md
+  - ../Sprint-001.md
+  - ../../architecture/AggregateDesign.md
+  - ../../architecture/aggregates/Student.md
+  - ../../technical-specification/aggregates/Student.md
+  - ../../technical-specification/persistence-model/aggregates/Student.md
+  - ../../spec/docs/SoftwareDomainModel.md
+  - ../../spec/docs/BusinessRules.md
 ---
 ```
 
@@ -60,16 +60,16 @@ Student Identity
 
 ## Architecture References
 
-- AggregateDesign.md
-- SoftwareArchitecture.md
+- Aggregate Design
+- Software Architecture
 - Student Aggregate Technical Specification
 - Student Aggregate Persistence Model
 
 ## Product Specification References
 
-- SoftwareDomainModel.md
-- BusinessRules.md
-- StudentRegistration.md
+- Software Domain Model
+- Business Rules
+- Student Registration
 
 ---
 

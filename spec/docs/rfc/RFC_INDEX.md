@@ -16,7 +16,7 @@ created: 2026-07-14
 last_updated: 2026-07-15
 
 related_documents:
-  - ../SPECIFICATION_STANDARDS.md
+  - ../../SPECIFICATION_STANDARDS.md
   - ../../CHANGELOG.md
 ---
 ```

@@ -1,4 +1,7 @@
-// /Sprint-001/Story-002/source/AcademicYear.java
+/*
+ * Reference Implementation:
+ * Sprint-001 / Story-002
+ */
 
 package com.efee.domain.academicyear;
 import java.time.LocalDate;

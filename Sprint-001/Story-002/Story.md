@@ -18,13 +18,13 @@ created: 2026-07-13
 last_updated: 2026-07-15
 
 related_documents:
-  - ../../Sprint-001.md
-  - ../../../architecture/AggregateDesign.md
-  - ../../../architecture/aggregates/AcademicYear.md
-  - ../../../technical-specification/aggregates/AcademicYear.md
-  - ../../../technical-specification/persistence-model/aggregates/AcademicYear.md
-  - ../../../spec/docs/SoftwareDomainModel.md
-  - ../../../spec/docs/BusinessRules.md
+  - ../Sprint-001.md
+  - ../../architecture/AggregateDesign.md
+  - ../../architecture/aggregates/AcademicYear.md
+  - ../../technical-specification/aggregates/AcademicYear.md
+  - ../../technical-specification/persistence-model/aggregates/AcademicYear.md
+  - ../../spec/docs/SoftwareDomainModel.md
+  - ../../spec/docs/BusinessRules.md
 ---
 ```
 

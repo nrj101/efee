@@ -18,7 +18,7 @@ related_documents:
   - ../../spec/docs/BusinessRules.md
   - ../../spec/docs/workflows/DiscountManagement.md
   - ../../architecture/aggregates/Discount.md
-  - ../../../spec/docs/rfc/RFC-002-Discount-Domain-Model.md
+  - ../../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
   - ../../spec/docs/rfc/RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers.md
 ---
 ```
@@ -288,8 +288,8 @@ Future Stories may extend implementation while preserving this specification.
 - BusinessRules.md
 - DiscountManagement.md
 - Discount Aggregate Design
-- RFC-003 – Discount Model Simplification
-- RFC-006 – Replace Cross-Aggregate Supporting Entity References with Stable Identifiers
+- RFC-007-Discount-Model-Simplification
+- RFC-006-Replace-Cross-Aggregate-Supporting-Entity-References-with-Stable-Identifiers
 
 ---
 

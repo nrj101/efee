@@ -48,15 +48,15 @@ Institutional Charging Policy
 
 ## Architecture References
 
-- AggregateDesign.md
-- SoftwareArchitecture.md
+- Aggregate Design
+- Software Architecture.
 - Fee Structure Aggregate Design
 
 ## Product Specification References
 
-- SoftwareDomainModel.md
-- BusinessRules.md
-- FeePolicyManagement.md
+- Software Domain Model
+- Business Rules
+- Fee Policy Management
 
 ## Technical Design References
 
