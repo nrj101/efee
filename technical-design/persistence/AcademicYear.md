@@ -4,18 +4,19 @@
 ---
 document_id: TD-ACADEMICYEAR-001
 title: Academic Year Aggregate Persistence Model
-version: 1.1.0
+version: 2.0.0
 status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
 
 created: 2026-07-10
-last_updated: 2026-07-14
+last_updated: 2026-07-17
 
 related_documents:
   - ../../architecture/aggregates/AcademicYear.md
   - ../../technical-specification/aggregates/AcademicYear.md
+  - ../../technical-design/persistence/README.md
   - ../../architecture/SoftwareArchitecture.md
   - ../../spec/docs/SoftwareDomainModel.md
 ---
@@ -25,17 +26,20 @@ related_documents:
 
 # Purpose
 
-This document defines the implementation-neutral persistence model for the **Academic Year Aggregate**.
+This document defines the authoritative persistent representation of the Academic Year Aggregate.
 
-It specifies the complete persistent representation required to preserve the business truth owned by the Academic Year Aggregate.
+It refines the approved Aggregate Technical Specification by defining the complete persistent business state required to preserve the business truth owned by the Academic Year Aggregate while remaining independent of programming language, persistence framework, database technology and infrastructure.
 
-This document is derived from the approved:
+The Academic Year Aggregate Persistence Model defines:
 
-- Software Domain Model
-- Aggregate Design
-- Aggregate Technical Specification
+- persistent business state;
+- derived business state;
+- transient business state;
+- ownership boundaries;
+- persistence constraints; and
+- traceability to approved engineering specifications.
 
-It SHALL NOT introduce new business behaviour, Aggregate responsibilities or implementation logic.
+It specifies **what** business information shall be persisted without prescribing **how** persistence is implemented.
 
 ---
 
@@ -45,68 +49,90 @@ It SHALL NOT introduce new business behaviour, Aggregate responsibilities or imp
 
 ---
 
-# Aggregate Responsibility
+# Persistence Responsibilities
 
-Persist the business truth owned by the Academic Year Aggregate while preserving:
+The Academic Year Aggregate Persistence Model preserves the business truth owned by the Academic Year Aggregate.
 
-- Academic Year identity
-- Academic Year reference
-- Operational period
-- Applicable Fee Structure reference
-- Academic Year lifecycle
+It is responsible for persisting:
 
-Business truths owned by collaborating Aggregates remain outside the scope of this document.
+- Academic Year identity;
+- Academic Year reference;
+- Operational Period;
+- Fee Structure association; and
+- Academic Year lifecycle.
 
----
+The Academic Year Aggregate Persistence Model intentionally does **not** persist:
 
-# Persistent State
-
-The following Aggregate state is approved for persistence.
-
-| Field | Type | Required | Mutable | Purpose | Source |
-|--------|------|----------|----------|---------|--------|
-| academicYearIdentifier | String | Yes | No | Internal immutable Academic Year identifier | Academic Year ATS |
-| academicYearCode | String | Yes | No | Institution-defined Academic Year reference | Academic Year ATS |
-| startDate | LocalDate | Yes | No | Beginning of the Academic Year | Academic Year ATS |
-| endDate | LocalDate | Yes | No | End of the Academic Year | Academic Year ATS |
-| feeStructureIdentifier | String | Yes | Yes | Applicable Fee Structure reference | Academic Year ATS |
-| lifecycleState | Academic Year Lifecycle | Yes | Yes | Current Academic Year lifecycle | Academic Year ATS |
-
-No additional persistent state is approved.
-
----
-
-# Derived State
-
-None.
-
-No persistent values are derived from other persisted state.
-
----
-
-# Transient State
-
-None.
-
----
-
-# Relationships
-
-The Academic Year Aggregate persists references to collaborating Aggregates only where required.
-
-| Aggregate | Persistent Reference |
-|-----------|----------------------|
-| Fee Structure | feeStructureIdentifier |
-
-The Academic Year Aggregate SHALL NOT persist:
-
-- Student information
-- Fee Obligations
-- Payments
-- Receipts
-- Discounts
+- Student information;
+- Fee Obligations;
+- Payments;
+- Receipts; or
+- Discounts.
 
 These business truths remain owned by collaborating Aggregates.
+
+---
+
+# Persistent Business State
+
+The Academic Year Aggregate owns the following Persistent Business State.
+
+| Business State | Type | Required | Mutable | Description |
+|---------------|------|----------|----------|-------------|
+| academicYearIdentifier | Academic Year Identifier | Yes | No | Immutable Academic Year identifier |
+| academicYearCode | Academic Year Code | Yes | No | Institution-defined Academic Year reference |
+| startDate | Academic Year Start Date | Yes | No | Beginning of the Academic Year |
+| endDate | Academic Year End Date | Yes | No | End of the Academic Year |
+| feeStructureIdentifier | Fee Structure Identifier | Yes | Yes | Approved Fee Structure reference |
+| lifecycleState | Academic Year Lifecycle | Yes | Yes | Current Academic Year lifecycle |
+
+No additional Persistent Business State is approved.
+
+---
+
+# Derived Business State
+
+The Academic Year Aggregate owns no Derived Business State.
+
+All persisted business information represents authoritative business truth owned by the Academic Year Aggregate.
+
+No additional Derived Business State is approved.
+
+---
+
+# Transient Business State
+
+The Academic Year Aggregate owns no Transient Business State.
+
+No implementation-specific state forms part of the approved persistent representation.
+
+No additional Transient Business State is approved.
+
+---
+
+# Ownership Boundaries
+
+The Academic Year Aggregate owns only the Persistent Business State defined by this specification.
+
+The Academic Year Aggregate SHALL NOT persist business information owned by collaborating Aggregates.
+
+Business information owned by collaborating Aggregates includes:
+
+- Students;
+- Fee Obligations;
+- Payments;
+- Receipts; and
+- Discounts.
+
+The Academic Year Aggregate MAY persist references to collaborating Aggregates where ownership is preserved.
+
+Approved Aggregate references:
+
+| Aggregate | Business Reference |
+|-----------|--------------------|
+| Fee Structure | Fee Structure Identifier |
+
+References to collaborating Aggregates SHALL preserve ownership without transferring business truth.
 
 ---
 
@@ -114,28 +140,25 @@ These business truths remain owned by collaborating Aggregates.
 
 Implementation SHALL preserve:
 
-- Academic Year identity
-- Academic Year reference
-- Operational period
-- Fee Structure association
-- Academic Year lifecycle
-- Aggregate ownership
+- Academic Year identity;
+- Academic Year reference integrity;
+- Operational Period integrity;
+- Fee Structure association;
+- Academic Year lifecycle integrity;
+- Aggregate ownership boundaries; and
+- all approved Persistent Business State.
 
 Implementation SHALL NOT:
 
-- introduce additional persistent fields;
-- remove approved persistent fields;
-- rename approved persistent fields;
-- change approved field types;
-- change approved field mutability;
-- persist Student information;
-- persist Fee Obligations;
-- persist Payment information;
-- persist Receipt information;
-- persist Discount information;
-- persist undocumented Aggregate state.
+- introduce undocumented Persistent Business State;
+- remove approved Persistent Business State;
+- rename approved Persistent Business State;
+- change approved business types;
+- violate approved mutability;
+- persist business information owned by collaborating Aggregates; or
+- violate Aggregate ownership boundaries.
 
-If additional persistent state appears necessary, implementation SHALL stop and request clarification.
+If implementation requires additional Persistent Business State, implementation SHALL stop and clarification SHALL be requested through the appropriate engineering governance process.
 
 ---
 
@@ -143,55 +166,81 @@ If additional persistent state appears necessary, implementation SHALL stop and 
 
 Implementation SHALL ensure:
 
-- `academicYearIdentifier` remains immutable after creation.
-- `academicYearCode` remains immutable after creation.
-- `startDate` and `endDate` preserve the approved operational period.
-- `feeStructureIdentifier` references the currently approved Fee Structure for the Academic Year.
-- `lifecycleState` accurately represents the approved Academic Year lifecycle.
+- Academic Year Identifier remains immutable after creation.
+- Academic Year Code remains immutable after creation.
+- Academic Year Start Date and Academic Year End Date preserve the approved Operational Period.
+- Fee Structure Identifier references the currently approved Fee Structure.
+- Academic Year Lifecycle accurately represents the approved lifecycle state.
 
 Closed Academic Years remain permanently preserved.
 
----
-
-# Technology Independence
-
-This specification intentionally excludes:
-
-- database schema
-- SQL data types
-- ORM mappings
-- framework annotations
-- repository implementation
-- indexes
-- vendor-specific persistence features
-
-These concerns belong to later Technical Design documents.
+Persistent representation SHALL remain consistent with the approved Aggregate Technical Specification.
 
 ---
 
 # Traceability
 
-| Persistent Field | Aggregate Technical Specification |
-|------------------|-----------------------------------|
-| academicYearIdentifier | Academic Year ATS |
-| academicYearCode | Academic Year ATS |
-| startDate | Academic Year ATS |
-| endDate | Academic Year ATS |
-| feeStructureIdentifier | Academic Year ATS |
-| lifecycleState | Academic Year ATS |
+The following Persistent Business State is traceable to the approved Aggregate Technical Specification.
+
+| Persistent Business State | Source |
+|---------------------------|--------|
+| Academic Year Identifier | Academic Year Aggregate Technical Specification |
+| Academic Year Code | Academic Year Aggregate Technical Specification |
+| Academic Year Start Date | Academic Year Aggregate Technical Specification |
+| Academic Year End Date | Academic Year Aggregate Technical Specification |
+| Fee Structure Identifier | Academic Year Aggregate Technical Specification |
+| Academic Year Lifecycle | Academic Year Aggregate Technical Specification |
+
+All Persistent Business State SHALL remain traceable to approved engineering specifications.
 
 ---
 
-# Notes
+# Consistency Requirements
 
-This document represents the complete approved persistent representation of the Academic Year Aggregate.
+Implementation SHALL preserve:
 
-Implementation SHALL faithfully realize this persistence model without:
+- Academic Year identity integrity;
+- Academic Year reference integrity;
+- Operational Period integrity;
+- Fee Structure association integrity;
+- lifecycle integrity;
+- Aggregate ownership boundaries; and
+- all approved Persistent Business State.
 
-- introducing undocumented persistent state;
-- altering approved ownership boundaries;
-- persisting business truths owned by collaborating Aggregates;
-- introducing alternative persistent representations.
+The persistent representation SHALL remain fully consistent with the approved Aggregate Technical Specification throughout the Aggregate lifecycle.
+
+---
+
+# Implementation Constraints
+
+Implementation SHALL:
+
+- preserve Aggregate ownership;
+- preserve approved Persistent Business State;
+- preserve lifecycle integrity;
+- preserve traceability to approved engineering specifications;
+- reject modifications that violate approved mutability; and
+- remain implementation-neutral.
+
+Implementation SHALL NOT:
+
+- introduce implementation-specific business state;
+- persist undocumented business information;
+- duplicate business truth owned by collaborating Aggregates;
+- modify approved ownership boundaries; or
+- introduce implementation behaviour into this persistence model.
+
+Physical persistence technology remains outside the scope of this specification.
+
+---
+
+# Related Documents
+
+- SoftwareDomainModel.md
+- SoftwareArchitecture.md
+- Academic Year Aggregate Design
+- Academic Year Aggregate Technical Specification
+- Aggregate Persistence Model Standard
 
 ---
 
@@ -200,10 +249,20 @@ Implementation SHALL faithfully realize this persistence model without:
 | Version | Date | Description |
 |----------|------|-------------|
 | 1.0.0 | 2026-07-10 | Initial Persistence Model. |
-| 1.1.0 | 2026-07-14 | Aligned with Academic Year ATS v1.1.0. Standardized field names, replaced boolean lifecycle with explicit lifecycle state, added Academic Year code and Fee Structure reference, introduced Persistent Representation Rules and strengthened ownership boundaries and traceability. |
+| 1.1.0 | 2026-07-14 | Aligned with Academic Year ATS v1.1.0. Standardized field names, replaced boolean lifecycle with explicit lifecycle state, added Academic Year Code and Fee Structure reference, introduced Persistent Representation Rules and strengthened ownership boundaries and traceability. |
+| 2.0.0 | 2026-07-17 | Aligned with TD-PERSISTENCE-STD-001 v1.0.0. Adopted the standardized Aggregate Persistence Model structure, introduced Persistent Business State, Derived Business State, Transient Business State, Ownership Boundaries, Consistency Requirements and standardized traceability without changing approved business behaviour. |
 
 ---
 
 # Approval
 
 **Status:** Approved
+
+## Approved By
+
+- Product Owner
+- Chief Architect
+
+## Approval Date
+
+2026-07-17

@@ -4,18 +4,19 @@
 ---
 document_id: TD-PAYMENT-001
 title: Payment Aggregate Persistence Model
-version: 1.1.0
+version: 2.0.0
 status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
 
 created: 2026-07-10
-last_updated: 2026-07-14
+last_updated: 2026-07-17
 
 related_documents:
   - ../../architecture/aggregates/Payment.md
   - ../../technical-specification/aggregates/Payment.md
+  - ../../technical-design/persistence/README.md
   - ../../architecture/SoftwareArchitecture.md
   - ../../spec/docs/SoftwareDomainModel.md
 ---
@@ -25,17 +26,20 @@ related_documents:
 
 # Purpose
 
-This document defines the implementation-neutral persistence model for the **Payment Aggregate**.
+This document defines the authoritative persistent representation of the Payment Aggregate.
 
-It specifies the complete persistent representation required to preserve the business truth owned by the Payment Aggregate.
+It refines the approved Aggregate Technical Specification by defining the complete persistent business state required to preserve the business truth owned by the Payment Aggregate while remaining independent of programming language, persistence framework, database technology and infrastructure.
 
-This document is derived from the approved:
+The Payment Aggregate Persistence Model defines:
 
-- Software Domain Model
-- Aggregate Design
-- Aggregate Technical Specification
+- persistent business state;
+- derived business state;
+- transient business state;
+- ownership boundaries;
+- persistence constraints; and
+- traceability to approved engineering specifications.
 
-It SHALL NOT introduce new business behaviour, Aggregate responsibilities or implementation logic.
+It specifies **what** business information shall be persisted without prescribing **how** persistence is implemented.
 
 ---
 
@@ -45,68 +49,93 @@ It SHALL NOT introduce new business behaviour, Aggregate responsibilities or imp
 
 ---
 
-# Aggregate Responsibility
+# Persistence Responsibilities
 
-Persist the business truth owned by the Payment Aggregate while preserving:
+The Payment Aggregate Persistence Model preserves the business truth owned by the Payment Aggregate.
 
-- Payment identity
-- Amount received
-- Payment method
-- Payer information
-- Payment lifecycle
-- Financial references
+It is responsible for persisting:
 
-Business truths owned by collaborating Aggregates remain outside the scope of this document.
+- Payment identity;
+- Amount received;
+- Payment Method;
+- Payer information;
+- Payment reference; and
+- Payment lifecycle.
 
----
+The persisted state represents only the institutional record of the received Payment.
 
-# Persistent State
+Settlement information is intentionally excluded.
 
-The following Aggregate state is approved for persistence.
+The Payment Aggregate Persistence Model intentionally does **not** persist:
 
-| Field | Type | Required | Mutable | Purpose | Source |
-|--------|------|----------|----------|---------|--------|
-| paymentIdentifier | String | Yes | No | Unique Payment identifier | Payment ATS |
-| payerIdentifier | String | Yes | No | Payer reference | Payment ATS |
-| paymentAmount | Monetary Amount | Yes | No | Amount received | Payment ATS |
-| paymentMethod | Payment Method | Yes | No | Method of payment | Payment ATS |
-| paymentReference | String | No | No | External payment reference | Payment ATS |
-| lifecycleState | Payment Lifecycle | Yes | Yes | Current Payment lifecycle | Payment ATS |
+- Payment Allocations;
+- Fee Obligation settlement information;
+- Receipt information; or
+- Outstanding Amounts.
 
-No additional persistent state is approved.
+These business truths remain owned by collaborating Aggregates.
 
 ---
 
-# Derived State
+# Persistent Business State
 
-None.
+The Payment Aggregate owns the following Persistent Business State.
 
-No persistent values are derived from other persisted state.
+| Business State | Type | Required | Mutable | Description |
+|---------------|------|----------|----------|-------------|
+| paymentIdentifier | Payment Identifier | Yes | No | Immutable Payment identifier |
+| payerIdentifier | Payer Identifier | Yes | No | Reference to the payer |
+| paymentAmount | Monetary Amount | Yes | No | Amount received |
+| paymentMethod | Payment Method | Yes | No | Approved method of payment |
+| paymentReference | Payment Reference | No | No | External payment reference |
+| lifecycleState | Payment Lifecycle | Yes | Yes | Current Payment lifecycle |
+
+No additional Persistent Business State is approved.
 
 ---
 
-# Transient State
+# Derived Business State
 
-None.
+The Payment Aggregate owns no Derived Business State.
+
+All persisted business information represents authoritative business truth owned by the Payment Aggregate.
+
+No additional Derived Business State is approved.
 
 ---
 
-# Relationships
+# Transient Business State
 
-The Payment Aggregate persists references to collaborating business concepts only where required.
+The Payment Aggregate owns no Transient Business State.
 
-| Aggregate | Relationship |
-|-----------|--------------|
-| Payer | payerIdentifier |
+No implementation-specific state forms part of the approved persistent representation.
 
-The Payment Aggregate does **not** persist:
+No additional Transient Business State is approved.
 
-- Payment Allocations
-- Fee Obligation references
-- Receipt references
-- Outstanding Amount
+---
 
-These relationships belong to collaborating Aggregates.
+# Ownership Boundaries
+
+The Payment Aggregate owns only the Persistent Business State defined by this specification.
+
+The Payment Aggregate SHALL NOT persist business information owned by collaborating Aggregates.
+
+Business information owned by collaborating Aggregates includes:
+
+- Payment Allocations;
+- Fee Obligation settlement information;
+- Receipt information; and
+- Outstanding Amounts.
+
+The Payment Aggregate MAY persist references to collaborating Aggregates where ownership is preserved.
+
+Approved Aggregate references:
+
+| Aggregate | Business Reference |
+|-----------|--------------------|
+| Payer | Payer Identifier |
+
+References to collaborating Aggregates SHALL preserve ownership without transferring business truth.
 
 ---
 
@@ -114,26 +143,26 @@ These relationships belong to collaborating Aggregates.
 
 Implementation SHALL preserve:
 
-- Payment identity
-- Payment amount
-- Payment method
-- Payer information
-- Payment lifecycle
-- Aggregate ownership
+- Payment identity;
+- Payment amount integrity;
+- Payment Method integrity;
+- Payer reference integrity;
+- Payment reference integrity;
+- Payment lifecycle integrity;
+- Aggregate ownership boundaries; and
+- all approved Persistent Business State.
 
 Implementation SHALL NOT:
 
-- introduce additional persistent fields;
-- remove approved persistent fields;
-- rename approved persistent fields;
-- change approved field types;
-- change approved field mutability;
-- persist Payment Allocation information;
-- persist Fee Obligation settlement information;
-- persist Outstanding Amount;
-- persist undocumented Aggregate state.
+- introduce undocumented Persistent Business State;
+- remove approved Persistent Business State;
+- rename approved Persistent Business State;
+- change approved business types;
+- violate approved mutability;
+- persist business information owned by collaborating Aggregates; or
+- violate Aggregate ownership boundaries.
 
-If additional persistent state appears necessary, implementation SHALL stop and request clarification.
+If implementation requires additional Persistent Business State, implementation SHALL stop and clarification SHALL be requested through the appropriate engineering governance process.
 
 ---
 
@@ -141,60 +170,90 @@ If additional persistent state appears necessary, implementation SHALL stop and 
 
 Implementation SHALL ensure:
 
-- `paymentIdentifier` remains immutable after creation.
-- `payerIdentifier` remains immutable after creation.
-- `paymentAmount` remains immutable after creation.
-- `paymentMethod` remains immutable after creation.
-- `paymentReference` remains immutable after creation.
-- `lifecycleState` accurately represents the approved Aggregate lifecycle.
+- Payment Identifier remains immutable after creation.
+- Payer Identifier remains immutable after creation.
+- Monetary Amount accurately represents the received Payment.
+- Payment Method remains immutable after creation.
+- Payment Reference remains immutable after creation.
+- Payment Lifecycle accurately represents the approved lifecycle state.
 
-The persisted state represents only the institutional record of the received Payment.
+The persisted representation SHALL preserve only the institutional record of the received Payment.
 
-Settlement information is intentionally excluded.
+It SHALL NOT represent:
 
----
+- Payment Allocation;
+- Fee Obligation settlement;
+- Receipt generation; or
+- Outstanding balances.
 
-# Technology Independence
-
-This specification intentionally excludes:
-
-- database schema
-- SQL data types
-- ORM mappings
-- framework annotations
-- repository implementation
-- indexes
-- vendor-specific persistence features
-
-These concerns belong to later Technical Design documents.
+Persistent representation SHALL remain consistent with the approved Aggregate Technical Specification.
 
 ---
 
 # Traceability
 
-| Persistent Field | Aggregate Technical Specification |
-|------------------|-----------------------------------|
-| paymentIdentifier | Payment ATS |
-| payerIdentifier | Payment ATS |
-| paymentAmount | Payment ATS |
-| paymentMethod | Payment ATS |
-| paymentReference | Payment ATS |
-| lifecycleState | Payment ATS |
+The following Persistent Business State is traceable to the approved Aggregate Technical Specification.
+
+| Persistent Business State | Source |
+|---------------------------|--------|
+| Payment Identifier | Payment Aggregate Technical Specification |
+| Payer Identifier | Payment Aggregate Technical Specification |
+| Monetary Amount | Payment Aggregate Technical Specification |
+| Payment Method | Payment Aggregate Technical Specification |
+| Payment Reference | Payment Aggregate Technical Specification |
+| Payment Lifecycle | Payment Aggregate Technical Specification |
+
+All Persistent Business State SHALL remain traceable to approved engineering specifications.
 
 ---
 
-# Notes
+# Consistency Requirements
 
-This document represents the complete approved persistent representation of the Payment Aggregate.
+Implementation SHALL preserve:
 
-Implementation SHALL faithfully realize this persistence model without:
+- Payment identity integrity;
+- Payment amount integrity;
+- Payment Method integrity;
+- Payer reference integrity;
+- Payment reference integrity;
+- Payment lifecycle integrity;
+- Aggregate ownership boundaries; and
+- all approved Persistent Business State.
 
-- introducing undocumented persistent state;
-- persisting Payment Allocation information;
-- altering approved ownership boundaries;
-- introducing alternative persistent representations.
+The persistent representation SHALL remain fully consistent with the approved Aggregate Technical Specification throughout the Aggregate lifecycle.
 
-Payment Allocation remains intentionally outside the Payment Aggregate because settlement belongs to the relationship between Payments and Fee Obligations.
+---
+
+# Implementation Constraints
+
+Implementation SHALL:
+
+- preserve Aggregate ownership;
+- preserve approved Persistent Business State;
+- preserve lifecycle integrity;
+- preserve traceability to approved engineering specifications;
+- reject modifications that violate approved mutability; and
+- remain implementation-neutral.
+
+Implementation SHALL NOT:
+
+- introduce implementation-specific business state;
+- persist undocumented business information;
+- duplicate business truth owned by collaborating Aggregates;
+- modify approved ownership boundaries; or
+- introduce implementation behaviour into this persistence model.
+
+Physical persistence technology remains outside the scope of this specification.
+
+---
+
+# Related Documents
+
+- SoftwareDomainModel.md
+- SoftwareArchitecture.md
+- Payment Aggregate Design
+- Payment Aggregate Technical Specification
+- Aggregate Persistence Model Standard
 
 ---
 
@@ -204,9 +263,19 @@ Payment Allocation remains intentionally outside the Payment Aggregate because s
 |----------|------|-------------|
 | 1.0.0 | 2026-07-10 | Initial Persistence Model. |
 | 1.1.0 | 2026-07-14 | Aligned with Payment ATS v1.1.0. Standardized field names, introduced lifecycleState, clarified ownership boundaries, added Persistent Representation Rules and explicitly excluded Payment Allocation from the Payment Aggregate persistence model. |
+| 2.0.0 | 2026-07-17 | Aligned with TD-PERSISTENCE-STD-001 v1.0.0. Adopted the standardized Aggregate Persistence Model structure, introduced Persistent Business State, Derived Business State, Transient Business State, Ownership Boundaries, Consistency Requirements and standardized traceability without changing approved business behaviour. |
 
 ---
 
 # Approval
 
 **Status:** Approved
+
+## Approved By
+
+- Product Owner
+- Chief Architect
+
+## Approval Date
+
+2026-07-17
