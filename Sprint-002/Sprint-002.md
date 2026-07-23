@@ -5,7 +5,7 @@
 document_id: SPR-002
 title: Foundation Aggregate Implementation
 version: 2.1.0
-status: Draft
+status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
