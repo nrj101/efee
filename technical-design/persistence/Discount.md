@@ -4,18 +4,19 @@
 ---
 document_id: TD-DISCOUNT-001
 title: Discount Aggregate Persistence Model
-version: 1.2.0
+version: 2.0.0
 status: Approved
 
 owner: Product Owner
 reviewer: Chief Architect
 
 created: 2026-07-10
-last_updated: 2026-07-15
+last_updated: 2026-07-17
 
 related_documents:
   - ../../architecture/aggregates/Discount.md
   - ../../technical-specification/aggregates/Discount.md
+  - ../../technical-design/persistence/README.md
   - ../../architecture/SoftwareArchitecture.md
   - ../../spec/docs/SoftwareDomainModel.md
   - ../../spec/docs/rfc/RFC-007-Discount-Model-Simplification.md
@@ -27,17 +28,20 @@ related_documents:
 
 # Purpose
 
-This document defines the implementation-neutral persistence model for the **Discount Aggregate**.
+This document defines the authoritative persistent representation of the Discount Aggregate.
 
-It specifies the complete persistent representation required to preserve the business truth owned by the Discount Aggregate.
+It refines the approved Aggregate Technical Specification by defining the complete persistent business state required to preserve the business truth owned by the Discount Aggregate while remaining independent of programming language, persistence framework, database technology and infrastructure.
 
-This document is derived from the approved:
+The Discount Aggregate Persistence Model defines:
 
-- Software Domain Model
-- Aggregate Design
-- Aggregate Technical Specification
+- persistent business state;
+- derived business state;
+- transient business state;
+- ownership boundaries;
+- persistence constraints; and
+- traceability to approved engineering specifications.
 
-It SHALL NOT introduce new business behaviour, Aggregate responsibilities or implementation logic.
+It specifies **what** business information shall be persisted without prescribing **how** persistence is implemented.
 
 ---
 
@@ -47,73 +51,95 @@ It SHALL NOT introduce new business behaviour, Aggregate responsibilities or imp
 
 ---
 
-# Aggregate Responsibility
+# Persistence Responsibilities
 
-Persist the business truth owned by the Discount Aggregate while preserving:
+The Discount Aggregate Persistence Model preserves the business truth owned by the Discount Aggregate.
 
-- Discount identity
-- Student entitlement
-- Approved concession value
-- Approval information
-- Business justification
-- Discount lifecycle
+It is responsible for persisting:
 
-Business truths owned by collaborating Aggregates remain outside the scope of this document.
+- Discount identity;
+- Student entitlement;
+- Approved concession value;
+- Approval Information;
+- Business Justification; and
+- Discount lifecycle.
 
 The persisted state represents only the approved entitlement to a financial concession.
 
 The financial effect of that entitlement is intentionally excluded.
 
----
+The Discount Aggregate Persistence Model intentionally does **not** persist:
 
-# Persistent State
+- Fee Components;
+- Fee Obligations;
+- Applied Discounts;
+- Outstanding Amounts; or
+- Financial settlement information.
 
-The following Aggregate state is approved for persistence.
-
-| Field | Type | Required | Mutable | Purpose | Source |
-|--------|------|----------|----------|---------|--------|
-| discountIdentifier | String | Yes | No | Unique Discount identifier | Discount ATS |
-| studentIdentifier | String | Yes | No | Student receiving the Discount | Discount ATS |
-| discountValue | Monetary Amount | Yes | Yes | Approved concession value | Discount ATS |
-| approvalInformation | Approval Information | Yes | Yes | Approval authority and approval details | Discount ATS |
-| businessJustification | Business Justification | Yes | Yes | Reason supporting the concession | Discount ATS |
-| active | Boolean | Yes | Yes | Discount lifecycle state | Discount ATS |
-
-No additional persistent state is approved.
+These business truths remain owned by collaborating Aggregates.
 
 ---
 
-# Derived State
+# Persistent Business State
 
-None.
+The Discount Aggregate owns the following Persistent Business State.
 
-No persistent values are derived from other persisted state.
+| Business State | Type | Required | Mutable | Description |
+|---------------|------|----------|----------|-------------|
+| discountIdentifier | Discount Identifier | Yes | No | Immutable Discount identifier |
+| studentIdentifier | Student Identifier | Yes | No | Student receiving the approved Discount |
+| discountValue | Monetary Amount | Yes | Yes | Approved concession value |
+| approvalInformation | Approval Information | Yes | Yes | Approved authority and approval details |
+| businessJustification | Business Justification | Yes | Yes | Approved business justification |
+| active | Discount Lifecycle | Yes | Yes | Current Discount lifecycle |
+
+No additional Persistent Business State is approved.
 
 ---
 
-# Transient State
+# Derived Business State
 
-None.
+The Discount Aggregate owns no Derived Business State.
+
+All persisted business information represents authoritative business truth owned by the Discount Aggregate.
+
+No additional Derived Business State is approved.
 
 ---
 
-# Relationships
+# Transient Business State
 
-The Discount Aggregate persists references to collaborating Aggregates only through approved identifiers.
+The Discount Aggregate owns no Transient Business State.
 
-| Aggregate | Relationship |
-|-----------|--------------|
-| Student | studentIdentifier |
+No implementation-specific state forms part of the approved persistent representation.
 
-The Discount Aggregate SHALL NOT persist:
+No additional Transient Business State is approved.
 
-- Fee Component references
-- Fee Obligation references
-- Obligation Line references
-- Applied Discounts
-- Outstanding Amount
+---
 
-Those business truths remain owned by collaborating Aggregates.
+# Ownership Boundaries
+
+The Discount Aggregate owns only the Persistent Business State defined by this specification.
+
+The Discount Aggregate SHALL NOT persist business information owned by collaborating Aggregates.
+
+Business information owned by collaborating Aggregates includes:
+
+- Fee Components;
+- Fee Obligations;
+- Applied Discounts;
+- Outstanding Amounts; and
+- Financial settlement information.
+
+The Discount Aggregate MAY persist references to collaborating Aggregates where ownership is preserved.
+
+Approved Aggregate references:
+
+| Aggregate | Business Reference |
+|-----------|--------------------|
+| Student | Student Identifier |
+
+References to collaborating Aggregates SHALL preserve ownership without transferring business truth.
 
 ---
 
@@ -121,28 +147,26 @@ Those business truths remain owned by collaborating Aggregates.
 
 Implementation SHALL preserve:
 
-- Discount identity
-- Student entitlement
-- Approved concession value
-- Approval information
-- Business justification
-- Discount lifecycle
-- Aggregate ownership
+- Discount identity;
+- Student entitlement;
+- Approved concession value;
+- Approval Information integrity;
+- Business Justification integrity;
+- Discount lifecycle integrity;
+- Aggregate ownership boundaries; and
+- all approved Persistent Business State.
 
 Implementation SHALL NOT:
 
-- introduce additional persistent fields;
-- remove approved persistent fields;
-- rename approved persistent fields;
-- change approved field types;
-- change approved field mutability;
-- persist Fee Components;
-- persist Fee Obligations;
-- persist Applied Discounts;
-- persist Outstanding Amount;
-- persist undocumented Aggregate state.
+- introduce undocumented Persistent Business State;
+- remove approved Persistent Business State;
+- rename approved Persistent Business State;
+- change approved business types;
+- violate approved mutability;
+- persist business information owned by collaborating Aggregates; or
+- violate Aggregate ownership boundaries.
 
-If additional persistent state appears necessary, implementation SHALL stop and request clarification.
+If implementation requires additional Persistent Business State, implementation SHALL stop and clarification SHALL be requested through the appropriate engineering governance process.
 
 ---
 
@@ -150,14 +174,14 @@ If additional persistent state appears necessary, implementation SHALL stop and 
 
 Implementation SHALL ensure:
 
-- `discountIdentifier` remains immutable after creation.
-- `studentIdentifier` remains immutable after creation.
-- `discountValue` is stored exactly as approved by the Aggregate.
-- `approvalInformation` preserves the approved authority and approval details.
-- `businessJustification` preserves the approved business justification.
-- `active` accurately represents the approved Aggregate lifecycle.
+- Discount Identifier remains immutable after creation.
+- Student Identifier remains immutable after creation.
+- Monetary Amount accurately represents the approved concession value.
+- Approval Information preserves the approved authority and approval details.
+- Business Justification preserves the approved business rationale.
+- Discount Lifecycle accurately represents the approved lifecycle state.
 
-The persisted state represents only the approved financial concession entitlement.
+The persisted representation SHALL preserve only the approved financial concession entitlement.
 
 It SHALL NOT represent:
 
@@ -166,51 +190,76 @@ It SHALL NOT represent:
 - outstanding balance; or
 - applied financial effects.
 
----
-
-# Technology Independence
-
-This specification intentionally excludes:
-
-- database schema;
-- SQL data types;
-- ORM mappings;
-- framework annotations;
-- repository implementation;
-- indexes;
-- vendor-specific persistence features.
-
-These concerns belong to subsequent Technical Design documents.
+Persistent representation SHALL remain consistent with the approved Aggregate Technical Specification.
 
 ---
 
 # Traceability
 
-| Persistent Field | Aggregate Technical Specification |
-|------------------|-----------------------------------|
-| discountIdentifier | Discount ATS |
-| studentIdentifier | Discount ATS |
-| discountValue | Discount ATS |
-| approvalInformation | Discount ATS |
-| businessJustification | Discount ATS |
-| active | Discount ATS |
+The following Persistent Business State is traceable to the approved Aggregate Technical Specification.
+
+| Persistent Business State | Source |
+|---------------------------|--------|
+| Discount Identifier | Discount Aggregate Technical Specification |
+| Student Identifier | Discount Aggregate Technical Specification |
+| Monetary Amount | Discount Aggregate Technical Specification |
+| Approval Information | Discount Aggregate Technical Specification |
+| Business Justification | Discount Aggregate Technical Specification |
+| Discount Lifecycle | Discount Aggregate Technical Specification |
+
+All Persistent Business State SHALL remain traceable to approved engineering specifications.
 
 ---
 
-# Notes
+# Consistency Requirements
 
-This document represents the complete approved persistent representation of the Discount Aggregate.
+Implementation SHALL preserve:
 
-Implementation SHALL faithfully realize this persistence model without:
+- Discount identity integrity;
+- Student entitlement integrity;
+- Approved concession integrity;
+- Approval Information integrity;
+- Business Justification integrity;
+- Discount lifecycle integrity;
+- Aggregate ownership boundaries; and
+- all approved Persistent Business State.
 
-- introducing undocumented persistent state;
-- persisting financial effects;
-- altering approved ownership boundaries;
-- introducing alternative persistent representations.
+The persistent representation SHALL remain fully consistent with the approved Aggregate Technical Specification throughout the Aggregate lifecycle.
 
-The Discount Aggregate persists only the entitlement to a financial concession.
+---
 
-Application of that entitlement remains the responsibility of the Fee Obligation Aggregate.
+# Implementation Constraints
+
+Implementation SHALL:
+
+- preserve Aggregate ownership;
+- preserve approved Persistent Business State;
+- preserve lifecycle integrity;
+- preserve traceability to approved engineering specifications;
+- reject modifications that violate approved mutability; and
+- remain implementation-neutral.
+
+Implementation SHALL NOT:
+
+- introduce implementation-specific business state;
+- persist undocumented business information;
+- duplicate business truth owned by collaborating Aggregates;
+- modify approved ownership boundaries; or
+- introduce implementation behaviour into this persistence model.
+
+Physical persistence technology remains outside the scope of this specification.
+
+---
+
+# Related Documents
+
+- SoftwareDomainModel.md
+- SoftwareArchitecture.md
+- Discount Aggregate Design
+- Discount Aggregate Technical Specification
+- Aggregate Persistence Model Standard
+- RFC-007 – Discount Model Simplification
+- RFC-006 – Replace Cross-Aggregate Supporting Entity References with Stable Identifiers
 
 ---
 
@@ -221,9 +270,19 @@ Application of that entitlement remains the responsibility of the Fee Obligation
 | 1.0.0 | 2026-07-10 | Initial Persistence Model. |
 | 1.1.0 | 2026-07-13 | Aligned persistent state with Discount ATS. Added Persistent Representation Rules and clarified persistence contract. |
 | 1.2.0 | 2026-07-15 | Aligned with RFC-007 and RFC-006. Clarified persistent ownership boundaries, reinforced that only concession entitlement is persisted, explicitly prohibited persistence of collaborating Aggregate state, and improved persistence contract wording. |
+| 2.0.0 | 2026-07-17 | Aligned with TD-PERSISTENCE-STD-001 v1.0.0. Adopted the standardized Aggregate Persistence Model structure, introduced Persistent Business State, Derived Business State, Transient Business State, Ownership Boundaries, Consistency Requirements and standardized traceability without changing approved business behaviour. |
 
 ---
 
 # Approval
 
 **Status:** Approved
+
+## Approved By
+
+- Product Owner
+- Chief Architect
+
+## Approval Date
+
+2026-07-17

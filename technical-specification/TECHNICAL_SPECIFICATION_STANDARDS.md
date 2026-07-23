@@ -4,22 +4,19 @@
 ---
 document_id: TECH-STD-001
 title: Technical Specification Standards
-version: 1.1.0
+version: 1.2.0
 status: Approved
 
 owner: Product Owner
 reviewer: CTO
 
-created: 2026-07-06
-last_updated: 2026-07-14
-next_review: Before Technical Specification v2.0.0
+created: 2026-07-04
+last_updated: 2026-07-17
 
-related_documents:
-  - ../architecture/ARCHITECTURE_STANDARDS.md
-  - ../architecture/AggregateDesign.md
-  - ../architecture/SoftwareArchitecture.md
-  - ../spec/docs/SoftwareDomainModel.md
-  - ../spec/SPECIFICATION_STANDARDS.md
+purpose: >
+  Defines the engineering standards governing Aggregate Technical Specifications.
+  Establishes the authoritative implementation contract for each Aggregate,
+  ensuring complete, consistent and implementation-neutral specifications.
 ---
 ```
 
@@ -27,49 +24,69 @@ related_documents:
 
 # Purpose
 
-This document defines the standards governing all Technical Specification documents within the E-Fee Product & Engineering Specification.
+This document defines the engineering standards governing all Aggregate Technical Specifications (ATS) within the Student Fee Receivables Platform.
 
-Technical Specifications bridge the gap between the approved Software Architecture and implementation.
+An Aggregate Technical Specification is the **authoritative public implementation contract** for an Aggregate.
 
-Their purpose is to define a complete, implementation-neutral contract for realizing the approved Software Architecture while preserving business correctness, Aggregate ownership and architectural consistency.
+It translates approved business and architectural decisions into an implementation-ready engineering specification while remaining independent of programming language, framework, persistence technology and infrastructure.
 
-Technical Specifications SHALL eliminate implementation ambiguity without introducing implementation technology.
+Every Aggregate Technical Specification SHALL completely define:
+
+- Aggregate responsibilities;
+- owned, referenced and derived state;
+- lifecycle behaviour;
+- business invariants;
+- public operations;
+- approved supporting types;
+- persistence traceability.
+
+Aggregate Technical Specifications define **what an Aggregate must do**.
+
+They intentionally avoid prescribing **how the Aggregate is implemented**, unless implementation constraints have been approved through Architecture, ADRs or Engineering Standards.
 
 ---
 
 # Scope
 
-These standards apply to every Technical Specification document within the repository, including:
+This standard applies to every Aggregate Technical Specification maintained within the platform.
 
-- Aggregate Technical Specifications
-- Aggregate Persistence Models
-- Future Technical Design specifications
+It defines:
 
-They intentionally exclude:
+- mandatory document structure;
+- specification responsibilities;
+- public implementation contracts;
+- engineering boundaries;
+- implementation neutrality;
+- AI implementation expectations;
+- governance and review requirements.
 
-- Product Specification
-- Business Specification
-- Software Architecture
-- Story Packages
-- Source code
+This standard does **not** prescribe:
+
+- programming languages;
+- framework APIs;
+- concrete collection implementations;
+- persistence technologies;
+- internal algorithms;
+- optimisation techniques.
+
+Such decisions remain engineering responsibilities unless explicitly constrained by approved engineering artifacts.
 
 ---
 
 # Position within the Engineering Lifecycle
 
-Technical Specifications occupy the following position within the engineering lifecycle.
+Aggregate Technical Specifications bridge architecture and implementation.
+
+Every implementation SHALL conform to the following engineering progression.
 
 ```text
+Business Requirements
+        │
+        ▼
 Product Specification
         │
         ▼
-Software Domain Model
-        │
-        ▼
 Software Architecture
-        │
-        ▼
-Aggregate Design
         │
         ▼
 Aggregate Technical Specification
@@ -84,325 +101,611 @@ Story Package
 Implementation
 ```
 
-Each stage refines the previous stage without redefining its responsibilities.
+Each layer progressively refines the solution while preserving all approved decisions from preceding engineering artifacts.
+
+No downstream artifact may redefine or contradict an upstream approved decision.
 
 ---
 
 # Technical Specification Philosophy
 
-Technical Specifications exist to make implementation deterministic while remaining technology independent.
+Aggregate Technical Specifications exist to eliminate implementation ambiguity before development begins.
 
-They describe:
+A complete Aggregate Technical Specification shall allow independent engineering teams to produce implementations exhibiting identical externally observable behaviour while permitting differences in internal implementation.
 
-- what an implementation must preserve;
-- what an Aggregate owns;
-- what behaviour is permitted;
-- what constraints must remain true.
+Every externally observable responsibility shall therefore be explicitly specified.
 
-They intentionally do not prescribe:
-
-- programming language;
-- framework;
-- persistence technology;
-- database schema;
-- API design;
-- infrastructure implementation.
+Internal engineering decisions remain intentionally unspecified unless constrained by approved engineering artifacts.
 
 ---
 
 # Guiding Principles
 
-Technical Specifications SHALL:
+All Aggregate Technical Specifications SHALL adhere to the following principles.
 
-- preserve the approved Product Specification;
-- preserve the approved Software Architecture;
-- preserve Aggregate ownership;
-- preserve business invariants;
-- eliminate implementation ambiguity;
-- remain implementation-neutral;
-- remain programming-language independent;
-- remain framework independent;
-- describe implementation obligations rather than implementation techniques.
+## Business Fidelity
 
-Technical Specifications SHALL NOT:
+Aggregate Technical Specifications SHALL faithfully translate approved Product Specifications into engineering contracts without altering business meaning.
 
-- redefine business behaviour;
-- redefine Aggregate ownership;
-- introduce new business concepts;
-- introduce undocumented state;
-- introduce implementation technology.
+Business behaviour SHALL originate from the Product Specification and SHALL NOT be introduced during implementation.
 
 ---
 
-# Relationship with the Product Specification
+## Architectural Fidelity
 
-The Product Specification remains the authoritative definition of business behaviour.
+Aggregate Technical Specifications SHALL preserve all approved architectural decisions.
 
-Technical Specifications SHALL NOT:
+This includes:
 
-- modify Business Rules;
-- modify Business Workflows;
-- redefine Business Objects;
-- redefine the Software Domain Model.
+- Aggregate boundaries;
+- ownership;
+- responsibilities;
+- collaboration patterns;
+- lifecycle ownership.
 
-Instead, they define the implementation contract required to faithfully realize the approved business model.
+Architectural decisions SHALL NOT be redefined within Technical Specifications.
 
 ---
 
-# Relationship with the Software Architecture
+## Complete Public Contracts
 
-Software Architecture defines:
+Every externally observable responsibility of an Aggregate SHALL be explicitly specified.
 
-- Aggregate ownership;
-- collaboration boundaries;
-- module responsibilities;
-- architectural policies.
+This includes:
 
-Technical Specifications refine those architectural decisions into implementation obligations.
+- responsibilities;
+- owned state;
+- referenced state;
+- derived state;
+- lifecycle;
+- business invariants;
+- public operations;
+- supporting type contracts.
 
-They SHALL NOT redefine architectural decisions.
+Implementations SHALL NOT infer undocumented public behaviour.
+
+---
+
+## Implementation Neutrality
+
+Aggregate Technical Specifications define business contracts rather than implementation mechanisms.
+
+Unless explicitly constrained by approved engineering artifacts, they SHALL NOT prescribe:
+
+- programming language features;
+- framework APIs;
+- concrete data structures;
+- persistence mechanisms;
+- design patterns;
+- internal algorithms.
+
+These decisions remain within engineering discretion.
+
+---
+
+## Deterministic Specifications
+
+Independent implementations produced from the same Aggregate Technical Specification SHALL exhibit identical externally observable behaviour.
+
+Implementation differences are acceptable only when they do not alter the approved public contract.
+
+---
+
+# Relationship with Product Specification
+
+The Product Specification defines the approved business behaviour of the system.
+
+Aggregate Technical Specifications translate that behaviour into implementation-ready engineering contracts without modifying business intent.
+
+Aggregate Technical Specifications SHALL:
+
+- preserve all approved business responsibilities;
+- preserve approved business terminology;
+- preserve approved lifecycle behaviour;
+- preserve approved business rules.
+
+Business behaviour SHALL originate from the Product Specification and SHALL NOT be introduced, modified or reinterpreted within an Aggregate Technical Specification.
+
+---
+
+# Relationship with Software Architecture
+
+The Software Architecture defines the structural design of the system.
+
+Aggregate Technical Specifications refine architectural decisions into implementation contracts while preserving all approved architectural constraints.
+
+Aggregate Technical Specifications SHALL preserve:
+
+- Aggregate boundaries;
+- ownership responsibilities;
+- Aggregate collaboration patterns;
+- dependency direction;
+- architectural constraints.
+
+Architectural responsibilities SHALL NOT be reassigned within Aggregate Technical Specifications.
 
 ---
 
 # Relationship with Aggregate Persistence Models
 
-Aggregate Technical Specifications define:
+Aggregate Persistence Models define how Aggregate state is represented within persistent storage.
+
+Aggregate Technical Specifications define the business meaning of Aggregate state.
+
+Persistence Models derive from Aggregate Technical Specifications and SHALL remain consistent with the approved Aggregate contract.
+
+Aggregate Technical Specifications SHALL define:
 
 - owned state;
-- business operations;
-- lifecycle;
-- invariants;
-- collaboration contracts.
+- referenced state;
+- derived state;
+- persistence traceability.
 
-Aggregate Persistence Models define:
-
-- the approved persistent representation of that owned state.
-
-Persistence Models SHALL be derived from the corresponding Aggregate Technical Specification.
-
-Neither document may introduce behaviour or ownership not already approved by the Product Specification or Software Architecture.
+Aggregate Technical Specifications SHALL NOT prescribe database schemas, ORM mappings or persistence technologies.
 
 ---
 
 # Aggregate Ownership
 
-Each Aggregate SHALL have exactly one Aggregate Technical Specification.
+Every Aggregate shall have a clearly defined ownership boundary.
 
-Each Aggregate Technical Specification SHALL describe:
+Aggregate Technical Specifications SHALL explicitly identify:
 
-- Aggregate responsibility;
-- owned business truth;
-- owned state;
-- operations;
-- lifecycle;
-- business invariants;
-- collaboration boundaries;
-- implementation obligations.
+- state owned by the Aggregate;
+- state referenced by the Aggregate;
+- state derived by the Aggregate.
 
-Ownership SHALL remain consistent with Aggregate Design.
+Only owned state may be modified directly by the Aggregate.
 
----
+Referenced state shall remain externally owned.
 
-# State Ownership
+Derived state shall be calculated from owned or referenced state and SHALL NOT become an independently managed source of truth.
 
-Aggregate Technical Specifications SHALL distinguish between:
-
-- owned state;
-- referenced state;
-- derived state;
-- transient state.
-
-Only owned state may be modified by the Aggregate.
-
-Referenced business truth remains owned by collaborating Aggregates.
-
-Derived state SHALL be reproducible from authoritative business facts.
+Ownership responsibilities SHALL remain consistent with the approved Software Architecture.
 
 ---
 
-# Business Operations
+# Aggregate Technical Specification Structure
 
-Technical Specifications define the complete public contract of an Aggregate.
+Every Aggregate Technical Specification SHALL follow the structure defined by this standard.
 
-Every approved operation SHOULD describe:
+The minimum required sections are:
+
+1. Purpose
+2. Responsibilities
+3. Owned State
+4. Referenced State
+5. Derived State
+6. Lifecycle
+7. Business Invariants
+8. Approved Implementation Types
+9. Public API
+10. Supporting Types
+11. Persistence Traceability
+
+Additional sections MAY be introduced where required, provided they do not contradict this standard.
+
+---
+
+# Purpose
+
+Defines the responsibility of the Aggregate and the business capability it provides.
+
+The Purpose section SHALL describe the Aggregate's responsibility without prescribing implementation.
+
+---
+
+# Responsibilities
+
+Defines the responsibilities exclusively owned by the Aggregate.
+
+Responsibilities SHALL be expressed in business terms and SHALL remain implementation-neutral.
+
+---
+
+# Owned State
+
+Defines all business state exclusively owned and managed by the Aggregate.
+
+Owned State SHALL identify:
+
+- business meaning;
+- ownership responsibility;
+- mutability expectations.
+
+Implementation representation SHALL remain unspecified.
+
+---
+
+# Referenced State
+
+Defines externally owned business information referenced by the Aggregate.
+
+Referenced State SHALL identify:
+
+- referenced Aggregate;
+- business purpose;
+- ownership relationship.
+
+Referenced state SHALL NOT imply ownership.
+
+---
+
+# Derived State
+
+Defines business information calculated from owned or referenced state.
+
+Derived State SHALL identify:
+
+- business meaning;
+- derivation responsibility;
+- calculation dependencies.
+
+Derived values SHALL NOT become independently maintained business state.
+
+---
+
+# Lifecycle
+
+Defines the valid lifecycle states of the Aggregate together with permitted business transitions.
+
+Lifecycle definitions SHALL specify:
+
+- valid states;
+- transition rules;
+- transition constraints.
+
+Lifecycle behaviour SHALL preserve all approved business invariants.
+
+---
+
+# Business Invariants
+
+Business Invariants define conditions that shall always remain true throughout the Aggregate lifecycle.
+
+Every Aggregate Technical Specification SHALL explicitly document all business invariants required to preserve business correctness.
+
+Implementations SHALL preserve every documented invariant under all permitted operations.
+
+---
+
+# Approved Implementation Types
+
+Approved Implementation Types identify the public business types that participate in the Aggregate contract.
+
+These types form part of the Aggregate's externally observable behaviour and SHALL therefore be explicitly documented.
+
+Approved Implementation Types MAY include:
+
+- Supporting Entities;
+- Supporting Value Objects;
+- Domain Enumerations;
+- Domain Events;
+- Business Identifiers;
+- other approved domain types.
+
+Internal implementation classes, helper classes and utility classes SHALL NOT be documented unless they form part of the approved public contract.
+
+---
+
+# Public API
+
+The Public API defines the complete externally observable behaviour of the Aggregate.
+
+Every public operation exposed by the Aggregate SHALL be explicitly documented.
+
+The Public API defines **what** the Aggregate makes available to consumers, not **how** those operations are implemented.
+
+Every operation SHALL preserve all documented Business Invariants.
+
+The Public API consists of the following sections.
+
+---
+
+## Constructor
+
+Defines how a valid Aggregate instance is created.
+
+The Constructor section SHALL specify:
 
 - purpose;
+- required business inputs;
+- initial lifecycle state;
+- business invariants established during creation.
+
+Constructor behaviour SHALL establish a valid Aggregate according to the approved business model.
+
+---
+
+## Business Operations
+
+Business Operations modify Aggregate state while preserving all documented Business Invariants.
+
+Every Business Operation SHALL document:
+
+- operation name;
+- purpose;
+- parameters;
 - preconditions;
 - postconditions;
-- affected owned state;
+- affected state;
 - preserved invariants;
-- related Business Rules.
+- related business rules.
 
-Operations describe business-preserving behaviour rather than implementation algorithms.
+Business Operations SHALL describe observable behaviour without prescribing implementation.
+
+---
+
+## Accessors
+
+Accessors expose approved Aggregate information without modifying business state.
+
+Accessor documentation SHALL identify:
+
+- returned business information;
+- business purpose;
+- any derived values returned.
+
+Accessors SHALL NOT modify Aggregate state.
+
+---
+
+# Supporting Types
+
+Supporting Types are domain types that form part of the approved Aggregate contract.
+
+Supporting Types SHALL be documented whenever they participate in:
+
+- Aggregate state;
+- public operations;
+- lifecycle transitions;
+- business invariants.
+
+Supporting Types SHALL describe business behaviour rather than implementation.
+
+Each Supporting Type SHALL define:
+
+- purpose;
+- responsibilities;
+- owned state (where applicable);
+- public constructor;
+- public operations;
+- business invariants.
+
+Supporting Types SHALL remain implementation-neutral.
+
+---
+
+# Persistence Traceability
+
+Persistence Traceability identifies how business concepts represented by the Aggregate correspond to persistent storage.
+
+This section exists to ensure consistency between the Aggregate Technical Specification and the Aggregate Persistence Model.
+
+Persistence Traceability SHALL identify:
+
+- Aggregate root;
+- owned business state;
+- referenced business state;
+- derived business state;
+- persistent identifiers.
+
+Persistence Traceability SHALL describe business traceability rather than persistence implementation.
+
+Database schemas, ORM mappings, indexes and storage technologies remain outside the scope of Aggregate Technical Specifications.
 
 ---
 
 # Consistency Requirements
 
-Each Technical Specification SHALL explicitly identify the business consistency it preserves.
+Every Aggregate Technical Specification SHALL remain internally consistent.
 
-Consistency SHALL be traceable to:
+In particular:
 
-- Business Rules;
-- Software Domain Model;
-- Aggregate Design.
+- Responsibilities SHALL align with the Product Specification.
+- Ownership SHALL align with the Software Architecture.
+- Lifecycle SHALL preserve Business Rules.
+- Public Operations SHALL preserve Business Invariants.
+- Persistence Traceability SHALL align with the Aggregate Persistence Model.
 
-Business correctness takes precedence over implementation convenience.
+Conflicting definitions SHALL be resolved through the established Architecture Decision Record (ADR) or Request for Comments (RFC) process.
 
 ---
 
 # Collaboration Contracts
 
-Technical Specifications SHALL identify collaborations with other Aggregates.
+Aggregate Technical Specifications SHALL define only the responsibilities owned by the Aggregate.
 
-Collaborations SHALL describe:
+Interactions with external Aggregates SHALL occur exclusively through approved collaboration contracts defined by the Software Architecture.
 
-- information exchanged;
-- required interactions;
-- ownership boundaries.
+Aggregate Technical Specifications SHALL NOT redefine behaviour owned by another Aggregate.
 
-Collaborations SHALL NOT transfer ownership of business truth.
+Cross-Aggregate communication SHALL preserve Aggregate independence.
 
 ---
 
 # Implementation Constraints
 
-Technical Specifications MAY define implementation constraints necessary to preserve business correctness.
+Aggregate Technical Specifications intentionally constrain implementation only where required to preserve approved engineering decisions.
 
-Examples include:
+Implementations SHALL NOT:
 
-- immutable identity;
-- lifecycle integrity;
-- Aggregate ownership;
-- invariant preservation;
-- defensive copying;
-- prohibition of public setters.
+- invent undocumented public behaviour;
+- redefine business responsibilities;
+- violate Aggregate ownership;
+- weaken documented Business Invariants;
+- introduce undocumented lifecycle transitions;
+- expose undocumented public operations.
 
-Implementation Constraints SHALL remain implementation-neutral.
+All remaining implementation decisions remain within engineering discretion.
 
 ---
 
-# Story Relationship
+# Relationship with Story Packages
 
-Story Packages implement Technical Specifications incrementally.
+Story Packages define the implementation scope for a Sprint or Story.
 
-Stories SHALL:
+Aggregate Technical Specifications define the implementation contract for an Aggregate.
 
-- reference the Aggregate Technical Specification;
-- reference the Aggregate Persistence Model;
-- preserve the approved implementation contract.
+Story Packages SHALL reference approved Aggregate Technical Specifications and SHALL NOT redefine:
 
-Stories SHALL NOT redefine approved specifications.
+- Aggregate responsibilities;
+- public operations;
+- business invariants;
+- lifecycle behaviour;
+- ownership boundaries.
+
+Where implementation requires clarification, the clarification SHALL remain consistent with the approved Aggregate Technical Specification.
 
 ---
 
 # AI Implementation Guidance
 
-Technical Specifications are intended to support deterministic implementation by both human developers and AI implementation agents.
+Aggregate Technical Specifications provide the authoritative engineering contract used during implementation.
 
-AI implementation SHALL:
+AI-assisted implementation SHALL:
 
-- implement only approved Aggregate behaviour;
-- preserve approved ownership boundaries;
-- preserve approved invariants;
-- preserve lifecycle integrity;
-- stop and request clarification if additional state, behaviour or operations appear necessary.
+- preserve all documented business behaviour;
+- preserve Aggregate ownership;
+- preserve documented lifecycle behaviour;
+- preserve Business Invariants;
+- preserve collaboration boundaries.
 
-AI SHALL NOT infer undocumented behaviour.
+AI implementations SHALL NOT:
+
+- invent undocumented public operations;
+- infer undocumented business rules;
+- redefine ownership;
+- introduce additional lifecycle states;
+- modify externally observable behaviour.
+
+Where implementation details are intentionally unspecified, AI MAY exercise engineering discretion provided that all approved business contracts remain unchanged.
+
+Implementation-specific clarification SHOULD normally be resolved during implementation.
+
+Aggregate Technical Specifications SHOULD evolve only when recurring implementation experience demonstrates a sustained benefit across multiple Stories.
 
 ---
 
 # Traceability
 
-Every Technical Specification SHALL maintain traceability to:
+Every Aggregate Technical Specification SHALL remain traceable to higher and lower engineering artifacts.
+
+Traceability SHALL exist between:
 
 - Product Specification;
+- Software Architecture;
 - Business Rules;
-- Software Domain Model;
-- Aggregate Design;
-- Software Architecture.
+- Aggregate Persistence Model;
+- Story Packages.
 
-Every Persistence Model SHALL remain traceable to its corresponding Aggregate Technical Specification.
+Every documented responsibility shall be traceable to an approved business or architectural decision.
 
 ---
 
 # Governance
 
-Business evolution SHALL originate through approved RFCs.
+Aggregate Technical Specifications are controlled engineering artifacts.
 
-Architectural evolution SHALL originate through approved ADRs.
+Modifications SHALL occur only through approved engineering governance.
 
-Technical Specifications SHALL evolve only after the corresponding Product Specification or Software Architecture has been approved.
+Changes affecting:
 
-Implementation SHALL NOT modify approved Technical Specifications.
+- business behaviour;
+- Aggregate ownership;
+- lifecycle;
+- public contracts;
+- collaboration patterns;
+
+SHALL be reviewed through the established RFC or ADR process before approval.
+
+Editorial improvements that do not alter engineering intent MAY be approved through the normal documentation review process.
 
 ---
 
 # Future Evolution
 
-Initially, one Aggregate Technical Specification and one Aggregate Persistence Model SHALL exist for every Aggregate.
+Aggregate Technical Specifications are expected to evolve as implementation experience accumulates.
 
-Future Technical Specifications may be introduced for:
+Framework evolution SHALL be evidence-driven.
 
-- Domain Services;
-- Domain Events;
-- Integration Contracts;
-- Read Models;
-- External Interfaces.
+Individual implementation questions or Story-specific clarifications SHALL NOT automatically result in changes to this standard.
 
-Such additions SHALL preserve the dependency direction established by this standard.
+Changes SHOULD be introduced only when recurring implementation experience demonstrates clear engineering benefit across multiple Stories or Sprints.
+
+This approach promotes framework stability while allowing continuous improvement through measured evolution.
 
 ---
 
 # Review Checklist
 
-Before approving a Technical Specification, verify:
+Every Aggregate Technical Specification SHOULD be reviewed against the following checklist before approval.
 
-- Business behaviour remains unchanged.
-- Aggregate ownership is preserved.
-- Public operations are completely defined.
-- Business invariants are explicit.
-- Collaboration boundaries remain consistent.
-- No implementation technology has been introduced.
-- Traceability is complete.
-- Persistence Models align with the Aggregate Technical Specification.
+## Completeness
+
+- Purpose clearly defined.
+- Responsibilities completely identified.
+- Owned, Referenced and Derived State documented.
+- Lifecycle completely specified.
+- Business Invariants explicitly documented.
+- Public API completely defined.
+- Supporting Types documented where applicable.
+- Persistence Traceability included.
+
+---
+
+## Consistency
+
+- Product Specification preserved.
+- Software Architecture preserved.
+- Business Rules preserved.
+- Aggregate Ownership preserved.
+- Persistence Model alignment verified.
+
+---
+
+## Engineering Quality
+
+- Implementation-neutral language maintained.
+- No undocumented behaviour introduced.
+- No implementation mechanisms prescribed.
+- Business terminology remains consistent.
+- Engineering discretion remains appropriately bounded.
 
 ---
 
 # Key Decisions
 
-| Decision | Status |
-|----------|--------|
-| Technical Specifications define implementation contracts | Accepted |
-| Aggregate ownership shall remain unchanged | Accepted |
-| Persistence Models derive from Aggregate Technical Specifications | Accepted |
-| Technical Specifications remain implementation-neutral | Accepted |
-| AI implementation must preserve approved specifications | Accepted |
-| Technical Specifications evolve only through approved engineering governance | Accepted |
+The following engineering decisions are established by this standard.
+
+- Aggregate Technical Specifications are the authoritative public implementation contract for an Aggregate.
+- Aggregate Technical Specifications define business contracts rather than implementation mechanisms.
+- Supporting Types participating in the public contract shall be explicitly documented.
+- Public behaviour shall be completely specified before implementation begins.
+- Internal implementation decisions remain within engineering discretion unless explicitly constrained.
+- Framework evolution shall be driven by recurring implementation evidence rather than isolated implementation questions.
 
 ---
 
 # Related Documents
 
-- SoftwareArchitecture.md
-- AggregateDesign.md
-- SoftwareDomainModel.md
-- SPECIFICATION_STANDARDS.md
-
----
-
-# Open Questions
-
-None.
+- Product Specification
+- Software Architecture
+- Business Rules
+- Aggregate Persistence Model Standards
+- Story Package Standards
+- Engineering Constitution
+- Developer Runtime Prompt
 
 ---
 
 # Version History
 
 | Version | Date | Description |
-|----------|------------|-------------|
-| 1.0.0 | 2026-07-06 | Initial Technical Specification Standards. |
-| 1.1.0 | 2026-07-14 | Aligned with finalized engineering lifecycle, introduced Aggregate Persistence Models, clarified implementation contracts, strengthened governance, added AI implementation guidance, and standardized document structure for Specification v1.1.0. |
+|----------|------|-------------|
+| 1.0.0 | 2026-07-04 | Initial Technical Specification Standards. |
+| 1.1.0 | 2026-07-08 | Clarified relationships between Technical Specifications, Architecture and Persistence Models. |
+| 1.2.0 | 2026-07-17 | Established Aggregate Technical Specifications as the authoritative public implementation contract. Introduced mandatory Aggregate Technical Specification structure, Public API, Supporting Types, Persistence Traceability, evidence-driven framework evolution and strengthened AI implementation guidance. |
 
 ---
 
@@ -417,4 +720,4 @@ None.
 
 ## Approval Date
 
-2026-07-14
+2026-07-17
