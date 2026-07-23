@@ -1,4 +1,8 @@
-// /Sprint-002/Story-008/source/PaymentService.java
+package com.efee.application.payment;
+/*
+ * Reference Implementation:
+ * Sprint-002 / Story-008
+ */
 
 import java.math.BigDecimal;
 import com.efee.domain.payment.Payment;

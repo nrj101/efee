@@ -1,34 +1,84 @@
-# Story-008 — Payment Service Implementation
+# Story-008 Implementation Summary
 
 ## Story
-Payment Service
 
-## Artifacts
+**Story-008 — Payment Service**
+
+---
+
+## Implemented Components
+
+The following implementation artifacts were completed as part of this Story.
+
+### Source
+
 - PaymentService.java
+
+### Tests
+
 - PaymentServiceTest.java
 
-## Business Rules Implemented
-- BR-013 — A Payment represents a payer's intention to settle one or more Fee Obligations.
-- BR-014 — Payment Allocation shall occur only after the Payment has been realised.
+---
 
-## Approved Workflows
-- Record Payment: Creates Payment Aggregate using approved constructor
-- Realize Payment: Invokes payment.realize() operation
+## Implemented Service Contract
+
+The implementation exposes the following approved public operations.
+
+- Record Payment
+- Realize Payment
+
+No additional public operations were introduced.
+
+---
+
+## Workflow Coordination
+
+The implementation coordinates the following approved workflows.
+
+### Record Payment
+
+- Receives the approved request.
+- Invokes the approved Payment Aggregate constructor.
+- Returns the newly created Payment Aggregate.
+
+### Realize Payment
+
+- Receives an existing Payment Aggregate.
+- Invokes the approved `Payment.realize()` operation.
+- Returns the updated Payment Aggregate.
+
+---
+
+## Architecture Compliance
+
+The implementation preserves the approved architectural design.
+
+- PaymentService coordinates approved workflows only.
+- Business behaviour remains owned by the Payment Aggregate.
+- Aggregate ownership boundaries are preserved.
+- No business state is introduced.
+- No business rules are implemented by the Application Service.
+- Only approved Aggregate public contracts are invoked.
+- No additional architectural responsibilities were introduced.
+
+---
 
 ## Assumptions
+
 None.
 
-## Architecture
-- Aggregate boundaries preserved
-- PaymentService coordinates only approved workflows
-- No business state introduced in the service layer
-- Payment Aggregate owns all business invariants and lifecycle
+The implementation strictly follows the approved Payment Service Story, Payment Aggregate Technical Specification and Software Architecture.
 
-## Completion Checklist
+---
 
-- [x] Approved public operations implemented
-- [x] Approved workflows coordinated
-- [x] Only approved Aggregate contracts invoked
-- [x] Aggregate ownership preserved
-- [x] Only approved Output Locations used
-- [x] Automated unit tests completed
+## Implementation Notes
+
+The implementation:
+
+- Conforms to the approved Payment Service Story.
+- Implements the approved Record Payment workflow.
+- Implements the approved Realize Payment workflow.
+- Invokes only approved Payment Aggregate public contracts.
+- Preserves Aggregate ownership.
+- Remains stateless.
+- Includes automated unit tests covering the approved service contract.

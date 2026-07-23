@@ -1,4 +1,8 @@
-// /Sprint-002/Story-009/source/PaymentPersistence.java
+package com.efee.domain.payment;
+/*
+ * Reference Implementation:
+ * Sprint-002 / Story-009
+ */
 
 import java.math.BigDecimal;
 import java.util.Objects;

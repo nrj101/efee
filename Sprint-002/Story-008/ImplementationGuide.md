@@ -177,11 +177,12 @@ Tests SHALL NOT:
 
 Implementation SHALL remain:
 
-- stateless;
 - behaviour-light;
 - coordination-focused;
 - architecture compliant;
 - traceable to the approved Story.
+
+Application Services SHALL contain no mutable instance state.
 
 All generated artifacts SHALL be written only to their approved Output Locations.
 

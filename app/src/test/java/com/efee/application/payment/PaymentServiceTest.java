@@ -1,9 +1,14 @@
-// /Sprint-002/Story-008/tests/PaymentServiceTest.java
-
-import org.junit.jupiter.api.Test;
+package com.efee.application.payment;
+/*
+ * Reference Implementation:
+ * Sprint-002 / Story-008
+ */
 
 import java.math.BigDecimal;
+import com.efee.domain.payment.Payment;
+import com.efee.domain.payment.PaymentLifecycle;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PaymentServiceTest {

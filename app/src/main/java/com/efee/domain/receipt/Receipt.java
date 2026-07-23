@@ -1,4 +1,8 @@
-// /Sprint-002/Story-007/source/Receipt.java
+package com.efee.domain.receipt;
+/*
+ * Reference Implementation:
+ * Sprint-002 / Story-007
+ */
 
 import java.time.Instant;
 import java.util.List;

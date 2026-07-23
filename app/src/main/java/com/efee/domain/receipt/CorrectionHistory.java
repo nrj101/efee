@@ -1,4 +1,8 @@
-// /Sprint-002/Story-007/source/CorrectionHistory.java
+package com.efee.domain.receipt;
+/*
+ * Reference Implementation:
+ * Sprint-002 / Story-007
+ */
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,8 @@
-// /Sprint-002/Story-007/tests/CorrectionHistoryTest.java
+package com.efee.domain.receipt;
+/*
+ * Reference Implementation:
+ * Sprint-002 / Story-007
+ */
 
 import org.junit.jupiter.api.Test;
 

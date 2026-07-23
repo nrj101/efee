@@ -2,11 +2,13 @@
 
 ## Story
 
-Payment Aggregate
+**Story-006 — Payment Aggregate**
 
 ---
 
-## Artifacts
+## Implemented Components
+
+The following implementation artifacts were completed as part of this Story:
 
 ### Source
 
@@ -20,42 +22,47 @@ Payment Aggregate
 
 ---
 
-## Business Rules
+## Implemented Business Invariants
 
-Implemented
+The implementation preserves the following approved Aggregate invariants:
 
-- Payment identity preservation
-- Payment amount immutability
-- Payment amount cannot be negative
-- Payment history preservation
-- Only realised Payments may be allocated (architectural constraint)
-- Aggregate ownership preservation
+- Payment identifier is mandatory.
+- Payer identifier is mandatory.
+- Payment amount is mandatory.
+- Payment amount cannot be negative.
+- Payment method is mandatory.
+- Payment lifecycle is initialized to **RECORDED**.
+- Lifecycle transitions are controlled exclusively by the Payment Aggregate.
+
+---
+
+## Architecture Compliance
+
+The implementation preserves the approved architectural design.
+
+- Payment Aggregate owns payment identity, payer information, payment amount, payment method, payment reference and payment lifecycle.
+- Aggregate ownership boundaries are preserved.
+- Lifecycle transitions remain Aggregate-owned and irreversible.
+- No additional architectural components or responsibilities were introduced.
 
 ---
 
 ## Assumptions
 
-None. Implementation strictly follows the approved Payment Aggregate Technical Specification and Persistence Model.
+None.
+
+The implementation strictly follows the approved Payment Aggregate Technical Specification and Payment Aggregate Persistence Model.
 
 ---
 
-## Architecture
+## Implementation Notes
 
-Aggregate boundaries preserved.
+The implementation:
 
-Payment Aggregate owns Payment identity, amount, method, payer information and Payment lifecycle.
-
-Lifecycle transitions are irreversible and aggregate-owned.
-
-No additional architectural components introduced.
-
----
-
-## Implementation Details
-
-- Aggregated conforms to Payment Aggregate Technical Specification v1.1.0
-- Maintains Record Payment (constructor), Realise Payment, and Cancel Payment operations
-- Immutable state with constructor validation
-- Lifecycle transitions irreversibly control business flow
-- Preserves Aggregate ownership boundaries
-- Implements business invariants for identity, amount, and payment lifecycle
+- Conforms to the approved Payment Aggregate Technical Specification.
+- Implements the approved Record Payment operation.
+- Implements the approved Realise Payment operation.
+- Implements the approved Cancel Payment operation.
+- Validates Aggregate invariants during Aggregate creation.
+- Preserves Aggregate ownership boundaries.
+- Includes unit tests for both the Payment Aggregate and PaymentLifecycle Supporting Value Object.

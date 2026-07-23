@@ -2,11 +2,13 @@
 
 ## Story
 
-Receipt Aggregate
+**Story-007 — Receipt Aggregate**
 
 ---
 
-## Artifacts
+## Implemented Components
+
+The following implementation artifacts were completed as part of this Story.
 
 ### Source
 
@@ -22,28 +24,53 @@ Receipt Aggregate
 
 ---
 
-## Business Rules
+## Implemented Business Invariants
 
-Implemented
+The implementation preserves the following approved Aggregate invariants.
 
-- BR-019 — A Receipt acknowledges an accepted Payment.
-- BR-020 — Receipts shall preserve their complete lifecycle and correction history.
-- BR-031 — Every significant financial activity shall remain traceable.
-- BR-032 — Every significant financial change shall identify what changed, when it changed, who performed it and who approved it where applicable.
+- Receipt identifier is mandatory.
+- Payment identifier is mandatory.
+- Receipt number is mandatory.
+- Acknowledgement timestamp is mandatory.
+- Receipt lifecycle is initialized to **ISSUED**.
+- Receipt lifecycle transitions are controlled exclusively by the Receipt Aggregate.
+- Correction history is owned exclusively by the Receipt Aggregate.
+- Historical corrections are preserved.
+- Correction history is protected from external modification.
+
+---
+
+## Architecture Compliance
+
+The implementation preserves the approved architectural design.
+
+- Receipt owns acknowledgement information only.
+- Payment ownership remains with the Payment Aggregate.
+- ReceiptLifecycle is implemented as the approved Supporting Value Object.
+- CorrectionHistory is implemented as the approved Supporting Value Object.
+- Aggregate ownership boundaries are preserved.
+- No additional architectural responsibilities were introduced.
 
 ---
 
 ## Assumptions
 
-- Domain type Java representations (Clarification 1): Receipt Identifier → `UUID`, Payment Identifier → `UUID`, Receipt Number → `String`, Acknowledgement Timestamp → `Instant`. These are implementation decisions only and do not change the Aggregate Technical Specification.
-- `CorrectionRecord` is an internal, immutable, append-only implementation detail of `CorrectionHistory` carrying `description` (`String`) and `recordedAt` (`Instant`) (Clarification 2). It is not exposed via the Aggregate public API.
+None.
+
+The implementation strictly follows the approved Receipt Aggregate Technical Specification and Receipt Aggregate Persistence Model.
 
 ---
 
-## Architecture
+## Implementation Notes
 
-- Aggregate boundaries preserved. Receipt owns acknowledgement only; Payment ownership remains with the Payment Aggregate.
-- Receipt Lifecycle modelled as an immutable `enum` (ISSUED, CORRECTED, RETIRED).
-- Correction History modelled as the `CorrectionHistory` supporting type owned exclusively by Receipt.
-- No additional architectural components introduced (no Repository, Service, persistence, REST, or framework annotations).
-- Only approved Write Scope artifacts created.
+The implementation:
+
+- Conforms to the approved Receipt Aggregate Technical Specification.
+- Implements the approved Issue Receipt operation.
+- Implements the approved Correct Receipt operation.
+- Implements the approved Retire Receipt operation.
+- Validates Aggregate invariants during Aggregate creation.
+- Preserves lifecycle consistency.
+- Preserves historical correction information.
+- Delegates correction history management to the CorrectionHistory Supporting Value Object.
+- Includes unit tests for the Receipt Aggregate, ReceiptLifecycle and CorrectionHistory Supporting Value Objects.

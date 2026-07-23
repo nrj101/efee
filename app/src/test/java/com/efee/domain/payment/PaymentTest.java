@@ -1,4 +1,8 @@
-// /Sprint-002/Story-006/tests/PaymentTest.java
+package com.efee.domain.payment;
+/*
+ * Reference Implementation:
+ * Sprint-002 / Story-006
+ */
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

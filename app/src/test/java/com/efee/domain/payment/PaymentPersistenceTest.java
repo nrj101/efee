@@ -1,4 +1,8 @@
-// /Sprint-002/Story-009/source/PaymentPersistenceTest.java
+package com.efee.domain.payment;
+/*
+ * Reference Implementation:
+ * Sprint-002 / Story-009
+ */
 
 import org.junit.jupiter.api.Test;
 
